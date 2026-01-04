@@ -2,6 +2,7 @@
 #include <QGuiApplication>
 #include <QApplication>
 #include <QSignalSpy>
+#include <QThreadPool>
 #include "../src/ui/ThumbnailGrid.h"
 
 using namespace PhotoGuru;
@@ -21,8 +22,12 @@ protected:
     }
     
     void TearDown() override {
-        // Don't delete - let Qt handle cleanup
-        grid = nullptr;
+        // Clear cache and wait for async tasks before deleting
+        if (grid) {
+            QThreadPool::globalInstance()->waitForDone();
+            delete grid;
+            grid = nullptr;
+        }
     }
     
     ThumbnailGrid* grid = nullptr;

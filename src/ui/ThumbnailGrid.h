@@ -19,6 +19,7 @@ class ThumbnailGrid : public QListWidget {
     
 public:
     explicit ThumbnailGrid(QWidget* parent = nullptr);
+    ~ThumbnailGrid() { m_thumbnailCache.clear(); }
     
     void setImages(const QStringList& imagePaths);
     void selectImage(int index);
