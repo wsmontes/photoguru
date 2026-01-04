@@ -5,6 +5,8 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QTimer>
+#include <QtConcurrent>
+#include <QFutureWatcher>
 #include <cmath>
 
 namespace PhotoGuru {
@@ -20,12 +22,38 @@ ImageViewer::ImageViewer(QWidget* parent)
 }
 
 void ImageViewer::loadImage(const QString& filepath) {
+    // Cancel any pending load
+    if (m_imageWatcher && m_imageWatcher->isRunning()) {
+        m_imageWatcher->cancel();
+        m_imageWatcher->waitForFinished();
+    }
+    
+    // Set loading state and show spinner immediately
     m_isLoading = true;
-    update();
+    m_pendingFilepath = filepath;
+    update();  // Force repaint to show loading spinner
     
-    auto imageOpt = ImageLoader::instance().load(filepath, QSize(4000, 4000));
+    // Load image asynchronously
+    QFuture<std::optional<QImage>> future = QtConcurrent::run([filepath]() {
+        return ImageLoader::instance().load(filepath, QSize(4000, 4000));
+    });
     
+    // Create or reuse watcher
+    if (!m_imageWatcher) {
+        m_imageWatcher = new QFutureWatcher<std::optional<QImage>>(this);
+        connect(m_imageWatcher, &QFutureWatcher<std::optional<QImage>>::finished,
+                this, &ImageViewer::onImageLoadComplete);
+    }
+    
+    m_imageWatcher->setFuture(future);
+}
+
+void ImageViewer::onImageLoadComplete() {
     m_isLoading = false;
+    
+    if (!m_imageWatcher) return;
+    
+    auto imageOpt = m_imageWatcher->result();
     
     if (!imageOpt) {
         m_image = QImage();
@@ -35,14 +63,14 @@ void ImageViewer::loadImage(const QString& filepath) {
     }
     
     m_image = *imageOpt;
-    m_filepath = filepath;
+    m_filepath = m_pendingFilepath;
     
     // Always fit new images to window
     m_autoFit = true;
     zoomToFit();
     
     update();
-    emit imageLoaded(filepath);
+    emit imageLoaded(m_filepath);
 }
 
 void ImageViewer::clear() {

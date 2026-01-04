@@ -97,6 +97,29 @@ public:
                 background-color: #1f91ff;
             }
             
+            QListWidget {
+                background-color: #202020;
+                border: none;
+                outline: none;
+            }
+            
+            QListWidget::item {
+                background-color: transparent;
+                border: 2px solid transparent;
+                border-radius: 4px;
+                padding: 2px;
+            }
+            
+            QListWidget::item:selected {
+                border: 3px solid #1f91ff;
+                background-color: rgba(31, 145, 255, 0.15);
+            }
+            
+            QListWidget::item:hover:!selected {
+                border: 2px solid #505050;
+                background-color: rgba(80, 80, 80, 0.3);
+            }
+            
             QDockWidget {
                 titlebar-close-icon: url(:/icons/close.svg);
                 titlebar-normal-icon: url(:/icons/float.svg);

@@ -57,6 +57,7 @@ private slots:
     void onFilterChanged(const FilterCriteria& criteria);
     void onViewModeChanged(int index);
     void onSemanticSearchResult(const QString& filepath);
+    void onThumbnailSelectionChanged(int count);
     
     // New MVP features
     void onCopyFiles();
@@ -78,6 +79,7 @@ private:
     void saveSettings();
     void applyFilters();
     void refreshViews();
+    void updateStatusBar();
     
     // UI Components
     QToolBar* m_toolbar;

@@ -6,6 +6,8 @@
 #include <QApplication>
 #include <QPainter>
 #include <QDateTime>
+#include <QThreadPool>
+#include <QPointer>
 
 namespace PhotoGuru {
 
@@ -28,6 +30,15 @@ ThumbnailGrid::ThumbnailGrid(QWidget* parent)
     
     connect(this, &QListWidget::itemClicked, this, &ThumbnailGrid::onItemClicked);
     connect(this, &QListWidget::itemSelectionChanged, this, &ThumbnailGrid::onSelectionChanged);
+}
+
+ThumbnailGrid::~ThumbnailGrid() {
+    // Wait for all thumbnail loading tasks to complete
+    while (m_loadingTasks.loadAcquire() > 0) {
+        QApplication::processEvents();
+        QThread::msleep(10);
+    }
+    m_thumbnailCache.clear();
 }
 
 void ThumbnailGrid::setImages(const QStringList& imagePaths) {
@@ -94,6 +105,33 @@ void ThumbnailGrid::selectImage(int index) {
     }
 }
 
+void ThumbnailGrid::setCurrentIndex(int index) {
+    // Clear previous current item special styling
+    if (m_currentIndex >= 0 && m_currentIndex < count()) {
+        QListWidgetItem* prevItem = item(m_currentIndex);
+        if (prevItem) {
+            prevItem->setData(Qt::UserRole + 2, false);  // Mark as not current
+        }
+    }
+    
+    m_currentIndex = index;
+    
+    // Set new current item with special styling
+    if (m_currentIndex >= 0 && m_currentIndex < count()) {
+        QListWidgetItem* currentItem = item(m_currentIndex);
+        if (currentItem) {
+            currentItem->setData(Qt::UserRole + 2, true);  // Mark as current
+            
+            // Add subtle background highlight for current item
+            QColor highlightColor(31, 145, 255, 30);  // Adobe blue with low opacity
+            currentItem->setBackground(QBrush(highlightColor));
+            
+            // Ensure visible
+            scrollToItem(currentItem, QAbstractItemView::EnsureVisible);
+        }
+    }
+}
+
 void ThumbnailGrid::loadThumbnails() {
     // Add placeholder items first
     for (const QString& path : m_imagePaths) {
@@ -119,19 +157,28 @@ void ThumbnailGrid::loadThumbnails() {
         // Skip if already cached
         if (m_thumbnailCache.contains(path)) continue;
         
-        QtConcurrent::run([this, path, i]() {
-            QPixmap thumb = generateThumbnail(path);
+        m_loadingTasks.fetchAndAddOrdered(1);
+        
+        QPointer<ThumbnailGrid> self(this);
+        QtConcurrent::run([self, path, i]() {
+            if (!self) return;
             
-            // Update UI in main thread
-            QMetaObject::invokeMethod(this, [this, path, i, thumb]() {
-                m_thumbnailCache.insert(path, new QPixmap(thumb));
+            QPixmap thumb = self->generateThumbnail(path);
+            
+            // Update UI in main thread - check if widget still exists
+            QMetaObject::invokeMethod(qApp, [self, path, i, thumb]() {
+                if (!self) return;
                 
-                if (i < count()) {
-                    QListWidgetItem* item = this->item(i);
+                self->m_thumbnailCache.insert(path, new QPixmap(thumb));
+                
+                if (i < self->count()) {
+                    QListWidgetItem* item = self->item(i);
                     if (item && item->data(Qt::UserRole).toString() == path) {
                         item->setIcon(QIcon(thumb));
                     }
                 }
+                
+                self->m_loadingTasks.fetchAndAddOrdered(-1);
             }, Qt::QueuedConnection);
         });
     }
@@ -172,7 +219,9 @@ void ThumbnailGrid::onItemClicked(QListWidgetItem* item) {
 }
 
 void ThumbnailGrid::onSelectionChanged() {
-    emit selectionCountChanged(selectedItems().count());
+    // Emit signal with selection count
+    int count = selectedItems().count();
+    emit selectionCountChanged(count);
 }
 
 } // namespace PhotoGuru

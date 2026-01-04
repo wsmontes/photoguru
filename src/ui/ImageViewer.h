@@ -5,6 +5,8 @@
 #include <QPixmap>
 #include <QString>
 #include <QPoint>
+#include <QFutureWatcher>
+#include <optional>
 
 namespace PhotoGuru {
 
@@ -52,6 +54,7 @@ private:
     void updateTransform();
     void centerImage();
     void drawLoadingIndicator(QPainter& painter);
+    void onImageLoadComplete();
     
     QImage m_image;
     QString m_filepath;
@@ -69,6 +72,8 @@ private:
     
     // Loading state
     bool m_isLoading = false;
+    QFutureWatcher<std::optional<QImage>>* m_imageWatcher = nullptr;
+    QString m_pendingFilepath;
 };
 
 } // namespace PhotoGuru

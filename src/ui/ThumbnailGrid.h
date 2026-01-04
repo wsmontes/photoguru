@@ -5,6 +5,7 @@
 #include <QCache>
 #include <QPixmap>
 #include <QFuture>
+#include <QAtomicInt>
 
 namespace PhotoGuru {
 
@@ -19,10 +20,11 @@ class ThumbnailGrid : public QListWidget {
     
 public:
     explicit ThumbnailGrid(QWidget* parent = nullptr);
-    ~ThumbnailGrid() { m_thumbnailCache.clear(); }
+    ~ThumbnailGrid();
     
     void setImages(const QStringList& imagePaths);
     void selectImage(int index);
+    void setCurrentIndex(int index);
     
     // Size control
     void setThumbnailSize(int size);
@@ -51,7 +53,9 @@ private:
     QStringList m_imagePaths;
     QCache<QString, QPixmap> m_thumbnailCache;
     int m_thumbnailSize = 150;
+    int m_currentIndex = -1;
     SortOrder m_sortOrder = SortOrder::ByName;
+    QAtomicInt m_loadingTasks{0};
 };
 
 } // namespace PhotoGuru

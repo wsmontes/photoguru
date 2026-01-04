@@ -81,6 +81,8 @@ void MainWindow::setupUI() {
     // Connect signals
     connect(m_thumbnailGrid, &ThumbnailGrid::imageSelected,
             this, &MainWindow::onImageSelected);
+    connect(m_thumbnailGrid, &ThumbnailGrid::selectionCountChanged,
+            this, &MainWindow::onThumbnailSelectionChanged);
     connect(m_imageViewer, &ImageViewer::zoomChanged,
             [this](double zoom) {
                 m_statusBar->showMessage(QString("Zoom: %1%").arg(int(zoom * 100)));
@@ -438,18 +440,12 @@ void MainWindow::onImageSelected(const QString& filepath) {
     // Update analysis panel with current image
     m_analysisPanel->setCurrentImage(filepath);
     
-    // Update thumbnail selection
+    // Update thumbnail selection and highlight
     m_thumbnailGrid->selectImage(m_currentIndex);
+    m_thumbnailGrid->setCurrentIndex(m_currentIndex);
     
-    // Update status
-    if (m_currentIndex >= 0) {
-        statusBar()->showMessage(
-            QString("%1/%2 - %3")
-                .arg(m_currentIndex + 1)
-                .arg(m_imageFiles.count())
-                .arg(QFileInfo(filepath).fileName())
-        );
-    }
+    // Update status with rich information
+    updateStatusBar();
 }
 
 void MainWindow::onPreviousImage() {
@@ -613,6 +609,42 @@ void MainWindow::saveSettings() {
     settings.setValue("lastDirectory", m_currentDirectory);
 }
 
+void MainWindow::updateStatusBar() {
+    if (m_currentIndex < 0 || m_imageFiles.isEmpty()) {
+        statusBar()->showMessage("Ready - Open a directory or drop images here");
+        return;
+    }
+    
+    QString filepath = m_imageFiles[m_currentIndex];
+    QFileInfo fileInfo(filepath);
+    
+    // Get image dimensions
+    QImage img(filepath);
+    QString dimensions = img.isNull() ? "" : 
+        QString(" | %1x%2px").arg(img.width()).arg(img.height());
+    
+    // Format file size
+    qint64 bytes = fileInfo.size();
+    QString filesize;
+    if (bytes < 1024) {
+        filesize = QString("%1 B").arg(bytes);
+    } else if (bytes < 1024 * 1024) {
+        filesize = QString("%1 KB").arg(bytes / 1024.0, 0, 'f', 1);
+    } else {
+        filesize = QString("%1 MB").arg(bytes / (1024.0 * 1024.0), 0, 'f', 1);
+    }
+    
+    // Build rich status message
+    QString status = QString("%1 | %2 of %3%4 | %5")
+        .arg(fileInfo.fileName())
+        .arg(m_currentIndex + 1)
+        .arg(m_imageFiles.count())
+        .arg(dimensions)
+        .arg(filesize);
+    
+    statusBar()->showMessage(status);
+}
+
 void MainWindow::onMetadataUpdated(const QString& filepath) {
     // Handle metadata update signal
     if (m_currentIndex >= 0 && m_currentIndex < m_imageFiles.size() && 
@@ -697,6 +729,18 @@ void MainWindow::onViewModeChanged(int index) {
 void MainWindow::onSemanticSearchResult(const QString& filepath) {
     // Handle semantic search result selection
     onImageSelected(filepath);
+}
+
+void MainWindow::onThumbnailSelectionChanged(int count) {
+    if (count == 0) {
+        updateStatusBar();
+    } else if (count == 1) {
+        // Single selection - show normal status
+        updateStatusBar();
+    } else {
+        // Multiple selection - show selection count
+        statusBar()->showMessage(QString("%1 photos selected").arg(count));
+    }
 }
 
 void MainWindow::applyFilters() {
@@ -839,13 +883,28 @@ void MainWindow::onDeleteFiles() {
     if (reply != QMessageBox::Yes) return;
     
     int deleted = 0;
+    QStringList failed;
+    
     for (const QString& file : selected) {
-        // Move to trash on macOS
-        QProcess::execute("osascript", {
+        // Move to trash on macOS - check return code
+        int result = QProcess::execute("osascript", {
             "-e", QString("tell application \"Finder\" to delete (POSIX file \"%1\")").arg(file)
         });
-        m_imageFiles.removeAll(file);
-        deleted++;
+        
+        if (result == 0) {
+            m_imageFiles.removeAll(file);
+            deleted++;
+        } else {
+            failed << QFileInfo(file).fileName();
+        }
+    }
+    
+    // Show errors if any failed
+    if (!failed.isEmpty()) {
+        QMessageBox::warning(this, "Delete Failed",
+            QString("Failed to delete %1 file(s):\n%2")
+                .arg(failed.count())
+                .arg(failed.join("\n")));
     }
     
     m_thumbnailGrid->setImages(m_imageFiles);
