@@ -53,3 +53,7 @@ PhotoGuruViewer.app/
 
 # Logs
 *.log
+
+# Third-party (handled separately)
+thirdparty/googletest/
+thirdparty/pybind11/
