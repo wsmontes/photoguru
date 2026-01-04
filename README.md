@@ -11,7 +11,7 @@ Built with C++/Qt6 and simplified Python backend
 
 PhotoGuru Viewer MVP is **complete and functional**. All core features are implemented with professional keyboard-driven workflows.
 
-📖 **[Quick Start Guide](QUICK_START_MVP.md)** | 📊 **[MVP Implementation Details](MVP_IMPLEMENTATION.md)** | 📋 **[MVP Summary](MVP_SUMMARY.md)**
+📖 **[Quick Start Guide](docs/QUICK_START_MVP.md)** | 📊 **[MVP Implementation Details](docs/MVP_IMPLEMENTATION.md)** | 📋 **[MVP Summary](docs/MVP_SUMMARY.md)**
 
 ---
 
@@ -61,7 +61,7 @@ PhotoGuru Viewer MVP is **complete and functional**. All core features are imple
 brew install qt@6 cmake
 
 # Build
-./build.sh
+./scripts/build.sh
 
 # Run
 cd build && ./PhotoGuruViewer
@@ -87,25 +87,25 @@ Use arrow keys or Space
 
 ```bash
 # Install Python dependencies
-pip install -r requirements_mvp.txt
+pip install -r python/requirements_mvp.txt
 
 # Set API key
 export OPENAI_API_KEY="sk-..."
 
 # Analyze photos
-python agent_mvp.py analyze photo.jpg --write
+python python/agent_mvp.py analyze photo.jpg --write
 ```
 
-**See [QUICK_START_MVP.md](QUICK_START_MVP.md) for detailed instructions.**
+**See [docs/QUICK_START_MVP.md](docs/QUICK_START_MVP.md) for detailed instructions.**
 
 ---
 
 ## 📚 Documentation
 
-- **[Quick Start Guide](QUICK_START_MVP.md)** - Get started in 5 minutes
-- **[MVP Implementation](MVP_IMPLEMENTATION.md)** - Complete feature documentation  
-- **[MVP Summary](MVP_SUMMARY.md)** - Technical implementation details
-- **[MVP Analysis](MVP_ANALYSIS.md)** - Strategic planning and decisions
+- **[Quick Start Guide](docs/QUICK_START_MVP.md)** - Get started in 5 minutes
+- **[MVP Implementation](docs/MVP_IMPLEMENTATION.md)** - Complete feature documentation  
+- **[MVP Summary](docs/MVP_SUMMARY.md)** - Technical implementation details
+- **[MVP Analysis](docs/MVP_ANALYSIS.md)** - Strategic planning and decisions
 
 ---
 
@@ -233,7 +233,7 @@ open PhotoGuruViewer.app
 
 ### Python Backend Integration
 
-The viewer integrates with `agent_v2.py` for ML features. Place `agent_v2.py` in the same directory as the executable, or the build will automatically copy it.
+The viewer integrates with `python/agent_v2.py` for ML features. Place `agent_v2.py` in the python directory, or the build will automatically detect it.
 
 ## Architecture
 
@@ -279,7 +279,22 @@ The viewer integrates with `agent_v2.py` for ML features. Place `agent_v2.py` in
 ```
 photoguru-viewer/
 ├── CMakeLists.txt          # Build configuration
-├── agent_v2.py             # Python ML backend
+├── README.md               # This file
+├── LICENSE                 # MIT License
+├── requirements.txt        # Main Python dependencies
+├── docs/                   # Documentation
+│   ├── QUICK_START_MVP.md
+│   ├── MVP_IMPLEMENTATION.md
+│   ├── MVP_SUMMARY.md
+│   └── ...
+├── scripts/                # Build and utility scripts
+│   ├── build.sh           # Build script
+│   ├── check_dependencies.sh
+│   └── run_tests.sh
+├── python/                 # Python ML backend
+│   ├── agent_mvp.py       # MVP agent (cloud-based)
+│   ├── agent_v2.py        # Advanced agent (CLIP)
+│   └── requirements_mvp.txt
 ├── src/
 │   ├── main.cpp            # Application entry
 │   ├── core/               # Core functionality
@@ -296,6 +311,7 @@ photoguru-viewer/
 │       ├── SKPBrowser.*    # Semantic keys browser
 │       └── DarkTheme.h     # Professional dark theme
 ├── resources/              # Icons, stylesheets
+├── tests/                  # Unit tests
 └── thirdparty/             # External dependencies
     └── pybind11/           # Python binding library
 ```

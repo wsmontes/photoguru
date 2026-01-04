@@ -21,12 +21,12 @@ int main(int argc, char *argv[]) {
     DarkTheme::apply(app);
     
     // Initialize Python bridge
-    QString agentPath = QDir::currentPath() + "/agent_v2.py";
+    QString agentPath = QDir::currentPath() + "/python/agent_v2.py";
     
     // Check if agent script exists
     if (!QFileInfo::exists(agentPath)) {
         // Try parent directory
-        agentPath = QDir::currentPath() + "/../agent_v2.py";
+        agentPath = QDir::currentPath() + "/../python/agent_v2.py";
         
         if (!QFileInfo::exists(agentPath)) {
             qWarning() << "Warning: agent_v2.py not found. AI features will be disabled.";

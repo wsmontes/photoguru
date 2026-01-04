@@ -33,7 +33,7 @@ void PythonAnalysisWorker::analyzeImage(const QString& imagePath, bool overwrite
         
         // Get path to agent_v2.py and venv python
         QFileInfo imageInfo(imagePath);
-        QString agentPath = QCoreApplication::applicationDirPath() + "/../../../agent_v2.py";
+        QString agentPath = QCoreApplication::applicationDirPath() + "/../../../python/agent_v2.py";
         QString venvPython = QCoreApplication::applicationDirPath() + "/../../../.venv/bin/python3";
         
         // Check if venv exists
@@ -88,7 +88,7 @@ void PythonAnalysisWorker::analyzeDirectory(const QString& dirPath, bool skipExi
         emit progress(0, 100, "Initializing...");
         
         // Get path to agent_v2.py and venv python
-        QString agentPath = QCoreApplication::applicationDirPath() + "/../../../agent_v2.py";
+        QString agentPath = QCoreApplication::applicationDirPath() + "/../../../python/agent_v2.py";
         QString venvPython = QCoreApplication::applicationDirPath() + "/../../../.venv/bin/python3";
         
         if (!QFileInfo::exists(venvPython)) {
@@ -147,7 +147,7 @@ void PythonAnalysisWorker::findDuplicates(const QString& dirPath, int threshold)
         emit logMessage(QString("Searching for duplicates in: %1").arg(dirPath));
         emit progress(0, 100, "Analyzing...");
         
-        QString agentPath = QCoreApplication::applicationDirPath() + "/../../../agent_v2.py";
+        QString agentPath = QCoreApplication::applicationDirPath() + "/../../../python/agent_v2.py";
         QString venvPython = QCoreApplication::applicationDirPath() + "/../../../.venv/bin/python3";
         
         if (!QFileInfo::exists(venvPython)) {
@@ -194,7 +194,7 @@ void PythonAnalysisWorker::detectBursts(const QString& dirPath, int maxSeconds, 
         emit logMessage(QString("Detecting burst sequences in: %1").arg(dirPath));
         emit progress(0, 100, "Analyzing...");
         
-        QString agentPath = QCoreApplication::applicationDirPath() + "/../../../agent_v2.py";
+        QString agentPath = QCoreApplication::applicationDirPath() + "/../../../python/agent_v2.py";
         QString venvPython = QCoreApplication::applicationDirPath() + "/../../../.venv/bin/python3";
         
         if (!QFileInfo::exists(venvPython)) {
@@ -243,7 +243,7 @@ void PythonAnalysisWorker::generateQualityReport(const QString& dirPath, const Q
         emit logMessage(QString("Generating quality report for: %1").arg(dirPath));
         emit progress(0, 100, "Analyzing...");
         
-        QString agentPath = QCoreApplication::applicationDirPath() + "/../../../agent_v2.py";
+        QString agentPath = QCoreApplication::applicationDirPath() + "/../../../python/agent_v2.py";
         QString venvPython = QCoreApplication::applicationDirPath() + "/../../../.venv/bin/python3";
         
         if (!QFileInfo::exists(venvPython)) {
