@@ -1,0 +1,55 @@
+# Build artifacts
+build/
+cmake-build-*/
+*.o
+*.obj
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+
+# Qt artifacts
+*.pro.user
+*.autosave
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Application data
+*.db
+*.sqlite
+cache/
+thumbnails/
+
+# Compiled binaries
+PhotoGuruViewer
+PhotoGuruViewer.app/
+*.exe
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Logs
+*.log
