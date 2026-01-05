@@ -1,21 +1,25 @@
 # PhotoGuru Viewer
 
 **Professional desktop photo viewer with AI-powered semantic analysis**  
-Built with C++/Qt6 and simplified Python backend
+Built with C++/Qt6 and native AI models (CLIP + VLM)
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-macOS-lightgrey.svg)
-![Status](https://img.shields.io/badge/status-MVP%20Ready-brightgreen.svg)
+![Status](https://img.shields.io/badge/status-Production%20Ready-brightgreen.svg)
 
-## 🎉 MVP Status: Ready for Beta Testing!
+## 🎉 Status: Full C++ Implementation Complete!
 
-PhotoGuru Viewer MVP is **complete and functional**. All core features are implemented with professional keyboard-driven workflows.
+PhotoGuru Viewer has **completed migration from Python to C++**. All AI features now run natively with:
+- **CLIP** (ONNX Runtime) for semantic embeddings
+- **Qwen3-VL 4B** (llama.cpp) for image captioning
+- **Zero Python dependencies** for core functionality
+- **Comprehensive logging** system for debugging
 
-📖 **[Quick Start Guide](docs/QUICK_START_MVP.md)** | 📊 **[MVP Implementation Details](docs/MVP_IMPLEMENTATION.md)** | 📋 **[MVP Summary](docs/MVP_SUMMARY.md)**
+📖 **[Implementation Details](docs/IMPLEMENTATION_COMPLETE.md)** | 📊 **[Performance Analysis](docs/PERFORMANCE_ANALYSIS.md)** | 🐍 **[Python Migration Summary](docs/PYTHON_TO_CPP_MIGRATION.md)**
 
 ---
 
-## ✨ Features (MVP v1.0)
+## ✨ Features
 
 ### 🖼️ Professional Photo Viewing
 - **Universal Format Support**: JPEG, PNG, HEIF/HEIC, RAW (CR2, NEF, ARW, etc.)
@@ -23,6 +27,19 @@ PhotoGuru Viewer MVP is **complete and functional**. All core features are imple
 - **Smart Zoom**: Mouse wheel zoom, pan, fit-to-window, actual size
 - **Loading Indicators**: Visual feedback with animated spinners
 - **Fullscreen Mode**: Distraction-free viewing with F11 or Escape
+
+### 🤖 Native AI Analysis (100% C++)
+- **CLIP Vision Embeddings**: 512-dim semantic vectors (50-230ms)
+- **VLM Image Captioning**: Qwen3-VL 4B generates natural language descriptions (0.6-6.6s)
+- **Automatic Metadata Writing**: ExifTool daemon integration
+- **5 Analysis Functions**:
+  1. Single image analysis (CLIP + VLM + metadata)
+  2. Batch directory analysis
+  3. Duplicate detection (CLIP similarity > 0.95)
+  4. Burst sequence detection
+  5. Quality report generation
+- **Copy to Clipboard**: Generated captions accessible instantly
+- **Comprehensive Logging**: All operations logged with timestamps
 
 ### ⌨️ Keyboard-Driven Workflow
 - **Navigation**: Arrow keys, Space for next, Escape for fullscreen exit
@@ -43,31 +60,49 @@ PhotoGuru Viewer MVP is **complete and functional**. All core features are imple
 - **Adjustable Thumbnails**: 80-300px with live slider
 - **Efficient Caching**: Fast browsing of large collections
 
-### 🤖 AI-Powered Analysis (Optional)
-- **Cloud-Based**: Uses OpenAI GPT-4 Vision (no heavy local models!)
-- **Smart Metadata**: Auto-generates titles, descriptions, tags
-- **Simple Setup**: Just add API key, no 2GB downloads
-- **Batch Processing**: Analyze entire directories
-- **Offline Capable**: Core features work without AI
-
 ---
 
 ## 🚀 Quick Start
 
-### 1. Build the Application
+### 1. Install Dependencies
 
 ```bash
-# Install dependencies
-brew install qt@6 cmake
+# macOS - Install Homebrew packages
+brew install qt@6 cmake onnxruntime
 
+# Add Qt to PATH
+export PATH="/opt/homebrew/opt/qt@6/bin:$PATH"
+```
+
+### 2. Download AI Models
+
+```bash
+# Download CLIP model (335MB)
+./scripts/download_models.sh clip
+
+# Download VLM models (2.7GB - optional but recommended)
+./scripts/download_models.sh vlm
+
+# Or download both
+./scripts/download_models.sh all
+```
+
+**Models will be saved to `models/` directory:**
+- `clip-vit-base-patch32.onnx` (335MB) - CLIP embeddings
+- `Qwen3VL-4B-Instruct-Q4_K_M.gguf` (2.3GB) - VLM model
+- `mmproj-Qwen3VL-4B-Instruct-Q8_0.gguf` (433MB) - Vision projector
+
+### 3. Build the Application
+
+```bash
 # Build
 ./scripts/build.sh
 
 # Run
-cd build && ./PhotoGuruViewer
+cd build && ./PhotoGuruViewer.app/Contents/MacOS/PhotoGuruViewer
 ```
 
-### 2. Use the App
+### 4. Use the App
 
 ```bash
 # Open photos
@@ -76,24 +111,22 @@ Press Ctrl+Shift+O → Select directory
 # Navigate
 Use arrow keys or Space
 
-# Organize
-- Adjust thumbnail size with slider
-- Sort by name/date/size
-- Multi-select with Cmd+Click
-- Copy/move/rename/delete files
-```
+# Analyze with AI
+Click "Analyze with AI" button
+- CLIP embeddings computed (~50ms)
+- VLM caption generated (~5s first time, <1s cached)
+- Metadata written to image file
+- Caption displayed with copy button
 
-### 3. Optional: AI Setup
+# Batch operations
+- "Analyze All Images in Folder" - Process entire directory
+- "Find Duplicates" - Detect similar images (>95% similarity)
+- "Detect Burst Groups" - Find photo sequences
+- "Generate Quality Report" - Score all images
 
-```bash
-# Install Python dependencies
-pip install -r python/requirements_mvp.txt
-
-# Set API key
-export OPENAI_API_KEY="sk-..."
-
-# Analyze photos
-python python/agent_mvp.py analyze photo.jpg --write
+# View logs
+Click "📄 Open Full Log File" button
+Log location: ~/Library/Application Support/PhotoGuru/PhotoGuru Viewer/photoguru.log
 ```
 
 **See [docs/QUICK_START_MVP.md](docs/QUICK_START_MVP.md) for detailed instructions.**
@@ -102,256 +135,445 @@ python python/agent_mvp.py analyze photo.jpg --write
 
 ## 📚 Documentation
 
-- **[Quick Start Guide](docs/QUICK_START_MVP.md)** - Get started in 5 minutes
-- **[MVP Implementation](docs/MVP_IMPLEMENTATION.md)** - Complete feature documentation  
-- **[MVP Summary](docs/MVP_SUMMARY.md)** - Technical implementation details
-- **[MVP Analysis](docs/MVP_ANALYSIS.md)** - Strategic planning and decisions
+- **[Implementation Complete](docs/IMPLEMENTATION_COMPLETE.md)** - C++ migration details
+- **[Performance Analysis](docs/PERFORMANCE_ANALYSIS.md)** - Benchmarks and metrics
+- **[Python Migration](docs/PYTHON_TO_CPP_MIGRATION.md)** - Migration process
+- **[Local AI Setup](docs/LOCAL_AI_SETUP.md)** - CLIP and VLM configuration
+- **[ExifTool Daemon](docs/EXIFTOOL_DAEMON.md)** - Metadata writing
+- **[Quick Start Guide](docs/QUICK_START_MVP.md)** - Basic usage
 
 ---
 
-## 🎯 MVP Achievements
+## 🎯 Key Achievements
 
-### Before vs After
+### Migration Results
 
-| Feature | Before | After MVP |
-|---------|--------|-----------|
-| Keyboard shortcuts | ❌ None | ✅ Complete set |
-| File operations | ❌ None | ✅ Copy/move/rename/delete |
-| Multi-select | ❌ No | ✅ Yes |
-| Thumbnail size | ❌ Fixed | ✅ Adjustable (80-300px) |
-| Sorting | ❌ None | ✅ Name/date/size |
-| Loading feedback | ❌ None | ✅ Animated spinner |
-| Python agent | 2,893 lines | ✅ 350 lines |
-| Dependencies | 2GB | ✅ 50MB |
-| AI setup | 10-20 min | ✅ 1 minute |
+| Aspect | Before (Python) | After (C++) |
+|--------|----------------|-------------|
+| **AI Backend** | Python subprocess | Native C++ |
+| **CLIP** | Python/PyTorch | ONNX Runtime |
+| **VLM** | N/A | llama.cpp (Qwen3-VL) |
+| **Dependencies** | 2GB+ Python packages | 335MB ONNX model |
+| **Startup Time** | 10-20s | <1s |
+| **Analysis Speed** | Variable | 50-230ms (CLIP) |
+| **Memory Usage** | ~2GB | ~500MB |
+| **Logging** | Basic print | Comprehensive file logging |
+| **Tests** | 183/191 passing | 185/191 passing |
 
-### Code Quality
+### Performance Metrics (macOS M4)
 
-- ✅ **87% reduction** in Python agent complexity
-- ✅ **99% reduction** in dependency size  
-- ✅ **Zero compilation errors**
-- ✅ **Production-ready** build
+- **CLIP Embeddings**: 50-230ms per image
+- **VLM Caption (first)**: 6.6s (loading 2.3GB model)
+- **VLM Caption (cached)**: 0.6-1.0s (10x faster!)
+- **Batch Processing**: 14 images in 1.5s (CLIP only)
+- **Duplicate Detection**: 14 images compared in 1.5s
+- **Burst Detection**: <10ms (instantaneous)
 
 ---
 
 ## 🛠️ Technical Stack
 
-### Frontend (C++/Qt6)
+### Core (C++/Qt6)
 - **Qt 6.5+**: Modern UI framework
+- **ONNX Runtime 1.22**: CLIP inference engine
+- **llama.cpp**: VLM inference (Qwen3-VL)
 - **libraw**: RAW format support
 - **libheif**: HEIF/HEIC support
+- **ExifTool**: Metadata reading/writing (daemon mode)
 - **CMake**: Build system
 
-### Backend (Python - Optional)
-- **OpenAI API**: Cloud-based image analysis
-- **Pillow**: Image processing
-- **PyExifTool**: Metadata management
+### AI Models
+- **CLIP-ViT-Base-Patch32**: 512-dimensional semantic embeddings
+  - Source: OpenAI CLIP
+  - Format: ONNX (optimized)
+  - Size: 335MB
+  - Performance: 50-230ms per image
+  
+- **Qwen3-VL-4B-Instruct**: Vision-Language Model for image captioning
+  - Source: Qwen (Alibaba Cloud)
+  - Format: GGUF (quantized Q4_K_M)
+  - Size: 2.3GB model + 433MB projector
+  - Performance: 0.6-6.6s per caption
 
-### Why Cloud AI?
-- ✅ Superior accuracy (GPT-4 Vision vs local models)
-- ✅ Tiny installation (~50MB vs 2GB)
-- ✅ Fast startup (<1s vs 10-20s)
-- ✅ No GPU required
-- ✅ Always up-to-date models
+### Logging System
+- **Custom Logger Class**: Singleton pattern with thread-safety
+- **4 Log Levels**: DEBUG, INFO, WARNING, ERROR
+- **Auto-Rotation**: 10MB max size with .old backup
+- **File Location**: `~/Library/Application Support/PhotoGuru/PhotoGuru Viewer/photoguru.log`
+- **Captures**: All user actions, timings, errors, performance metrics
 
 ---
+
+## 🔧 Building from Source
+
+### Prerequisites
+
+#### macOS
+```bash
+# Install Homebrew dependencies
+brew install qt@6 cmake onnxruntime
+
+# Add Qt to PATH
+export PATH="/opt/homebrew/opt/qt@6/bin:$PATH"
+
+# Download models (required)
+./scripts/download_models.sh all
+```
 
 #### Linux (Ubuntu/Debian)
 ```bash
 # System dependencies
 sudo apt install build-essential cmake pkg-config
 sudo apt install qt6-base-dev libqt6concurrent6 libqt6sql6
-sudo apt install libopencv-dev libraw-dev libheif-dev
-sudo apt install libimage-exiftool-perl
-sudo apt install python3-dev pybind11-dev
+sudo apt install libraw-dev libheif-dev libimage-exiftool-perl
 
-# Python dependencies for ML backend
-pip3 install torch torchvision clip pillow sentence-transformers opencv-python
-pip3 install pillow-heif numpy requests
+# ONNX Runtime (build from source or download binary)
+# See: https://onnxruntime.ai/docs/build/
+
+# llama.cpp will be downloaded automatically by CMake
 ```
 
-### Python Dependencies
-
-Install Python ML dependencies:
-
-```bash
-pip3 install -r requirements.txt
-```
-
-### Building
+### Build Steps
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/photoguru-viewer.git
-cd photoguru-viewer
+git clone https://github.com/wsmontes/photoguru.git
+cd photoguru
+
+# Download AI models
+./scripts/download_models.sh all
 
 # Create build directory
-mkdir build && cd build
+mkdir -p build && cd build
 
 # Configure with CMake
-cmake ..
+cmake -DCMAKE_BUILD_TYPE=Release ..
 
-# Build
-make -j$(nproc)
+# Build (use all CPU cores)
+make -j$(nproc)  # Linux
+make -j$(sysctl -n hw.ncpu)  # macOS
 
 # Run
-./PhotoGuruViewer
+./PhotoGuruViewer.app/Contents/MacOS/PhotoGuruViewer  # macOS
+./PhotoGuruViewer  # Linux
 ```
 
-### Building on macOS (Bundle)
+### Running Tests
 
 ```bash
-cmake -DCMAKE_BUILD_TYPE=Release ..
-make -j$(sysctl -n hw.ncpu)
+cd build
+./PhotoGuruTests
 
-# Create application bundle
-make install
-open PhotoGuruViewer.app
+# Current status: 185/191 passing (96.9%)
 ```
 
-## Usage
+---
 
-### Quick Start
+## 📖 Usage Guide
 
-1. **Open Images**: Drag & drop a folder or use `File > Open Directory`
-2. **Browse**: Navigate with arrow keys or click thumbnails
-3. **Zoom**: Mouse wheel, or toolbar buttons
-4. **AI Analysis**: Select image and press `Ctrl+A`
-5. **Semantic Search**: Press `Ctrl+F` and enter natural language query
+### Analyzing Images
 
-### Keyboard Shortcuts
+1. **Single Image Analysis**:
+   - Select an image in the viewer
+   - Click "🔍 Analyze with AI" button
+   - Wait for CLIP embeddings (~50ms) and VLM caption (~5s)
+   - Caption appears in display panel
+   - Click "📋 Copy" to copy to clipboard
+   - Metadata automatically written to image file
 
-- `Left/Right Arrow`: Navigate images
-- `F`: Fit to window
-- `Ctrl+0`: Actual size (100%)
-- `Ctrl++/-`: Zoom in/out
-- `F11`: Fullscreen
-- `Ctrl+F`: Semantic search
-- `Ctrl+A`: Run AI analysis
-- `Ctrl+O`: Open files
-- `Ctrl+Shift+O`: Open directory
+2. **Batch Directory Analysis**:
+   - Select a directory
+   - Click "📁 Analyze All Images in Folder"
+   - Progress bar shows processing status
+   - Each image gets CLIP embeddings
+   - Optional: VLM captions if enabled
+   - Check log for detailed results
 
-### Python Backend Integration
+3. **Find Duplicates**:
+   - Click "🔄 Find Duplicates"
+   - CLIP compares all images in directory
+   - Reports pairs with >95% similarity
+   - Results shown in log panel
 
-The viewer integrates with `python/agent_v2.py` for ML features. Place `agent_v2.py` in the python directory, or the build will automatically detect it.
+4. **Detect Bursts**:
+   - Click "📸 Detect Burst Groups"
+   - Finds sequences of photos taken within 5 seconds
+   - Groups shown in log with filenames
 
-## Architecture
+5. **Generate Report**:
+   - Click "📊 Generate Quality Report"
+   - Analyzes resolution and file size
+   - Shows top 20 images by quality score
+   - Sorted by resolution × file size heuristic
 
-```
-┌─────────────────────────────────┐
-│   Qt6 C++ Application           │
-│                                 │
-│  ┌─────────────────────────┐   │
-│  │  MainWindow (UI)        │   │
-│  │  - ImageViewer          │   │
-│  │  - ThumbnailGrid        │   │
-│  │  - MetadataPanel        │   │
-│  │  - SKPBrowser           │   │
-│  └───────────┬─────────────┘   │
-│              │                  │
-│  ┌───────────▼─────────────┐   │
-│  │  Core Engines           │   │
-│  │  - ImageLoader (LibRaw) │   │
-│  │  - MetadataReader       │   │
-│  │  - ThumbnailCache       │   │
-│  └───────────┬─────────────┘   │
-│              │                  │
-│  ┌───────────▼─────────────┐   │
-│  │  PythonBridge           │   │
-│  │  (pybind11)             │   │
-│  └───────────┬─────────────┘   │
-└──────────────┼─────────────────┘
-               │
-┌──────────────▼─────────────────┐
-│   Python ML Backend            │
-│   (agent_v2.py)                │
-│                                │
-│  - CLIP Vision Analysis        │
-│  - LLM Integration            │
-│  - Semantic Key Protocol       │
-│  - Quality Analysis            │
-│  - Face Detection              │
-└────────────────────────────────┘
+### Viewing Logs
+
+All operations are logged with timestamps:
+```bash
+# View log file
+tail -f ~/Library/Application\ Support/PhotoGuru/PhotoGuru\ Viewer/photoguru.log
+
+# Or click "📄 Open Full Log File" button in app
 ```
 
-## Project Structure
+Log includes:
+- User actions (clicks, selections)
+- AI operation timings
+- Error messages and warnings
+- Performance metrics
+- Caption generation results
+
+---
+
+## 🏗️ Architecture
 
 ```
-photoguru-viewer/
-├── CMakeLists.txt          # Build configuration
-├── README.md               # This file
-├── LICENSE                 # MIT License
-├── requirements.txt        # Main Python dependencies
-├── docs/                   # Documentation
-│   ├── QUICK_START_MVP.md
-│   ├── MVP_IMPLEMENTATION.md
-│   ├── MVP_SUMMARY.md
+┌─────────────────────────────────────────────┐
+│   PhotoGuru Viewer (Qt6 C++ Application)   │
+│                                             │
+│  ┌───────────────────────────────────────┐ │
+│  │  UI Layer                             │ │
+│  │  - MainWindow (main application)      │ │
+│  │  - ImageViewer (display & zoom)       │ │
+│  │  - ThumbnailGrid (gallery)            │ │
+│  │  - AnalysisPanel (AI controls)        │ │
+│  │  - MetadataPanel (EXIF/XMP)           │ │
+│  │  - FilterPanel (search/filter)        │ │
+│  └─────────────┬─────────────────────────┘ │
+│                │                             │
+│  ┌─────────────▼─────────────────────────┐ │
+│  │  Core Layer                           │ │
+│  │  - ImageLoader (LibRaw + LibHeif)     │ │
+│  │  - MetadataReader (ExifTool)          │ │
+│  │  - MetadataWriter (ExifTool daemon)   │ │
+│  │  - Logger (file logging + rotation)   │ │
+│  │  - ThumbnailCache                     │ │
+│  └─────────────┬─────────────────────────┘ │
+│                │                             │
+│  ┌─────────────▼─────────────────────────┐ │
+│  │  ML Layer (Native C++)                │ │
+│  │  - CLIPAnalyzer (ONNX Runtime)        │ │
+│  │    • 512-dim embeddings               │ │
+│  │    • Cosine similarity                │ │
+│  │  - LlamaVLM (llama.cpp)               │ │
+│  │    • Qwen3-VL 4B model                │ │
+│  │    • mtmd multi-modal API             │ │
+│  │  - ONNXInference (helper)             │ │
+│  └───────────────────────────────────────┘ │
+└─────────────────────────────────────────────┘
+         │                        │
+         │ ONNX                   │ GGUF
+         │ Runtime                │ llama.cpp
+         ▼                        ▼
+┌──────────────────┐    ┌──────────────────┐
+│ CLIP Model       │    │ Qwen3-VL Model   │
+│ (335MB ONNX)     │    │ (2.7GB GGUF)     │
+│                  │    │                  │
+│ • Vision encoder │    │ • VLM inference  │
+│ • Text encoder   │    │ • Image → Text   │
+│ • 512-d output   │    │ • Natural capts  │
+└──────────────────┘    └──────────────────┘
+```
+
+### Key Components
+
+**CLIPAnalyzer** (`src/ml/CLIPAnalyzer.cpp`):
+- Loads ONNX model via ONNX Runtime
+- Computes 512-dimensional embeddings
+- Handles image preprocessing (resize, normalize)
+- Provides cosine similarity calculation
+- Thread-safe inference
+
+**LlamaVLM** (`src/ml/LlamaVLM.cpp`):
+- Integrates llama.cpp for VLM inference
+- Loads Qwen3-VL 4B quantized model
+- Uses mtmd (multi-modal) helper API
+- Clears memory cache between inferences
+- Generates natural language captions
+
+**Logger** (`src/core/Logger.cpp`):
+- Singleton pattern for global access
+- 4 log levels (DEBUG, INFO, WARNING, ERROR)
+- Thread-safe with QMutex
+- Auto-rotation at 10MB
+- Persistent file: `~/Library/Application Support/.../photoguru.log`
+
+**AnalysisPanel** (`src/ui/AnalysisPanel.cpp`):
+- 5 main AI functions (analyze, batch, duplicates, bursts, report)
+- Comprehensive logging of all operations
+- Caption display with copy-to-clipboard
+- Progress tracking with status updates
+- Button state management
+
+---
+
+## 📁 Project Structure
+
+```
+photoguru/
+├── CMakeLists.txt              # Build configuration
+├── README.md                   # This file
+├── LICENSE                     # MIT License
+├── .gitignore                  # Git ignore rules
+│
+├── docs/                       # Documentation
+│   ├── IMPLEMENTATION_COMPLETE.md
+│   ├── PERFORMANCE_ANALYSIS.md
+│   ├── PYTHON_TO_CPP_MIGRATION.md
+│   ├── LOCAL_AI_SETUP.md
+│   ├── EXIFTOOL_DAEMON.md
 │   └── ...
-├── scripts/                # Build and utility scripts
-│   ├── build.sh           # Build script
-│   ├── check_dependencies.sh
-│   └── run_tests.sh
-├── python/                 # Python ML backend
-│   ├── agent_mvp.py       # MVP agent (cloud-based)
-│   ├── agent_v2.py        # Advanced agent (CLIP)
-│   └── requirements_mvp.txt
+│
+├── scripts/                    # Build and utility scripts
+│   ├── build.sh               # Main build script
+│   ├── download_models.sh     # Model download utility
+│   ├── check_dependencies.sh  # Dependency checker
+│   ├── run_tests.sh           # Test runner
+│   └── benchmark_*.py         # Performance benchmarks
+│
+├── models/                     # AI models (not in git)
+│   ├── clip-vit-base-patch32.onnx  (335MB)
+│   ├── Qwen3VL-4B-Instruct-Q4_K_M.gguf  (2.3GB)
+│   └── mmproj-Qwen3VL-4B-Instruct-Q8_0.gguf  (433MB)
+│
 ├── src/
-│   ├── main.cpp            # Application entry
-│   ├── core/               # Core functionality
-│   │   ├── ImageLoader.*   # Universal image loading
-│   │   ├── MetadataReader.*# EXIF/XMP reading
-│   │   └── PhotoMetadata.h # Data structures
-│   ├── ml/                 # Python integration
-│   │   └── PythonBridge.*  # pybind11 wrapper
-│   └── ui/                 # User interface
-│       ├── MainWindow.*    # Main application window
-│       ├── ImageViewer.*   # Image display widget
-│       ├── ThumbnailGrid.* # Gallery view
-│       ├── MetadataPanel.* # Metadata display
-│       ├── SKPBrowser.*    # Semantic keys browser
-│       └── DarkTheme.h     # Professional dark theme
-├── resources/              # Icons, stylesheets
-├── tests/                  # Unit tests
-└── thirdparty/             # External dependencies
-    └── pybind11/           # Python binding library
+│   ├── main.cpp                # Application entry
+│   │
+│   ├── core/                   # Core functionality
+│   │   ├── ImageLoader.*       # Universal image loading
+│   │   ├── MetadataReader.*    # EXIF/XMP reading
+│   │   ├── MetadataWriter.*    # EXIF/XMP writing (daemon)
+│   │   ├── ExifToolDaemon.*    # ExifTool process manager
+│   │   ├── Logger.*            # Logging system
+│   │   └── PhotoMetadata.h     # Data structures
+│   │
+│   ├── ml/                     # Machine Learning (C++)
+│   │   ├── CLIPAnalyzer.*      # CLIP embeddings (ONNX)
+│   │   ├── LlamaVLM.*          # VLM captioning (llama.cpp)
+│   │   └── ONNXInference.*     # ONNX helper utilities
+│   │
+│   └── ui/                     # User Interface
+│       ├── MainWindow.*        # Main application window
+│       ├── ImageViewer.*       # Image display widget
+│       ├── ThumbnailGrid.*     # Gallery view
+│       ├── AnalysisPanel.*     # AI analysis controls
+│       ├── MetadataPanel.*     # Metadata display
+│       ├── FilterPanel.*       # Search/filter UI
+│       ├── NotificationManager.* # Toast notifications
+│       └── DarkTheme.h         # Professional dark theme
+│
+├── tests/                      # Unit tests (Google Test)
+│   ├── main.cpp                # Test runner
+│   ├── test_clip_analyzer.cpp
+│   ├── test_llama_vlm.cpp
+│   ├── test_exiftool_daemon.cpp
+│   ├── test_metadata_writer.cpp
+│   └── ...
+│
+├── resources/                  # Application resources
+│   ├── Info.plist             # macOS bundle info
+│   └── resources.qrc          # Qt resources
+│
+└── thirdparty/                 # External dependencies
+    ├── llama.cpp/             # VLM inference library
+    └── exiftool-cpp.tar.gz    # ExifTool integration
 ```
 
-## Contributing
+---
+
+## 🤝 Contributing
 
 Contributions welcome! Please:
 
 1. Fork the repository
-2. Create a feature branch
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Make your changes
-4. Submit a pull request
+4. Run tests (`cd build && ./PhotoGuruTests`)
+5. Commit with descriptive message (`git commit -m 'feat: Add amazing feature'`)
+6. Push to branch (`git push origin feature/amazing-feature`)
+7. Submit a pull request
 
-## License
+### Development Setup
 
-MIT License - see LICENSE file for details
+```bash
+# Install dependencies
+brew install qt@6 cmake onnxruntime
 
-## Acknowledgments
+# Download models
+./scripts/download_models.sh all
 
-- **Qt Framework**: Cross-platform UI framework
-- **LibRaw**: RAW image decoding
-- **OpenAI CLIP**: Vision-language model
-- **PyIQA**: Image quality assessment
-- **exiftool**: Metadata reading/writing
+# Build with tests
+mkdir build && cd build
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+make -j$(sysctl -n hw.ncpu)
 
-## Support
+# Run tests
+./PhotoGuruTests
+```
 
-For issues, questions, or feature requests:
-- GitHub Issues: https://github.com/yourusername/photoguru-viewer/issues
-- Documentation: https://photoguru.ai/docs
+### Code Style
 
-## Roadmap
-
-- [ ] Non-destructive editing (curves, levels, color)
-- [ ] Batch processing
-- [ ] Cloud sync
-- [ ] Plugin system
-- [ ] Video support
-- [ ] Windows support
+- C++17 standard
+- Follow Qt naming conventions (camelCase for methods, m_ prefix for members)
+- Use smart pointers (std::unique_ptr, std::shared_ptr)
+- Document public APIs with Doxygen-style comments
+- Keep functions focused and under 50 lines when possible
 
 ---
 
-**Built with ❤️ for photographers who need professional tools**
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- **Qt Framework**: Cross-platform UI framework
+- **ONNX Runtime**: High-performance ML inference
+- **llama.cpp**: Efficient LLM inference
+- **LibRaw**: RAW image decoding
+- **Qwen Team**: Qwen3-VL vision-language model
+- **OpenAI**: CLIP vision model
+- **ExifTool**: Metadata manipulation
+
+---
+
+## 📞 Support
+
+For issues, questions, or feature requests:
+- **GitHub Issues**: https://github.com/wsmontes/photoguru/issues
+- **Discussions**: https://github.com/wsmontes/photoguru/discussions
+
+---
+
+## 🗺️ Roadmap
+
+### Completed ✅
+- [x] C++ migration from Python
+- [x] Native CLIP integration (ONNX)
+- [x] Native VLM integration (llama.cpp)
+- [x] Comprehensive logging system
+- [x] ExifTool daemon for metadata writing
+- [x] 5 AI analysis functions
+- [x] Caption display with copy-to-clipboard
+
+### In Progress 🚧
+- [ ] Fix remaining 6 test failures
+- [ ] Optimize VLM loading time
+- [ ] Add progress indicators for long operations
+- [ ] Batch VLM captioning
+
+### Planned 📋
+- [ ] Semantic search (CLIP-based)
+- [ ] Duplicate image management UI
+- [ ] Burst mode best shot selection
+- [ ] Non-destructive editing (curves, levels)
+- [ ] Cloud sync support
+- [ ] Plugin system for extensibility
+- [ ] Video support
+- [ ] Windows/Linux support
+
+---
+
+**Built with ❤️ for photographers who demand professional tools with cutting-edge AI**
