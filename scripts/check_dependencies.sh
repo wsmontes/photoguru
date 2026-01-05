@@ -34,18 +34,6 @@ check_library() {
     fi
 }
 
-# Function to check Python module
-check_python_module() {
-    if python3 -c "import $1" 2>/dev/null; then
-        VERSION=$(python3 -c "import $1; print(getattr($1, '__version__', 'installed'))" 2>/dev/null || echo "installed")
-        echo "✅ Python $1: $VERSION"
-    else
-        echo "❌ Python $1: NOT FOUND"
-        echo "   Install: pip3 install $2"
-        ((WARNINGS++))
-    fi
-}
-
 echo "📋 Checking Build Tools..."
 check_command "cmake" "cmake --version | head -1" "brew install cmake"
 check_command "make" "make --version | head -1" "xcode-select --install"
@@ -104,20 +92,6 @@ else
 fi
 
 echo ""
-echo "📋 Checking Python Environment..."
-check_command "python3" "python3 --version" "brew install python@3.11"
-
-# Check Python modules (warnings only, not required for build)
-echo ""
-echo "📋 Checking Python ML Dependencies (optional for AI features)..."
-check_python_module "torch" "torch"
-check_python_module "PIL" "pillow"
-check_python_module "clip" "git+https://github.com/openai/CLIP.git"
-check_python_module "sentence_transformers" "sentence-transformers"
-check_python_module "cv2" "opencv-python"
-check_python_module "numpy" "numpy"
-
-echo ""
 echo "📋 Checking pybind11..."
 if [ -d "thirdparty/pybind11" ]; then
     echo "✅ pybind11: found in thirdparty/"
@@ -141,7 +115,6 @@ else
     echo ""
     echo "Quick fix (macOS):"
     echo "  brew install qt6 opencv libraw libheif exiftool cmake"
-    echo "  pip3 install -r requirements.txt"
 fi
 echo "========================================="
 

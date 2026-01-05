@@ -24,17 +24,6 @@ qrc_*.cpp
 *~
 .DS_Store
 
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-env/
-venv/
-ENV/
-.venv
-
 # Application data
 *.db
 *.sqlite
@@ -56,7 +45,6 @@ PhotoGuruViewer.app/
 
 # Third-party (handled separately)
 thirdparty/googletest/
-thirdparty/pybind11/
 models/*
 models/*.gguf
 models/*.onnx
