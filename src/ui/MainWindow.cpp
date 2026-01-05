@@ -494,17 +494,18 @@ void MainWindow::createDockPanels() {
     connect(m_analysisPanel, &AnalysisPanel::metadataUpdated, 
             this, [this](const QString& filepath) {
                 // Update cache with fresh metadata - run in thread pool to avoid UI blocking
-                QtConcurrent::run([this, filepath]() {
+                QPointer<MainWindow> safeThis(this);
+                QtConcurrent::run([safeThis, filepath]() {
+                    if (!safeThis) return;  // MainWindow destroyed
                     auto metaOpt = MetadataReader::instance().read(filepath);
                     if (metaOpt) {
                         // Update cache
-                        m_metadataCache[filepath] = metaOpt.value();
+                        safeThis->m_metadataCache[filepath] = metaOpt.value();
                         
                         // Re-apply current filter to update search results (on UI thread)
-                        QMetaObject::invokeMethod(this, [this]() {
-                            if (m_filterPanel) {
-                                m_filterPanel->triggerFilterUpdate();
-                            }
+                        QMetaObject::invokeMethod(safeThis, [safeThis]() {
+                            if (!safeThis || !safeThis->m_filterPanel) return;
+                            safeThis->m_filterPanel->triggerFilterUpdate();
                         }, Qt::QueuedConnection);
                     }
                 });
@@ -526,17 +527,19 @@ void MainWindow::createDockPanels() {
     connect(m_metadataPanel, &MetadataPanel::metadataChanged,
             this, [this](const QString& filepath) {
                 // Update cache with fresh metadata - wait for ExifTool write, then load async
-                QTimer::singleShot(100, this, [this, filepath]() {
-                    QtConcurrent::run([this, filepath]() {
+                QPointer<MainWindow> safeThis(this);
+                QTimer::singleShot(100, this, [safeThis, filepath]() {
+                    if (!safeThis) return;  // MainWindow destroyed
+                    QtConcurrent::run([safeThis, filepath]() {
+                        if (!safeThis) return;  // Double-check
                         auto metaOpt = MetadataReader::instance().read(filepath);
                         if (metaOpt) {
-                            m_metadataCache[filepath] = metaOpt.value();
+                            safeThis->m_metadataCache[filepath] = metaOpt.value();
                             
                             // Re-apply current filter to update search results (on UI thread)
-                            QMetaObject::invokeMethod(this, [this]() {
-                                if (m_filterPanel) {
-                                    m_filterPanel->triggerFilterUpdate();
-                                }
+                            QMetaObject::invokeMethod(safeThis, [safeThis]() {
+                                if (!safeThis || !safeThis->m_filterPanel) return;
+                                safeThis->m_filterPanel->triggerFilterUpdate();
                             }, Qt::QueuedConnection);
                         }
                     });
@@ -645,11 +648,20 @@ void MainWindow::loadDirectory(const QString& path) {
     m_cacheLoadedCount.storeRelaxed(0);
     m_cacheLoadingComplete = false;
     
-    QFuture<void> future = QtConcurrent::run([this, filesCopy, cachePtr, progressPtr]() {
+    // Use QPointer to safely check if MainWindow still exists in worker thread
+    QPointer<MainWindow> safeThis(this);
+    
+    QFuture<void> future = QtConcurrent::run([safeThis, filesCopy, cachePtr, progressPtr]() {
         // Process files SEQUENTIALLY in this single worker thread
         // No parallel access to ExifToolDaemon = no contention, no deadlock
         int count = 0;
         for (const QString& filepath : filesCopy) {
+            // Check if MainWindow still exists before accessing members
+            if (!safeThis) {
+                qDebug() << "[MainWindow] Cache loader: MainWindow destroyed, aborting";
+                return;  // MainWindow was destroyed, stop loading
+            }
+            
             auto metaOpt = MetadataReader::instance().read(filepath);
             if (metaOpt) {
                 cachePtr->insert(filepath, metaOpt.value());
@@ -660,8 +672,9 @@ void MainWindow::loadDirectory(const QString& path) {
             
             // Update UI progress every 10 files
             if (count % 10 == 0 || count == filesCopy.size()) {
-                QMetaObject::invokeMethod(this, [this, count, total = filesCopy.size()]() {
-                    statusBar()->showMessage(
+                QMetaObject::invokeMethod(safeThis, [safeThis, count, total = filesCopy.size()]() {
+                    if (!safeThis) return;  // Double-check before UI access
+                    safeThis->statusBar()->showMessage(
                         QString("Loading metadata... %1/%2 files").arg(count).arg(total)
                     );
                 }, Qt::QueuedConnection);
@@ -878,16 +891,17 @@ void MainWindow::updateStatusBar() {
 
 void MainWindow::onMetadataUpdated(const QString& filepath) {
     // Update cache with fresh metadata - run in thread pool to avoid UI blocking
-    QtConcurrent::run([this, filepath]() {
+    QPointer<MainWindow> safeThis(this);
+    QtConcurrent::run([safeThis, filepath]() {
+        if (!safeThis) return;  // MainWindow destroyed
         auto metaOpt = MetadataReader::instance().read(filepath);
         if (metaOpt) {
-            m_metadataCache[filepath] = metaOpt.value();
+            safeThis->m_metadataCache[filepath] = metaOpt.value();
             
             // Re-apply current filter to update search results (on UI thread)
-            QMetaObject::invokeMethod(this, [this]() {
-                if (m_filterPanel) {
-                    m_filterPanel->triggerFilterUpdate();
-                }
+            QMetaObject::invokeMethod(safeThis, [safeThis]() {
+                if (!safeThis || !safeThis->m_filterPanel) return;
+                safeThis->m_filterPanel->triggerFilterUpdate();
             }, Qt::QueuedConnection);
         }
     });
