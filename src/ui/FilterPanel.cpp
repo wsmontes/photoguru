@@ -11,29 +11,49 @@ namespace PhotoGuru {
 bool FilterCriteria::matchesSearch(const PhotoMetadata& photo) const {
     if (searchText.isEmpty()) return true;
     
-    QString search = searchCaseSensitive ? searchText : searchText.toLower();
+    // Split search into multiple terms (space-separated)
+    QStringList searchTerms = searchText.split(' ', Qt::SkipEmptyParts);
+    if (searchTerms.isEmpty()) return true;
     
-    auto matchString = [&](const QString& str) {
-        QString target = searchCaseSensitive ? str : str.toLower();
-        return target.contains(search);
+    // Helper to check if text contains ALL search terms (AND logic)
+    auto containsAllTerms = [&](const QString& text) -> bool {
+        if (text.isEmpty()) return false;
+        QString target = searchCaseSensitive ? text : text.toLower();
+        for (const QString& term : searchTerms) {
+            QString searchTerm = searchCaseSensitive ? term : term.toLower();
+            if (!target.contains(searchTerm)) {
+                return false;  // If any term is missing, return false
+            }
+        }
+        return true;  // All terms found
     };
     
-    // Search in title, description, keywords
-    if (matchString(photo.llm_title)) return true;
-    if (matchString(photo.llm_description)) return true;
+    // Search in various metadata fields (OR logic between fields)
+    // LLM-generated content (highest priority)
+    if (containsAllTerms(photo.llm_title)) return true;
+    if (containsAllTerms(photo.llm_description)) return true;
+    if (containsAllTerms(photo.llm_category)) return true;
+    if (containsAllTerms(photo.llm_scene)) return true;
+    if (containsAllTerms(photo.llm_mood)) return true;
+    
+    // Keywords (check each keyword)
     for (const QString& kw : photo.llm_keywords) {
-        if (matchString(kw)) return true;
+        if (containsAllTerms(kw)) return true;
     }
     
-    // Search in location
-    if (matchString(photo.location_name)) return true;
+    // Location data
+    if (containsAllTerms(photo.location_name)) return true;
     
-    // Search in camera info
-    if (matchString(photo.camera_make)) return true;
-    if (matchString(photo.camera_model)) return true;
+    // Camera info
+    QString cameraInfo = photo.camera_make + " " + photo.camera_model;
+    if (containsAllTerms(cameraInfo)) return true;
     
-    // Search in filename
-    if (matchString(photo.filename)) return true;
+    // Filename (without path)
+    QString filename = photo.filename;
+    if (filename.contains('/')) {
+        filename = filename.mid(filename.lastIndexOf('/') + 1);
+    }
+    if (containsAllTerms(filename)) return true;
     
     return false;
 }
@@ -133,20 +153,75 @@ void FilterPanel::setupUI() {
     mainLayout->setContentsMargins(8, 8, 8, 8);
     
     // Search bar at the top
-    QGroupBox* searchGroup = new QGroupBox("Search", this);
+    QGroupBox* searchGroup = new QGroupBox("Search & Filter", this);
     QVBoxLayout* searchLayout = new QVBoxLayout(searchGroup);
     
     m_searchEdit = new QLineEdit(this);
-    m_searchEdit->setPlaceholderText("Search in title, description, keywords, location, camera...");
+    m_searchEdit->setPlaceholderText("Search in titles, descriptions, keywords, locations, cameras, filenames...");
     m_searchEdit->setClearButtonEnabled(true);
+    m_searchEdit->setStyleSheet(R"(
+        QLineEdit {
+            padding: 10px;
+            border: 2px solid #444;
+            border-radius: 4px;
+            background: #2b2b2b;
+            color: #e0e0e0;
+            font-size: 13px;
+        }
+        QLineEdit:focus {
+            border-color: #51cf66;
+        }
+    )");
     connect(m_searchEdit, &QLineEdit::textChanged, this, &FilterPanel::onFilterChanged);
     searchLayout->addWidget(m_searchEdit);
     
+    QHBoxLayout* searchOptionsLayout = new QHBoxLayout();
     m_caseSensitiveCheckbox = new QCheckBox("Case sensitive", this);
+    m_caseSensitiveCheckbox->setToolTip("Make search case-sensitive");
     connect(m_caseSensitiveCheckbox, &QCheckBox::stateChanged, this, &FilterPanel::onFilterChanged);
-    searchLayout->addWidget(m_caseSensitiveCheckbox);
+    searchOptionsLayout->addWidget(m_caseSensitiveCheckbox);
+    searchOptionsLayout->addStretch();
+    searchLayout->addLayout(searchOptionsLayout);
+    
+    // Quick search tips label
+    QLabel* tipsLabel = new QLabel("💡 <i>Search works across all metadata fields</i>", this);
+    tipsLabel->setStyleSheet("color: #888; font-size: 11px; padding: 2px 0px;");
+    tipsLabel->setWordWrap(true);
+    searchLayout->addWidget(tipsLabel);
     
     mainLayout->addWidget(searchGroup);
+    
+    // Quick filters (collapsed by default for common operations)
+    QGroupBox* quickGroup = new QGroupBox("Quick Filters", this);
+    QVBoxLayout* quickLayout = new QVBoxLayout(quickGroup);
+    quickLayout->setSpacing(4);
+    
+    m_facesCheckbox = new QCheckBox("📷 Has faces", this);
+    m_facesCheckbox->setToolTip("Only show photos with detected faces");
+    connect(m_facesCheckbox, &QCheckBox::stateChanged, this, &FilterPanel::onFilterChanged);
+    quickLayout->addWidget(m_facesCheckbox);
+    
+    m_bestBurstCheckbox = new QCheckBox("⭐ Best in burst", this);
+    m_bestBurstCheckbox->setToolTip("Show only the best photo from burst sequences");
+    connect(m_bestBurstCheckbox, &QCheckBox::stateChanged, this, &FilterPanel::onFilterChanged);
+    quickLayout->addWidget(m_bestBurstCheckbox);
+    
+    m_noDuplicatesCheckbox = new QCheckBox("🚫 No duplicates", this);
+    m_noDuplicatesCheckbox->setToolTip("Exclude duplicate/similar photos");
+    connect(m_noDuplicatesCheckbox, &QCheckBox::stateChanged, this, &FilterPanel::onFilterChanged);
+    quickLayout->addWidget(m_noDuplicatesCheckbox);
+    
+    m_noBlurCheckbox = new QCheckBox("🎯 No blur", this);
+    m_noBlurCheckbox->setToolTip("Exclude blurry/out-of-focus photos");
+    connect(m_noBlurCheckbox, &QCheckBox::stateChanged, this, &FilterPanel::onFilterChanged);
+    quickLayout->addWidget(m_noBlurCheckbox);
+    
+    m_gpsCheckbox = new QCheckBox("📍 Has GPS", this);
+    m_gpsCheckbox->setToolTip("Only show photos with GPS coordinates");
+    connect(m_gpsCheckbox, &QCheckBox::stateChanged, this, &FilterPanel::onFilterChanged);
+    quickLayout->addWidget(m_gpsCheckbox);
+    
+    mainLayout->addWidget(quickGroup);
     
     // Rating filter
     QGroupBox* ratingGroup = new QGroupBox("Rating", this);
@@ -296,32 +371,6 @@ void FilterPanel::setupUI() {
     technicalLayout->addRow("Focal Length:", focalLayout);
     
     mainLayout->addWidget(technicalGroup);
-    
-    // Content filters group
-    QGroupBox* contentGroup = new QGroupBox("Content Filters", this);
-    QVBoxLayout* contentLayout = new QVBoxLayout(contentGroup);
-    
-    m_facesCheckbox = new QCheckBox("Only photos with faces", this);
-    connect(m_facesCheckbox, &QCheckBox::stateChanged, this, &FilterPanel::onFilterChanged);
-    contentLayout->addWidget(m_facesCheckbox);
-    
-    m_bestBurstCheckbox = new QCheckBox("Only best in burst", this);
-    connect(m_bestBurstCheckbox, &QCheckBox::stateChanged, this, &FilterPanel::onFilterChanged);
-    contentLayout->addWidget(m_bestBurstCheckbox);
-    
-    m_noDuplicatesCheckbox = new QCheckBox("Exclude duplicates", this);
-    connect(m_noDuplicatesCheckbox, &QCheckBox::stateChanged, this, &FilterPanel::onFilterChanged);
-    contentLayout->addWidget(m_noDuplicatesCheckbox);
-    
-    m_noBlurCheckbox = new QCheckBox("Exclude blurry photos", this);
-    connect(m_noBlurCheckbox, &QCheckBox::stateChanged, this, &FilterPanel::onFilterChanged);
-    contentLayout->addWidget(m_noBlurCheckbox);
-    
-    m_gpsCheckbox = new QCheckBox("Only photos with GPS", this);
-    connect(m_gpsCheckbox, &QCheckBox::stateChanged, this, &FilterPanel::onFilterChanged);
-    contentLayout->addWidget(m_gpsCheckbox);
-    
-    mainLayout->addWidget(contentGroup);
     
     // Category filters
     QGroupBox* categoryGroup = new QGroupBox("Category Filters", this);
