@@ -493,20 +493,31 @@ void MainWindow::createDockPanels() {
     // Connect analysis panel signals
     connect(m_analysisPanel, &AnalysisPanel::metadataUpdated, 
             this, [this](const QString& filepath) {
-                // Update cache with fresh metadata
-                auto metaOpt = MetadataReader::instance().read(filepath);
-                if (metaOpt) {
-                    m_metadataCache[filepath] = metaOpt.value();
-                    
-                    // Re-apply current filter to update search results
-                    if (m_filterPanel) {
-                        m_filterPanel->triggerFilterUpdate();
+                // Update cache with fresh metadata - run in thread pool to avoid UI blocking
+                QtConcurrent::run([this, filepath]() {
+                    auto metaOpt = MetadataReader::instance().read(filepath);
+                    if (metaOpt) {
+                        // Update cache
+                        m_metadataCache[filepath] = metaOpt.value();
+                        
+                        // Re-apply current filter to update search results (on UI thread)
+                        QMetaObject::invokeMethod(this, [this]() {
+                            if (m_filterPanel) {
+                                m_filterPanel->triggerFilterUpdate();
+                            }
+                        }, Qt::QueuedConnection);
                     }
-                }
+                });
                 
                 // Reload metadata for updated image
                 if (m_currentIndex >= 0 && filepath == m_imageFiles[m_currentIndex]) {
-                    m_metadataPanel->loadMetadata(filepath);
+                    // Use cache if available
+                    auto it = m_metadataCache.find(filepath);
+                    if (it != m_metadataCache.end()) {
+                        m_metadataPanel->loadMetadata(filepath, it.value());
+                    } else {
+                        m_metadataPanel->loadMetadata(filepath);
+                    }
                     // Thumbnail will auto-refresh when metadata changes
                 }
             });
@@ -514,17 +525,21 @@ void MainWindow::createDockPanels() {
     // Connect metadata panel signals
     connect(m_metadataPanel, &MetadataPanel::metadataChanged,
             this, [this](const QString& filepath) {
-                // Update cache with fresh metadata (wait a bit for ExifTool to finish)
+                // Update cache with fresh metadata - wait for ExifTool write, then load async
                 QTimer::singleShot(100, this, [this, filepath]() {
-                    auto metaOpt = MetadataReader::instance().read(filepath);
-                    if (metaOpt) {
-                        m_metadataCache[filepath] = metaOpt.value();
-                        
-                        // Re-apply current filter to update search results
-                        if (m_filterPanel) {
-                            m_filterPanel->triggerFilterUpdate();
+                    QtConcurrent::run([this, filepath]() {
+                        auto metaOpt = MetadataReader::instance().read(filepath);
+                        if (metaOpt) {
+                            m_metadataCache[filepath] = metaOpt.value();
+                            
+                            // Re-apply current filter to update search results (on UI thread)
+                            QMetaObject::invokeMethod(this, [this]() {
+                                if (m_filterPanel) {
+                                    m_filterPanel->triggerFilterUpdate();
+                                }
+                            }, Qt::QueuedConnection);
                         }
-                    }
+                    });
                 });
                 
                 // Don't reload - panel already has the saved data in memory
@@ -622,15 +637,17 @@ void MainWindow::loadDirectory(const QString& path) {
             .arg(QFileInfo(path).fileName())
     );
     
-    // Pre-load metadata in background
+    // Pre-load metadata in background - SERIAL to avoid ExifToolDaemon contention
+    // Using single worker thread instead of thread pool to prevent deadlock
     QStringList filesCopy = m_imageFiles;
     QMap<QString, PhotoMetadata>* cachePtr = &m_metadataCache;
     
     QFuture<void> future = QtConcurrent::run([filesCopy, cachePtr]() {
+        // Process files SEQUENTIALLY in this single worker thread
+        // No parallel access to ExifToolDaemon = no contention, no deadlock
         for (const QString& filepath : filesCopy) {
             auto metaOpt = MetadataReader::instance().read(filepath);
             if (metaOpt) {
-                // Thread-safe: each thread writes to different keys
                 cachePtr->insert(filepath, metaOpt.value());
             }
         }
@@ -844,16 +861,20 @@ void MainWindow::updateStatusBar() {
 }
 
 void MainWindow::onMetadataUpdated(const QString& filepath) {
-    // Update cache with fresh metadata
-    auto metaOpt = MetadataReader::instance().read(filepath);
-    if (metaOpt) {
-        m_metadataCache[filepath] = metaOpt.value();
-        
-        // Re-apply current filter to update search results
-        if (m_filterPanel) {
-            m_filterPanel->triggerFilterUpdate();
+    // Update cache with fresh metadata - run in thread pool to avoid UI blocking
+    QtConcurrent::run([this, filepath]() {
+        auto metaOpt = MetadataReader::instance().read(filepath);
+        if (metaOpt) {
+            m_metadataCache[filepath] = metaOpt.value();
+            
+            // Re-apply current filter to update search results (on UI thread)
+            QMetaObject::invokeMethod(this, [this]() {
+                if (m_filterPanel) {
+                    m_filterPanel->triggerFilterUpdate();
+                }
+            }, Qt::QueuedConnection);
         }
-    }
+    });
     
     // Handle metadata update signal
     // Don't reload the metadata panel - it already has the updated data
