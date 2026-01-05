@@ -3,6 +3,8 @@
 #include <QFormLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <QScrollArea>
+#include <QFrame>
 
 namespace PhotoGuru {
 
@@ -112,8 +114,22 @@ FilterPanel::FilterPanel(QWidget* parent)
 }
 
 void FilterPanel::setupUI() {
-    QVBoxLayout* mainLayout = new QVBoxLayout(this);
-    mainLayout->setSpacing(12);
+    // Main layout for the entire widget
+    QVBoxLayout* outerLayout = new QVBoxLayout(this);
+    outerLayout->setContentsMargins(0, 0, 0, 0);
+    outerLayout->setSpacing(0);
+    
+    // Create scrollable area for filters
+    QScrollArea* scrollArea = new QScrollArea(this);
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setFrameShape(QFrame::NoFrame);
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    
+    // Container widget inside scroll area
+    QWidget* container = new QWidget();
+    QVBoxLayout* mainLayout = new QVBoxLayout(container);
+    mainLayout->setSpacing(8);
     mainLayout->setContentsMargins(8, 8, 8, 8);
     
     // Search bar at the top
@@ -357,6 +373,12 @@ void FilterPanel::setupUI() {
     mainLayout->addWidget(resetBtn);
     
     mainLayout->addStretch();
+    
+    // Set container as scroll area widget
+    scrollArea->setWidget(container);
+    
+    // Add scroll area to outer layout
+    outerLayout->addWidget(scrollArea);
 }
 
 FilterCriteria FilterPanel::getCriteria() const {

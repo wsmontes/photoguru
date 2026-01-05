@@ -426,6 +426,7 @@ void MainWindow::createDockPanels() {
     m_filterDock->setWidget(m_filterPanel);
     m_filterDock->setMinimumWidth(220);
     addDockWidget(Qt::LeftDockWidgetArea, m_filterDock);
+    m_filterDock->show();  // Ensure visible by default
     
     // RIGHT SIDE PANELS - create in order we want tabs to appear: Metadata, Analysis, SKP
     
@@ -491,6 +492,10 @@ void MainWindow::createDockPanels() {
                 QString msg = editing ? "Editing metadata..." : "Ready";
                 m_statusBar->showMessage(msg);
             });
+    
+    // Connect filter panel signals
+    connect(m_filterPanel, &FilterPanel::filterChanged,
+            this, &MainWindow::onFilterChanged);
 }
 
 void MainWindow::createStatusBar() {
@@ -775,9 +780,9 @@ void MainWindow::onMetadataUpdated(const QString& filepath) {
 }
 
 void MainWindow::onFilterChanged(const FilterCriteria& criteria) {
-    // Apply filters to photos
-    // Filter by rating, quality scores, dates, etc.
+    // Apply filters to photos using the comprehensive FilterCriteria::matches() method
     QStringList filteredFiles;
+    int totalCount = m_imageFiles.size();
     
     for (const QString& filepath : m_imageFiles) {
         auto metaOpt = MetadataReader::instance().read(filepath);
@@ -785,32 +790,21 @@ void MainWindow::onFilterChanged(const FilterCriteria& criteria) {
         
         PhotoMetadata meta = metaOpt.value();
         
-        bool passes = true;
-        
-        // Apply quality filters if set
-        if (criteria.minQuality > 0.0) {
-            if (meta.technical.overall_quality < criteria.minQuality) {
-                passes = false;
-            }
-        }
-        
-        // Apply sharpness filter if set
-        if (criteria.minSharpness > 0.0) {
-            if (meta.technical.sharpness_score < criteria.minSharpness) {
-                passes = false;
-            }
-        }
-        
-        // Add more filter criteria as needed
-        
-        if (passes) {
+        // Use the comprehensive matching function from FilterCriteria
+        if (criteria.matches(meta)) {
             filteredFiles << filepath;
         }
     }
     
     // Update display with filtered results
     m_thumbnailGrid->setImages(filteredFiles);
-    statusBar()->showMessage(QString("%1 images match filters").arg(filteredFiles.count()));
+    
+    // Update status bar with filter stats
+    if (filteredFiles.count() == totalCount) {
+        statusBar()->showMessage(QString("%1 images (no filters active)").arg(totalCount));
+    } else {
+        statusBar()->showMessage(QString("%1 of %2 images match filters").arg(filteredFiles.count()).arg(totalCount));
+    }
 }
 
 void MainWindow::onViewModeChanged(int index) {
