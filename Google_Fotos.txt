@@ -1,0 +1,421 @@
+Google Fotos e Metadados (2026)
+Metadados Lidos de Arquivos (EXIF, IPTC, XMP)
+
+O Google Fotos extrai dos arquivos de imagem e vídeo os principais metadados EXIF – como data e hora de captura, modelo da câmera, dimensões e orientação – e os utiliza para organizar a timeline e exibir detalhes técnicos
+saveamemory.photo
+. Geolocalizações armazenadas em coordenadas GPS no EXIF também são lidas e aproveitadas pelo sistema (por exemplo, para mostrar um pin no mapa e permitir buscas por lugar). Além disso, o serviço reconhece certos campos IPTC/XMP incorporados: em particular, campos de descrição/legenda (Caption/Description) são importados. Contudo, em vez de preencher o campo “Descrição” do Google Fotos, essas legendas aparecem apenas na seção “Outros” das informações da foto
+saveamemory.photo
+. Por exemplo, uma legenda IPTC adicionada antes do upload é exibida em “Outros metadados” no painel de informações do Google Fotos, indicando que o dado foi preservado na foto em si
+reddit.com
+. Outros metadados IPTC comuns – como nome do fotógrafo (criador), copyright ou palavras-chave – também permanecem incorporados no arquivo e podem ser visualizados sob “Outros” (quando presentes), já que o Google Fotos segue padrões IPTC para esses campos
+support.google.com
+. Entretanto, esses campos IPTC/XMP não são interpretados ativamente pela plataforma: por exemplo, marcar pessoas via IPTC (“Person Shown”) ou definir tags/palavras-chave não influencia a categorização no Google Fotos
+support.google.com
+. Em resumo, o Google Fotos respeita e preserva os metadados EXIF essenciais e mantém metadados IPTC/XMP embutidos nos arquivos, mas não os incorpora em seus próprios campos de organização ou busca, exceto pelo uso limitado de legenda/descrição embutida que é exibida somente para referência.
+
+Enriquecimento de Metadados por IA no Google Fotos
+
+Além dos metadados básicos dos arquivos, o Google Fotos enriquece automaticamente as fotos com informações inferidas por inteligência artificial. Essas anotações incluem:
+
+Agrupamento por rostos (Face Grouping): O Google Fotos detecta e reconhece rostos em fotos, utilizando modelos de visão computacional para agrupar fotos da mesma pessoa ou animal de estimação. Esses “face groups” ficam disponíveis na aba “Pessoas e Pets”, onde o usuário pode atribuir nomes aos grupos de rostos semelhantes. Vale notar que essa identificação facial é feita de forma privada e os nomes dados às faces não são incorporados aos arquivos nem expostos publicamente. De fato, se o usuário exportar seus dados, o Google Fotos não inclui os identificadores biométricos ou coordenadas faciais, mas fornece indicadores nominais: no arquivo JSON exportado via Takeout, cada foto traz uma lista “people” com os nomes das pessoas reconhecidas na imagem (conforme nomeados pelo usuário)
+github.com
+. Por exemplo, uma foto pode ter "people": [{"name": "Maria"}, {"name": "João"}] no JSON de exportação, sinalizando que aquelas faces foram agrupadas e rotuladas como Maria e João
+github.com
+. Não são fornecidos marcadores de posição ou porcentagens de reconhecimento – apenas os nomes textuais. Em suma, o Google Fotos faz o agrupamento automático de rostos, permitindo busca e organização por pessoas, mas esses metadados gerados (grupos de faces e nomes) ficam restritos ao ambiente do Google Fotos, com exportação limitada (somente nomes via JSON) e sem inserção nos metadados EXIF/IPTC da imagem
+github.com
+github.com
+.
+
+Reconhecimento de objetos e categorias: O Google Fotos aplica algoritmos de classificação de imagens para identificar objetos, cenários e conceitos presentes em cada foto. Sem qualquer intervenção do usuário, o sistema gera labels (etiquetas) como “praia”, “comida”, “aniversário” ou “carro”, entre milhares de categorias, para tornar as imagens pesquisáveis
+slashgear.com
+. Essas etiquetas não aparecem visualmente para o usuário como tags nas fotos, mas manifestam-se no poder de busca: por exemplo, buscar por “praia” ou “pizza” retorna fotos correspondentes graças a essas tags internas. Importante: essas classificações por IA não são adicionadas aos metadados do arquivo (não há inserção de palavras-chave IPTC automaticamente, por exemplo) – elas residem na camada de dados da nuvem Google. Além disso, atualmente o Google Fotos não expõe diretamente essas tags via API ou exportação (a Takeout não lista “objetos detectados” no JSON, por privacidade e por serem informações derivadas). Ainda assim, funcionalmente, o usuário se beneficia delas ao procurar fotos por descrições de conteúdo ou ao navegar na guia “Explorar” (que organiza “Coisas” e categorias comuns). Essa categorização automática evoluiu até 2026 com modelos cada vez mais precisos, porém continua sendo um recurso interno.
+
+Detecção de texto (OCR): O Google Fotos aplica reconhecimento ótico de caracteres em imagens contendo texto. Assim, fotos de documentos, placas, capturas de tela e afins têm seu texto indexado para busca
+slashgear.com
+slashgear.com
+. Por exemplo, uma foto de recibo com a palavra “Restaurante” aparecerá em buscas por “Restaurante”, mesmo sem o usuário ter marcado nada, pois o sistema leu o texto presente na imagem. Introduzido inicialmente em 2019, esse OCR está plenamente integrado em 2026: os termos reconhecidos são utilizados apenas internamente para busca e não são inseridos em nenhum campo visível de metadados. Na exportação, tampouco há menção explícita ao texto detectado – trata-se de informação volátil mantida nos servidores para indexação. Para desenvolvedores, isso significa que não há acesso via API ao texto reconhecido nas imagens, mas o usuário final consegue localizar fotos por palavras nelas contidas através do aplicativo Google Fotos
+slashgear.com
+.
+
+Metadados de edição por IA e proveniência: Nos últimos anos o Google Fotos incorporou suporte a metadados de proveniência de imagem, especialmente em relação a edições por ferramentas de inteligência artificial. Em 2025, a plataforma passou a adotar o padrão C2PA (Content Credentials) para registrar de forma verificável como a imagem foi produzida ou editada
+support.google.com
+support.google.com
+. Na prática, ao usar recursos avançados como o Magic Eraser ou o novo Magic Editor (ferramentas que utilizam IA generativa para remover ou reacomodar elementos nas fotos), o Google Fotos passa a embutir credenciais de conteúdo no arquivo resultante ou associá-las de forma confiável. Essas credenciais permitem indicar se novos pixels foram gerados por IA durante uma edição. No app Google Fotos (Android/iOS), o painel de informações agora inclui a seção “How this was made” (“Como isso foi feito”), que resume os dados de proveniência conforme o padrão C2PA
+support.google.com
+support.google.com
+. Por exemplo, se uma foto foi alterada pelo Magic Eraser, o Google Fotos exibirá a categoria “Edited with AI tools” (Editada com ferramentas de IA) assinada pela Google, indicando que há conteúdo sintético naquela imagem
+support.google.com
+. Edits comuns (corte, rotação, filtros não-IA) são registrados como “Edited with non-AI tools”
+support.google.com
+. Essas informações de edição por IA ficam visíveis no app e são gravadas nos metadados content credentials da foto (embutidos em XMP conforme C2PA) quando a foto é salva após edição
+support.google.com
+. Além disso, a Google também utiliza SynthID, uma tecnologia de marca d’água digital imperceptível para identificar imagens geradas por IA. Se uma imagem carregada no Google Fotos contém um watermark SynthID (por ter sido criada via Imagen ou outra IA generativa do Google), o sistema pode marcar a seção “Informações de IA” alertando que a foto possui sinais de geração por IA
+support.google.com
+. Esses marcadores de proveniência garantem transparência e acompanham a imagem ao ser compartilhada – por exemplo, se uma foto com Content Credentials é enviada a outra pessoa, quem abri-la no Google Fotos também verá a mesma seção “Como foi feito” detalhando a origem e edições
+support.google.com
+support.google.com
+. Em suma, sob a perspectiva de metadados: o Google Fotos adere aos novos padrões de metadados de autenticidade, registrando como e se uma foto foi editada com IA. Essas informações são separadas dos campos IPTC tradicionais e não aparecem se a foto não possui suporte a Content Credentials ou marcas de IA. Vale frisar que, no momento, o Google Fotos Web (navegador) não exibe essas credenciais (somente nos apps móveis)
+support.google.com
+support.google.com
+. Para desenvolvedores, isso indica que fotos exportadas via Google Takeout podem conter metadados C2PA integrados (em formato JSON-LD dentro do XMP da imagem) se tiveram edições por IA – algo a ter em mente para preservação de proveniência.
+
+Busca no Google Fotos Baseada em Metadados e IA
+
+O sistema de pesquisa do Google Fotos combina os metadados explícitos com as inferências de IA para permitir que o usuário encontre imagens de forma muito eficiente. Alguns comportamentos-chave da busca:
+
+Data e hora: A busca entende consultas por datas específicas ou faixas de tempo, aproveitando o timestamp da foto (EXIF Date Taken). O usuário pode digitar, por exemplo, “Julho 2018” ou “25/12/2020” e o Google Fotos retornará todas as fotos tiradas nesse período. Também são aceitas sintaxes como before: e after: para delimitar intervalos (e.g. antes:2019-01-01 para fotos antes de 2019)
+slashgear.com
+slashgear.com
+. Esses recursos se baseiam no metadado de data que o serviço armazena (inicialmente vindo do EXIF ou de ajustes manuais do usuário). A ordenação padrão dos resultados é por relevância e depois cronológica
+slashgear.com
+slashgear.com
+.
+
+Localização: A busca por lugares usa tanto os dados de localização embutidos quanto a inteligência de visão do Google. Se uma foto contém coordenadas GPS no EXIF ou uma localização definida manualmente, o Google Fotos indexa esses locais. Buscar por “São Paulo” trará fotos com geotag em São Paulo ou com localização manual de São Paulo
+slashgear.com
+slashgear.com
+. Além disso, se a foto não tiver geotag, o Google Fotos pode estimar o local identificando pontos de referência visuais na imagem (por exemplo, reconhecendo a Torre Eiffel numa foto e associando a Paris) ou usando o histórico de localização do usuário (se autorizado)
+slashgear.com
+slashgear.com
+. Há uma opção nas configurações (“Estimativa de locais ausentes”) para controlar essa inferência
+slashgear.com
+. As buscas por local também consideram nomes presentes na imagem – por exemplo, buscar “Londres” pode trazer não só fotos geotagged em Londres, mas também imagens que contenham a palavra “London” em placas ou mapas fotografados
+slashgear.com
+. Em todos os casos, o Google Fotos mostra no painel de info se a localização é estimada ou proveniente do GPS original.
+
+Pessoas: Quando o agrupamento de rostos está ativado, a busca reconhece pessoas. Sem mesmo precisar digitar, ao tocar na barra de busca o Google Fotos mostra uma linha de rostos (as principais pessoas/pets identificados). O usuário pode clicar no rosto ou digitar o nome atribuído (por ex: “Alice”) para ver todas fotos daquela pessoa
+slashgear.com
+slashgear.com
+. Mesmo que não tenham nomes, as faces podem ser visualizadas e filtradas via interface (“Ver tudo” em Pessoas & Pets). Internamente, o sistema utiliza os vetores faciais para agrupar e, se nomeados, indexa o rótulo textual para busca
+slashgear.com
+slashgear.com
+. Vale notar que a busca por pessoas se estende também a rostos derivados de outras mídias: rostos em capturas de tela, fotos de jornal, estátuas, etc., tudo é indexado – o que pode fazer rostos indesejados aparecerem até que o usuário os esconda da seção (há opção para ocultar determinados grupos de rosto)
+slashgear.com
+. Em 2026, o Google Fotos expandiu essa categoria para “Pessoas e Pets”, incluindo reconhecimento de gatos e cachorros pelo nome, que podem ser buscados da mesma forma
+slashgear.com
+.
+
+Objetos e cenas: Como mencionado, a IA classifica conteúdo da imagem. O usuário pode buscar termos genéricos como “carro”, “praia ao pôr do sol”, “cachorro no parque” e obter resultados relevantes. O Google Fotos entende buscas descritivas e até frases, graças a seu machine learning avançado
+slashgear.com
+slashgear.com
+. Por exemplo, pesquisar “flor vermelha” retornará imagens de flores vermelhas. Pesquisas conceituais como “noite estrelada” ou “selfie sorrindo” também são compreendidas – combinando múltiplos labels (ex.: noite + céu estrelado). Essa capacidade advém dos labels semânticos atribuídos via IA a cada foto. O sistema aceita certa linguagem natural, de modo similar a descrever uma foto para outra pessoa
+slashgear.com
+. A eficácia pode variar conforme as palavras usadas, mas permite localizar fotos por atmosfera ou conteúdo abstrato (ex.: “foto antiga em preto e branco” ou “desenho colorido”)
+slashgear.com
+. Segundo análises, até adjetivos como “bonita” ou “engraçada” podem influenciar (embora de forma sutil) os resultados
+slashgear.com
+. Importante destacar que se o usuário adicionou uma descrição manual (legenda) às fotos, essa descrição torna-se também texto indexado para busca
+slashgear.com
+. Assim, caso uma imagem tenha uma descrição “Festa de aniversário do Lucas”, ao buscar “Lucas aniversário” ela terá prioridade nos resultados, pois o texto fornecido pelo usuário é indexado junto às inferências de IA
+slashgear.com
+.
+
+Texto em imagens: Complementando o item de OCR, o usuário pode buscar qualquer palavra que possa estar presente visivelmente em alguma foto ou captura. O Google Fotos retorna imagens contendo aquele texto em placas, documentos, screenshots etc. Por exemplo, buscando “contrato” aparecem fotos de documentos com a palavra “CONTRATO” no cabeçalho, graças ao OCR indexado
+slashgear.com
+slashgear.com
+. Esse recurso é extremamente útil para encontrar recibos, slides ou até fotos onde alguém na cena esteja segurando um cartaz com certo texto. É um caso particular da busca por objeto, mas focado no conteúdo textual derivado.
+
+Combinação de filtros: A busca do Google Fotos permite combinar vários critérios na mesma consulta. O usuário pode digitar consultas complexas unindo pessoa + lugar + coisa, ou data + objeto, etc. Por exemplo: “Lucas praia 2019” mostraria fotos do Lucas na praia em 2019. A interface aceita operadores como AND implícito (espaço) e alguns operadores específicos como before/after já citados para datas
+slashgear.com
+slashgear.com
+. A combinação ajuda a refinar resultados dentro de bibliotecas muito grandes. Porém, devido à natureza aproximada da IA, às vezes certas combinações podem não funcionar perfeitamente e exigem ajustes nos termos
+slashgear.com
+. Ainda assim, é uma funcionalidade poderosa para consultas avançadas.
+
+Em resumo, a busca do Google Fotos em 2026 se aproveita de todos os metadados disponíveis – explícitos e inferidos. A data e local de captura (do EXIF ou ajustados) são aproveitados para filtros temporais e geográficos. Os nomes de álbuns e rótulos adicionados pelo usuário (como descrições) são indexados. E, sobretudo, a camada de IA (reconhecimento de faces, objetos, cenas e texto) transforma o acervo fotográfico em um banco de dados pesquisável semanticamente
+slashgear.com
+slashgear.com
+. Isso tudo sem expor esses metadados ao usuário final como “tags”; é um sistema de busca natural. Para um desenvolvedor, isso significa que a riqueza de indexação do Google Fotos não está nos metadados IPTC tradicionais, mas sim no backend de IA da Google – o que não é exportado nem acessível via API, apenas utilizável dentro do próprio app Google Fotos.
+
+Organização Interna: Timeline e Agrupamentos Inteligentes
+
+Internamente, o Google Fotos organiza os itens de maneiras múltiplas para fornecer diferentes visões ao usuário:
+
+Linha do tempo: A visualização padrão é cronológica. Cada foto e vídeo é ordenado pela data/hora de captura (não upload), utilizando o EXIF ou a data fornecida pelo usuário (o Google Fotos permite editar a data de fotos, caso estejam incorretas). Essa timeline é apresentada rolando verticalmente pelos meses e anos. Assim, o metadado de data/hora é fundamental para a organização principal da biblioteca.
+
+Álbuns: Em paralelo à timeline, o usuário pode criar álbuns manuais, agrupando fotos por tema ou evento. Álbuns nada mais são que metadados de agrupamento definidos pelo usuário. O Google Fotos armazena o álbum como entidade contendo referências às fotos. Internamente, não há um campo IPTC correspondente (ou seja, o Google não escreve o nome do álbum nas fotos), mas nos arquivos de exportação (Takeout), essas associações são preservadas seja via nomes de álbum listados no JSON de cada foto ou via arquivos metadata separados por álbum
+saveamemory.photo
+. Por exemplo, se a foto X estava no álbum “Viagem 2025”, seu JSON de exportação trará "Album names": ["Viagem 2025"]
+saveamemory.photo
+. No aplicativo, os álbuns podem ser compartilhados, e até 2025 havia APIs para listar álbuns (mas isso mudou, como veremos na seção de API). Os álbuns são uma forma de organização manual complementar à automática.
+
+Pessoas & Pets: Conforme discutido, o Google Fotos mantém grupos de rosto para pessoas e animais. Há uma seção dedicada no aplicativo (Explorar > Pessoas & Pets) mostrando cada cluster de rosto identificado. Internamente, cada cluster é uma entidade com um identificador único (não exposto externamente) ao qual o usuário pode atribuir um nome/etiqueta. Todas as fotos contendo aquele rosto são associadas ao cluster. A organização por pessoas é totalmente automática (o usuário apenas confirma mesclas ou nomes). Essas associações não alteram os arquivos de foto – são mantidas na nuvem. Também não há pastas de pessoas explicitamente, mas a interface simula isso ao tocar num nome e ver todas fotos correspondentes.
+
+Lugares: De modo similar, o Google Fotos organiza as fotos por lugares. Na aba Explorar ou via busca, o usuário encontra seções de “Lugares” listando cidades, pontos turísticos ou locais frequentes onde fotos foram tiradas. Essa organização se baseia nos metadados de localização (GPS) e nos locais inferidos. Internamente, fotos com geotag próximo são agrupadas sob um mesmo rótulo (por ex., todas com lat/long dentro de Paris ficam em “Paris”). Locais específicos como atrações turísticas bem conhecidas também podem gerar agrupamentos (por ex., “Torre Eiffel” poderia aparecer se muitas fotos foram identificadas lá). Esses agrupamentos de lugar existem para facilitar navegação – não são álbuns formais, mas categorias dinâmicas calculadas a partir dos dados de localização.
+
+Coisas e Temas: O Google Fotos também apresenta coleções automáticas por tipos de conteúdo. Por exemplo, na seção Explorar, há “Coisas” (Things) agrupando categorias como “Comida”, “Flores”, “Capturas de tela”, “Vídeos”, “Panorâmicas”, “Animados/GIFs” etc. Algumas dessas categorias são derivadas de metadados técnicos (p. ex., imagens panorâmicas detectadas pelo campo XMP GPano ou pela proporção muito larga; capturas de tela identificadas pela ausência de EXIF de câmera e resolução típica de tela). Outras são puramente via visão computacional (ex.: “Comida” reúne todas fotos que o classificador marcou com a label comida). Há também “Documentos” – uma categoria introduzida recentemente que agrupa fotos de documentos ou papeis, detectados via IA (OCR e classificação)
+slashgear.com
+. Esses agrupamentos automáticos ajudam o usuário a navegar por tipo de conteúdo sem precisar ter marcado nada.
+
+Memórias e Destaques: Embora não sejam exatamente “metadados”, vale mencionar a camada de organização temporal criativa: o Google Fotos gera Memórias (stories) agregando fotos tiradas na mesma época em anos diferentes (“Neste dia…”), melhores fotos de certos períodos ou estilos (p. ex. “sorrisos de 2020”, “viagens de verão”). Isso usa metadados de data combinados com algoritmos de seleção de melhores imagens (baseados em qualidade, faces sorridentes, etc.). As Memórias são efêmeras (não modificam nada nos metadados das fotos) e servem como navegação por lembranças.
+
+Em nível de armazenamento, o Google Fotos não modifica os arquivos originais do usuário; todas essas organizações (álbuns, pessoas, categorias) são referências na nuvem. Por exemplo, quando o usuário edita uma foto ou adiciona uma descrição, o original é mantido e as mudanças ficam registradas à parte (ou resultam em um novo item derivado no caso de edição avançada). O mesmo vale para metadados enriquecidos: eles vivem nos servidores e na interface.
+
+Para um desenvolvedor integrando com Google Fotos, é importante entender que a organização interna é altamente dependente de processamento cloud e não de etiquetas gravadas nos arquivos. Portanto, extrair ou sincronizar esses agrupamentos exige usar as ferramentas de exportação ou APIs do próprio Google (que, como veremos, têm limitações pós-2025). Não há, por exemplo, um campo nos arquivos que diga “faceID=123” ou “album=Viagem” – isso tudo é interno. A única forma de reconstituir parte dessa organização externamente é através dos dados fornecidos no Google Takeout ou via API (quando disponível), que indicam pertencimento a álbuns, nomes de pessoas, localização, etc., em arquivos JSON complementares.
+
+Metadados Preservados na Importação (Upload)
+
+Quando um desenvolvedor ou usuário faz upload de fotos/vídeos para o Google Fotos, diversos metadados embutidos são interpretados e preservados pelo serviço:
+
+Data e Hora: O Google Fotos utiliza a data/hora de captura do EXIF (campo DateTimeOriginal ou equivalentes) para posicionar a foto corretamente na linha do tempo
+saveamemory.photo
+. Se a imagem não contiver metadados de data (por exemplo, screenshots ou imagens recebidas), o Google Fotos pode recorrer ao timestamp do arquivo ou à data de upload como suposição – mas o comportamento padrão é respeitar a data EXIF quando existente. O usuário também tem a opção de editar a data/hora depois, o que sobrescreve a ordenação interna (sem alterar o arquivo original). Metadados de fuso horário também são considerados para exibir horário local correto (todos os horários são normalizados em UTC internamente, exibindo com base no fuso do dispositivo).
+
+Localização (GPS): Se a foto traz coordenadas GPS no EXIF (Latitude/Longitude), o Google Fotos armazena essa informação e a utiliza para mostrar a localização no mapa (no painel de Info) e para permitir buscas por aquele lugar
+slashgear.com
+slashgear.com
+. A localização EXIF é exibida como nome de lugar (cidade/região) usando o serviço de geocoding do Google para traduzir coordenadas em um rótulo legível (“São Francisco – Localização estimada”, por exemplo)【45†】. Importante: o Google Fotos trata ligeiramente diferente a origem da localização – se veio do EXIF original, costuma mostrar apenas o nome do lugar e mapa; se o usuário adicionou manualmente depois, marca como “Adicionado pelo usuário”; se veio da estimativa de IA (falta GPS, mas ativou Estimativa de locais), aparece como “Local estimado” no info【45†】. Mas em todos os casos, na exportação via Takeout, a localização associada é entregue. No JSON de cada foto exportada, o Google inclui tanto os dados de coordenadas (campo "geoData") quanto possivelmente o endereço aproximado e nome de local se disponível. Por exemplo, pode haver "geoData": {"latitude": "...", "longitude": "...", ...} juntamente com "location": "Nome da cidade, País" quando conhecido. O Google Fotos preserva também altitudes do EXIF se presentes (embora isso seja menos visível na interface).
+
+Orientação e Metadados de Câmera: Campos EXIF como orientação (rotação da imagem), modelo da câmera, fabricante, abertura, velocidade do obturador, ISO, distância focal etc. são lidos e exibidos sob “Detalhes” no painel de informações. Assim, se um desenvolvedor envia fotos com EXIF completo, o usuário conseguirá ver no Google Fotos esses detalhes técnicos (modelo do smartphone, configurações de câmera). Eles não afetam ordenação nem busca diretamente (com exceção de que é possível buscar pelo modelo da câmera, ver abaixo), mas são preservados. Esses dados técnicos permanecem também no arquivo se ele for baixado de volta (já que o Google não os remove).
+
+Legenda/Descrição (IPTC/XMP): Conforme citado, se a imagem contém uma descrição embutida (por exemplo, IPTC Caption-Abstract ou XMP dc:Description), o Google Fotos a importa e preserva. Porém, a forma de exposição é sutil: essa descrição não é automaticamente exibida como “Descrição” editável no app. Em vez disso, fica listada como um item em “Outros” nas informações da foto
+reddit.com
+. O Google reconhece tanto o campo IPTC padrão quanto a descrição XMP, pois internamente são equivalentes (a especificação IPTC e XMP espelham a descrição)
+saveamemory.photo
+saveamemory.photo
+. O usuário poderia copiar manualmente esse texto e colá-lo na caixa de descrição do Google Fotos se quisesse torná-lo oficial no sistema, mas não há preenchimento automático. Essa é uma reclamação comum de fotógrafos – de não haver mapeamento direto de legenda IPTC -> descrição do Google Fotos – e de fato em junho de 2023 houve pedidos para a Google implementar isso
+support.google.com
+. Até 2026, essa limitação permanece: as legendas IPTC aparecem somente como referência não editável. Entretanto, há um lado positivo: pelo menos o texto está lá e é indexado pela busca
+slashgear.com
+. Ou seja, se uma foto tinha no IPTC uma descrição “Nascer do sol no deserto do Atacama”, uma busca por “Atacama” provavelmente encontrará a foto, já que o Google Fotos indexa informações textuais relacionadas à imagem (apesar de não mostrar diretamente como descrição oficial).
+
+Autor, Copyright e Outros IPTC: O Google Fotos respeita campos IPTC como Creator/Author, Copyright Notice e Credit. Esses dados não são utilizados ativamente na interface principal (por exemplo, o Google Fotos não exibe o nome do fotógrafo de forma destacada nem impede compartilhamento com base em copyright), mas eles ficam visíveis em “Outros” metadados da foto
+support.google.com
+. Além disso, o Google Fotos não remove nem altera essas tags – ao baixar a foto original, elas permanecem. Isso é relevante para profissionais que inserem copyright nos arquivos: ao subir no Google Fotos, embora a plataforma não mostre explicitamente algo como “© Fulano 2026” ao visualizar a foto, esses dados estão preservados. Também, se tais fotos forem encontradas via Google Imagens fora do Photos, o Google Images tem suporte a exibir informações IPTC de autor e copyright como parte dos resultados
+home.camerabits.com
+ – mas isso é outro contexto. No Google Fotos em si, serve mais como documentação embutida.
+
+Tags de Favoritos e Marcadores: O Google Fotos permite marcar fotos como Favoritas (estrela ⭐). Internamente, isso é um metadado do sistema associado ao item, não algo escrito no arquivo. Se o usuário baixar a foto ou exportar via Takeout, não há um campo EXIF dizendo “Favorite” – essa marca vive só na nuvem ou na interface. Atualmente não há como importar uma foto já com “favorito” marcado via EXIF/IPTC, pois não existe uma tag padrão universal para “favorito” reconhecida pelo Google Fotos. Então, esse tipo de metadado de organização pessoal (favoritos, arquivos arquivados, rótulos de “memórias”) não vem dos arquivos, e sim é gerenciado dentro do aplicativo.
+
+Metadados específicos do Google Câmera: Fotos tiradas em dispositivos Pixel (e alguns Android) às vezes contêm metadados proprietários no XMP – por exemplo, informações de Motion Photo (foto em movimento), ou mapas de profundidade de modo retrato. O Google Fotos compreende esses casos: se um arquivo tem o tag XMP indicando que contém um clipe de vídeo de motion photo, o Google Fotos automaticamente trata aquele upload como Motion Photo, permitindo reproduzir o movimento. Similarmente, fotos panorâmicas 360° (com tags XMP GPano) são reconhecidas como esféricas e o Google Fotos as exibe imersivamente. Esses metadados não são padrões IPTC, mas sim extensões do formato de arquivo entendidas pelo app. Eles são preservados integralmente quando se exporta a foto – por isso ferramentas de terceiros conseguem identificar Motion Photos a partir dos mesmos metadados.
+
+Resumindo, na importação o Google Fotos lê e respeita os metadados embutidos, usando-os para manter a ordem cronológica correta, localização das fotos e exibir informações úteis. Campos IPTC como legenda e autor são preservados mas não integrados às funcionalidades centrais, aparecendo apenas de forma passiva
+saveamemory.photo
+. O desenvolvedor que esteja preparando imagens para upload ao Google Fotos deve garantir que a data de captura correta esteja no EXIF (para não bagunçar a timeline) e que a foto tenha GPS se quiser usufruir de mapear locais. Pode também inserir legendas IPTC – ciente de que o usuário final verá em “Outros” e a busca indexará, ainda que não como descrição principal. Por fim, nada impede manter informações de direitos autorais IPTC, já que o Google não as remove (apesar de não destacá-las na interface).
+
+Exportação e Takeout: Metadados Disponíveis
+
+Ao exportar fotos e vídeos do Google Fotos, especialmente via a ferramenta Google Takeout, o usuário (ou desenvolvedor assistindo o usuário) recebe os arquivos de mídia acompanhados de arquivos JSON sidecar contendo os metadados associados
+saveamemory.photo
+saveamemory.photo
+. Esses JSONs são fundamentais para resgatar os dados enriquecidos que o Google Fotos mantém na nuvem. Principais informações contidas na exportação:
+
+Descrição (Caption): Se o usuário adicionou uma descrição no Google Fotos (campo “Adicionar descrição” no app) ou se a foto já possuía uma legenda IPTC, o JSON trará esse texto no campo "description"
+medium.com
+medium.com
+. Caso a descrição esteja vazia (como no exemplo da Medium: "description": ""
+medium.com
+), significa que não havia legenda adicionada no Google Fotos e nenhuma legenda original foi detectada. Observação: Captions adicionadas no Google Fotos são mantidas apenas no JSON, pois, como dito, não foram escritas no arquivo na nuvem. Já legendas originais IPTC tecnicamente já estão no arquivo de foto (que é exportado intacto), mas o Google repete essa informação no JSON para comodidade.
+
+Álbuns: O JSON indica a quais álbuns aquela mídia pertence. Ele pode listar os nomes dos álbuns em um campo tipo "albumNames" ou similar. Por exemplo, o blog Save A Memory confirma que cada JSON contém “Album names” (nomes de álbuns) associados
+saveamemory.photo
+. Assim, se uma foto estava em dois álbuns, ambos os títulos estarão nesse array. Além disso, quando a exportação é organizada “por álbum” (no Takeout é possível escolher exportar álbum por álbum), vem também um arquivo metadata.json global por álbum com detalhes (nome, descrição do álbum, etc.)
+reddit.com
+. Em exportações completas, as fotos às vezes são divididas em pastas anuais ou mensais e um arquivo photos.json geral pode conter lista de álbuns. Mas o método mais direto é via cada JSON individual. Portanto, nenhum dado de álbum é perdido – cabe ao processo de restauração utilizar esses nomes para recriar álbuns ou aplicar tags se desejado.
+
+Pessoas (Face labels): Conforme discutido, o JSON traz um campo "people" listando os nomes das pessoas reconhecidas na foto
+github.com
+. Esses nomes correspondem aos rótulos que o usuário deu aos clusters de face no Google Fotos. Se uma foto tem três pessoas das quais duas foram nomeadas no sistema (digamos Alice e Bob), o JSON incluirá {"people": [{"name": "Alice"}, {"name": "Bob"}]} (note que pessoas não nomeadas possivelmente são omitidas ou podem aparecer como {"name": ""} – o comportamento observado é que apenas nomes conhecidos são listados). Não são fornecidos IDs únicos nem qualquer indicação de coordenada do rosto – apenas os nomes textuais
+github.com
+. Isso já permite a um desenvolvedor, por exemplo, inserir essas palavras-chave de nome na foto exportada ou cruzar com outro sistema de gerenciamento que tenha as mesmas pessoas. Esse recurso de “face labels” na exportação foi muito solicitado e é valioso para migração (embora limitado). Vale mencionar: se o usuário não usava o recurso de agrupar rostos ou nunca nomeou ninguém, esse campo virá vazio.
+
+Localização: Os dados de local aparecem nos JSON em dois formatos. Primeiro, há o objeto "geoData" contendo coordenadas numéricas de latitude, longitude, altitude e spans (precisão)
+medium.com
+medium.com
+. Esse geoData reflete a localização atribuída à foto no Google Fotos (seja proveniente do EXIF original ou de ajustes). Em muitos casos, existe também um "geoDataExif" – que seria a leitura original do EXIF do arquivo
+medium.com
+medium.com
+. Quando o usuário não alterou a localização nem o Google ajustou nada, geoData e geoDataExif serão idênticos (como no exemplo do Medium
+medium.com
+medium.com
+). Se o Google estimou um local diferente ou se o usuário adicionou manualmente um local, o geoData pode diferir (indicando o valor final) enquanto geoDataExif guarda o original do arquivo. Além das coordenadas, o Google Fotos também pode incluir um campo textual, às vezes chamado "location" ou "place" contendo o nome do lugar (por exemplo, "Paris, France"). A inclusão desse nome textual parece variar – mas em muitos casos de Takeout recentes, quando disponível, há pelo menos uma entrada "address": "San Francisco, CA, USA" ou similar no JSON. Esse dado textual tende a vir se a foto teve localização manual definida (pois o Google então conhece o endereço selecionado) ou possivelmente se a estimativa reverte a coordenada pra nome. Em todo caso, as coordenadas geográficas são confiavelmente fornecidas e podem ser usadas para regravar a geotag no arquivo, caso o formato exportado não a tenha. Nota: Google exporta as fotos normalmente com EXIF original intacto, então as coordenadas também já estavam na foto se vieram do EXIF. Mas se a localização foi adicionada depois (no app), ela só estará no JSON e não no arquivo – daí a importância de mesclar via ferramentas.
+
+Data e hora (timestamps): O JSON inclui vários timestamps importantes. Os campos mais relevantes são: "photoTakenTime" (data/hora da captura da foto) e "creationTime" (data/hora em que o item foi adicionado ao Google Fotos). O photoTakenTime tem duas formas – um número de epoch timestamp (segundos UTC) e uma string formatada legível
+medium.com
+. Se o usuário editou a data da foto no Google Fotos (função “Editar data e hora”), então photoTakenTime refletirá a data ajustada. Nesses casos, pelo que usuários reportam, o JSON também traz o original em outro campo, possivelmente "photoTakenTimeOriginal" ou insere a data original em creationTime ou modificationTime. No exemplo fornecido por Carlos Escapa
+medium.com
+, vemos creationTime e modificationTime separadamente – sugerindo que aquela foto foi carregada em Jun/2019 (creationTime) e teve alguma alteração em Nov/2020 (modificationTime). Já o photoTakenTime indica Jun/2019, alinhado ao EXIF original
+medium.com
+. Em muitos JSONs atuais, aparece diretamente "photoTakenTime": {...} e "photoTakenTimeOriginal": {...} quando houve edição de data, para não perder o histórico. Esses timestamps permitem restaurar fielmente a data de cada foto. Além disso, vídeos podem ter videoDuration informados, mas em geral a duração vem do arquivo mesmo.
+
+Outros metadados específicos: O JSON contém vários outros campos dependendo do tipo de mídia. Por exemplo, "imageViews" (número de visualizações da foto no álbum Google? – geralmente 0 ou algum número, pouco útil para exportação)
+medium.com
+medium.com
+. Mídias como vídeos podem ter campos de codificação. Se a foto foi upload móvel, há um campo "googlePhotosOrigin" indicando origem (veja no exemplo: "mobileUpload": {"deviceType": "IOS_PHONE"})
+medium.com
+. Isso sinaliza como a imagem chegou (neste caso, foi enviada de um iPhone). Também existem campos para Favorited em JSON? Não há evidência de um campo booleano “favorite” no JSON padrão; parece que o Google não inclui flag de favoritos na exportação – o usuário teria que marcá-los manualmente após migrar ou usar outro mecanismo (essa é uma limitação conhecida). Comentários em fotos e número de curtidas (em álbuns compartilhados) também não são incluídos no Takeout JSON individual – possivelmente apenas no contexto de álbuns compartilhados ou nem mesmo exportados. Já o histórico de edição via Content Credentials possivelmente não aparece no JSON (pois está no XMP do arquivo se suportado). Em adição, se a foto é do tipo Motion Photo, o Google exporta tanto a imagem JPEG quanto o vídeo em separado (com sufixo .MP4 ou .MOV) – e no JSON às vezes há referência ao arquivo de movimento relacionado. Ferramentas de terceiros conseguem recombinar se preciso.
+
+Em termos práticos, o Google Takeout para Fotos fornece um snapshot completo: todos os metadados adicionados pelo usuário ou pela IA que não estavam nos arquivos originais vêm nos JSON sidecars
+support.google.com
+support.google.com
+. Isso inclui legenda, álbuns, pessoas, localização adicionada ou estimada e datas ajustadas
+saveamemory.photo
+saveamemory.photo
+. Já os metadados originais dos arquivos (EXIF/IPTC) permanecem nos próprios arquivos de mídia exportados. Assim, ao fazer o download via Takeout, o usuário recupera tanto o original (ex.: .jpg) quanto o .json com complementos. Se em vez de Takeout a pessoa baixar fotos individualmente pela interface web, não virá JSON nenhum – nesse caso perde-se descrições e etc., por isso a Google recomenda usar Takeout para migrar fotos sem perder informações
+saveamemory.photo
+saveamemory.photo
+. Inclusive, o suporte oficial frisa: “qualquer metadado adicional que não seja do arquivo original, como comentários no Google Fotos, será baixado num arquivo JSON secundário”
+support.google.com
+support.google.com
+.
+
+Para completar, o Google Takeout também gera um arquivo album.csv ou album.json listando todos os álbuns e suas fotos, útil para reconstruir a estrutura de álbuns offline. E caso o usuário tenha imagens editadas (aquelas cópias salvas pelo editor do Google Fotos), essas costumam aparecer como arquivos separados com sufixos no nome (por ex., IMG_123_edit.jpg) sem JSON próprio (herdam o JSON do original). A exportação lida com essas complexidades, como observado no relato “A Shambolic Google Takeout”, que detalha as peculiaridades de nomes de arquivos e JSONs correspondentes
+medium.com
+medium.com
+.
+
+Interação via API (Photos Library API e Photos Picker API)
+
+Para desenvolvedores que precisam integrar seu aplicativo com o ecossistema Google Fotos, é crucial atentar às mudanças recentes nas APIs. Até início de 2025, a principal interface era a Google Photos Library API, que permitia acesso programático à biblioteca do usuário (listar itens, buscar por media items, criar álbuns, etc.). Contudo, o Google anunciou atualizações significativas efetivas em 31 de março de 2025
+developers.google.com
+developers.google.com
+:
+
+Foco em conteúdo criado pelo app: A Photos Library API foi restringida para se concentrar apenas em gerenciar conteúdo enviado/criado pelo aplicativo. Isso significa que, após a mudança, chamadas para listar ou buscar itens na biblioteca retornarão somente fotos e vídeos que foram subidos através daquele aplicativo (usando seu OAuth). Itens que o usuário adicionou por outros meios (backup do celular, uploads manuais ou por outros apps) não ficam mais acessíveis pela API genérica de listagem
+developers.google.com
+developers.google.com
+. Essa alteração vem acompanhada da desativação de escopos de autorização amplos como photoslibrary.readonly e photoslibrary (que antes davam acesso total à biblioteca)
+developers.google.com
+developers.google.com
+. Esses escopos foram removidos; permanece apenas photoslibrary.readonly.appcreateddata e photoslibrary.edit.appcreateddata (além do photoslibrary.appendonly para upload)
+developers.google.com
+developers.google.com
+. Em outras palavras, seu app agora só “vê” e “toca” o que ele mesmo colocou lá
+developers.google.com
+developers.google.com
+. Então, cenários como um aplicativo de galeria que sincronizava todas as fotos do usuário via API tornaram-se inviáveis – a não ser que esse app tenha sido a origem do upload, o que geralmente não é o caso.
+
+Remoção de funcionalidades de compartilhamento via API: Também foram descontinuadas as operações de gerenciar álbuns compartilhados via API. Métodos como criar convite de compartilhamento, listar álbuns compartilhados e adicionar usuário a álbum compartilhado passaram a retornar erro 403 PERMISSION_DENIED se chamados
+developers.google.com
+developers.google.com
+. A recomendação do Google é instruir os usuários a usar o próprio aplicativo Google Fotos para compartilhar conteúdos, fora do escopo da API
+developers.google.com
+. Isso simplifica a API e evita cenários de apps terceiros fazendo intermediação de compartilhamento (o que poderia implicar em questões de privacidade).
+
+Introdução do Google Photos Picker API: Em contrapartida às restrições acima, a Google lançou a Photos Picker API, uma forma nova e segura para o usuário selecionar fotos e álbuns e conceder a um app acesso somente a esses itens escolhidos
+developers.googleblog.com
+developers.googleblog.com
+. O Picker API funciona de forma semelhante a um seletor de arquivos – ele integra a interface do Google Fotos (incluindo busca, pessoas, lugares) para que o usuário navegue na sua biblioteca e selecione os itens desejados, retornando esses itens ao app. A vantagem é que não exige dar acesso total à conta; o app não vê nada além do selecionado explicitamente pelo usuário. Tecnicamente, o desenvolvedor inclui um componente (web ou Android/iOS) que chama o Picker e, após a seleção, recebe objetos com metadados básicos e links para os conteúdos escolhidos
+developers.google.com
+developers.google.com
+. Esses objetos, chamados PickedMediaItem, incluem identificadores e URLs curtos de download, bem como miniaturas e possivelmente metadados como timestamp, tipo (foto/vídeo) e talvez rotação
+developers.google.com
+. Se o usuário selecionou um álbum inteiro, pode vir uma lista de media items ou um token para buscar itens daquele álbum. Essencialmente, o Picker substitui o antigo uso da API para acessar fotos do usuário que o app não enviou.
+
+Uso recomendado do Picker: Após março/2025, se seu app precisa que o usuário escolha fotos da biblioteca, deve usar o Photos Picker com o novo escopo photospicker.readonly em vez de tentar buscar via Library API
+github.com
+. Isso se aplica, por exemplo, a apps de edição de fotos que abriam a galeria do Google, ou apps de impressão que deixavam o usuário selecionar imagens do Google Fotos. O Picker fornece uma experiência integrada e segura: o usuário vê a própria interface familiar e escolhe. Do lado do desenvolvedor, ele não precisa lidar com token amplo de leitura. Vale notar que o Photos Picker pode ser invocado tanto em aplicativos móveis quanto em web apps autenticados.
+
+Upload e criação de álbuns permanecem disponíveis: O envio de mídia (upload) continua suportado via Library API, mas requer o escopo photoslibrary.appendonly. Com ele, o app pode enviar fotos/vídeos ao Google Fotos do usuário e (opcionalmente) criar álbuns novos e adicionar essas mídias neles
+developers.google.com
+developers.google.com
+. Isso é útil para apps de backup ou importação: seu app pode, por exemplo, pegar fotos de outra fonte e inserir no Google Fotos do usuário. Porém, mesmo nesse caso, se o app quiser depois listar o que enviou, deve usar o escopo photoslibrary.readonly.appcreateddata. O Google reforça que não se deve mais usar o escopo pleno (que nem existe mais) para listar tudo
+developers.google.com
+. Portanto, aplicações antigas precisaram ser adaptadas: se algum usava photoslibrary.readonly para sincronizar álbuns do usuário, isso quebrou pós-2025. Algumas iniciativas open-source (como integração com softwares de NAS ou galerias pessoais) registraram a depreciação desse acesso amplo
+reddit.com
+reddit.com
+, tendo que migrar ou encerrar funcionalidades.
+
+Quotas e políticas de uso de dados: Junto com essas mudanças, a Google publicou uma nova política de dados para a API de Fotos, enfatizando privacidade. Os desenvolvedores devem seguir as diretrizes de uso mínimo de dados, não armazenar indevidamente informações do usuário e respeitar limites de taxa. O acesso total indiscriminado a toda biblioteca ia contra essas orientações, então a mudança reforça o princípio de “least privilege” – o app só obtém o que precisa e com consentimento granular do usuário
+developers.googleblog.com
+developers.googleblog.com
+.
+
+Do ponto de vista de um desenvolvedor de aplicativo de metadados: como interagir agora com os dados do Google Fotos?
+
+Para obter itens já existentes do usuário, use o Google Photos Picker API. Por exemplo, se seu app quer permitir que o usuário importe fotos do Google Fotos para dentro dele, você integrará o Picker. O usuário poderá selecionar, digamos, um conjunto de fotos e sua aplicação receberá cada foto selecionada com algumas propriedades (talvez URL para download, nome/ID). A partir daí, você pode chamar a Library API (ainda disponível) para obter detalhes de cada item selecionado, mas atenção: a Library API getMediaItem ainda funciona para itens do usuário? Provavelmente sim, mas dentro dos novos escopos não fica claro se photoslibrary.readonly.appcreateddata permite get de items não criados pelo app. É provável que não – portanto o Picker retornará já os links e metadados necessários, sem precisar de chamadas extras. A documentação indica que a Picker retorna o conteúdo e metadados associados aos itens selecionados
+developers.google.com
+developers.google.com
+, então possivelmente ele mesmo resolve isso.
+
+Para enviar fotos/vídeos e talvez criar álbuns, continue usando a Photos Library API com escopo appendonly. Isso permite chamar mediaItems.batchCreate com uma lista de NewMediaItem. Nessa chamada, é possível incluir um campo "description" para definir a descrição no Google Fotos
+postman.com
+stackoverflow.com
+. Ou seja, seu app ao subir uma foto pode já inserir uma legenda (que aparecerá como “Descrição” no Google Fotos do usuário)
+postman.com
+github.com
+. Pode também especificar em qual álbum (via albumId) ou criar um álbum novo simultaneamente. Tenha em mente que, uma vez enviados, esses itens são marcados internamente como “app-created”. Se futuramente seu app precisar listá-los ou alterá-los (ex.: remover, adicionar a outro álbum), deverá usar os escopos de appcreateddata apropriados.
+
+Se precisar atualizar metadados de itens existentes do usuário (não criados pelo app) – infelizmente, após as mudanças, isso ficou inviável via API. Por exemplo, antes um app com permissão podia editar a descrição de uma foto do usuário ou adicionar itens a álbuns existentes. Agora, a API não permite edição em itens que o app não enviou. O escopo photoslibrary.edit.appcreateddata limita as edições aos “app created data”. Então, recursos como mediaItems.batchUpdate para corrigir datas ou albums.batchAddMediaItems para reordenar álbuns do usuário não se aplicam a fotos que seu app não criou. O Google explicitamente quer impedir apps de terceiros de modificar a biblioteca inteira. Solução? Orientar o usuário a baixar e re-enviar (o que é pouco prático), ou usar abordagens manuais.
+
+Photos Partner Program: Para casos de uso muito específicos (por exemplo, serviços de impressão profissional que precisem listar todo o álbum do usuário para seleção de fotos), a Google oferece um programa de parceiros. Desenvolvedores inscritos possivelmente podem obter acesso a quotas maiores ou algumas permissões diferenciadas, mediante revisão. Contudo, até onde documentado, nem parceiros têm mais acesso irrestrito – a tendência é que todos migrem para o Picker. O Partner Program pode ser mais relevante para superar limites de QPS ou branding.
+
+Em resumo, a partir de 2025 a integração com Google Fotos exige um modelo user-centric selection. Para o desenvolvedor de um app de metadados, isso significa que não dá mais para varrer toda a biblioteca do usuário automaticamente para sincronizar metadados. Em vez disso, o aplicativo poderia pedir ao usuário: “Selecione no Google Fotos as imagens que você deseja sincronizar os metadados” – e o Picker fornece aquelas imagens. A partir daí, seu app pode, por exemplo, pegar os JSON exportados (se o processo incluir Takeout) ou chamar endpoints de mediaItems (que retornam campos básicos como metadata de criação, mas não retornam tags de face ou descrição – essas informações enriquecidas não estavam na API nem antes). De fato, antes de 2025 a Library API permitia buscar por texto ou por filtros de data/área, mas não expunha campos como face labels ou album names. Agora, com a restrição, a busca via API por conteúdo foi eliminada – se um app tentar usar mediaItems.search com query, será recusado (pois o escopo photoslibrary.readonly foi removido)
+developers.googleblog.com
+developers.googleblog.com
+. A orientação do Google é usar o Picker para qualquer necessidade de busca, delegando ao UI do Photos.
+
+Boas Práticas para Trabalhar com Dados Exportados (Integração e Sincronização)
+
+Dado o cenário acima, um desenvolvedor que queira sincronizar e enriquecer metadados entre seu aplicativo e o Google Fotos deve focar no fluxo de exportação + pós-processamento. Algumas diretrizes práticas:
+
+Utilize o Google Takeout ou API de transferência quando possível: Para obter todos os metadados do Google Fotos, a via mais completa é o Google Takeout (ou a funcionalidade de “Transferir uma cópia dos seus dados” disponível na conta Google, que é basicamente o Takeout). Esse método fornece os JSON sidecar contendo descrições, pessoas, local e datas ajustadas
+saveamemory.photo
+saveamemory.photo
+. Seu aplicativo pode auxiliar o usuário a realizar o Takeout (há como iniciar uma exportação por link, mas o usuário teria que autorizar e baixar). Uma vez obtidos os zips do Takeout, a aplicação do desenvolvedor pode parsear os JSONs e as fotos correspondentes.
+
+Mesclar JSON e imagens para reescrever metadados: Uma etapa crucial é injetar de volta nos arquivos aqueles campos que o Google guardou separadamente. Ferramentas como ExifTool permitem fazer isso em lote. Por exemplo, para escrever a descrição no arquivo, pode-se copiar o campo do JSON para campos EXIF/IPTC padronizados: IPTC:Caption-Abstract, XMP:Description e EXIF:ImageDescription
+reddit.com
+reddit.com
+. Projetos de código aberto já abordaram isso – o próprio guia da comunidade sugere comandos ExifTool para copiar 'Description' -> Caption-Abstract/Description/ImageDescription
+reddit.com
+reddit.com
+. Existem também ferramentas dedicadas, como o Metadata Fixer, que automatiza a fusão de JSON+foto (embora seja paga)
+reddit.com
+. Essa ferramenta lê cada .json e escreve no .jpg correspondente todos os metadados relevantes: legenda, pessoas, local e data
+saveamemory.photo
+saveamemory.photo
+. Para um desenvolvedor, pode ser interessante integrar uma biblioteca Exif (por exemplo, usar ExifTool via comandos ou uma biblioteca Python) para aplicar isso no lado do aplicativo do usuário.
+
+Mapeamento de campos:
+
+Descrição: Escrever no menos três campos: EXIF:ImageDescription, IPTC:Caption-Abstract e XMP:Description (dc:description)
+reddit.com
+reddit.com
+. Isso garante máxima compatibilidade, pois diferentes softwares priorizam campos distintos. Apple Fotos, por exemplo, lê XMP:Description ou IPTC Caption para mostrar como legenda; Windows Explorer mostra EXIF ImageDescription como “Título” da imagem. Colocar em todos assegura que serviços em nuvem alternativos (OneDrive, Amazon Photos, etc.) e programas de galeria detectem a legenda.
+
+Pessoas (face labels): Já que não temos regiões de face, a abordagem recomendada (inclusive implementada pelo Metadata Fixer) é inserir os nomes como palavras-chave/Keywords IPTC
+saveamemory.photo
+saveamemory.photo
+. Ou seja, para cada nome em "people" do JSON, adicionar uma tag de palavra-chave na foto (por exemplo, “Pessoa: Maria Souza” ou simplesmente “Maria Souza”). Muitos softwares de gerenciamento reconhecem Keywords e permitem busca por elas. Alternativamente, alguns formatos suportam etiquetas de pessoas específicas (p. ex., XMP:PersonInImage na extensão IPTC). Pode-se optar por popular PersonInImage com os nomes – é um campo que lista nomes de pessoas visíveis na imagem, definido no padrão IPTC Extension. Isso seria semanticamente adequado. E/ou usar XMP:Subject/Tags para incluir os nomes. O importante é que após esse embed, seu app ou outros poderiam facilmente filtrar fotos por nome da pessoa, já que agora o nome está dentro do arquivo.
+
+Localização: Se o JSON indicava uma localização e a foto original não tinha coordenadas, convém escrever as coordenadas no EXIF da foto (tags GPSLatitude, GPSLongitude, GPSAltitude em EXIF). Isso torna a foto georreferenciada de maneira padrão
+saveamemory.photo
+saveamemory.photo
+. Adicionalmente, pode-se preencher campos IPTC de localização textual – IPTC Core tem campos como City, Country, Sublocation. Se o JSON fornece um endereço ou nome do lugar, pode ser útil colocar “Paris” em City, “France” em Country, por exemplo. Contudo, as coordenadas por si só já permitem que futuros serviços reinterpretem o local. Certifique-se de também escrever o GPSLatitudeRef/GPSLongitudeRef (N/S, E/W) adequadamente ao inserir coordenadas com ExifTool. Ferramentas automáticas cuidam disso. Isso garantirá que, se o usuário importar essas fotos em, digamos, Apple Photos ou Lightroom, os mapas mostrarão os locais.
+
+Data original: Se a data/hora da foto foi modificada no Google Fotos (por ex, corrigida pelo usuário), o JSON trará a nova data em photoTakenTime. Talvez o EXIF original esteja errado ou vazio. Então é importante atualizar a data EXIF para a correta. Isso envolve escrever EXIF:DateTimeOriginal e EXIF:CreateDate (e opcionalmente XMP:DateCreated e IPTC:DateCreated/TimeCreated para consistência) com o timestamp fornecido
+saveamemory.photo
+. Dessa forma, ao carregar essas fotos em outro lugar, elas ficarão ordenadas pela data correta. Se houver fuso horário, também considerar tags de offset (ou ajustar manualmente antes de gravar).
+
+Álbuns: Não existe um campo EXIF/IPTC universal para “álbum”. Algumas abordagens: pode-se usar IPTC:Keywords para também incluir nomes de álbuns (ex: tag “Álbum: Viagem 2025”). No entanto, dependendo do volume, isso pode introduzir muitas tags. Outra ideia: criar pastas ou coleções offline correspondentes aos álbuns, mas isso é fora do escopo de metadados embutidos. Se o objetivo é interoperar com outra nuvem, por exemplo, migrar para Flickr, Flickr permite ler tags – então album names poderiam virar tags temporariamente. Já o Apple Photos ignora tags de álbum; precisaria recrear os álbuns manualmente. Portanto, a estratégia varia – mas pelo menos tendo os nomes dos álbuns no JSON, seu app pode automatizar a criação de álbuns no destino ou marcar as fotos de modo a agrupa-las depois.
+
+Favoritos: Novamente, não há metadata EXIF padrão. Uma convenção possível: adicionar uma tag de classificação (XMP:Rating = 5?) ou uma Keyword “Favorite”. Apple Photos, por exemplo, não vai ler isso para marcar favorito automaticamente, mas ao menos preserva a informação de alguma forma. O desenvolvedor poderia fornecer, em sua aplicação, um relatório separado dos favoritos para referência.
+
+Normalização de campos: Tenha cuidado com encoding de texto (JSON vem em UTF-8, ExifTool lida bem com UTF-8 para IPTC desde que se especifique UTF8). Verifique também o comprimento – IPTC Caption tem limite de ~2000 caracteres, o Google Fotos descrição acho que também limitava a 1000, então deve caber
+postman.com
+. Para keywords, o IPTC tradicional tinha limite de 64 chars cada; se nomes de pessoas ou álbuns forem longos, convém truncar ou usar IPTC Extension (que permite mais).
+
+Teste em outras plataformas: Após mesclar os metadados, é recomendável testar importando as fotos em outros serviços: Apple iCloud Fotos, Amazon Photos, Microsoft OneDrive/Photos, Flickr etc., para garantir que as informações desejadas aparecem. Por exemplo, enviar algumas fotos com pessoas para Apple Photos – lá não vai criar rostos automaticamente desses nomes (a Apple usa seu próprio reconhecimento), mas a legenda e local devem aparecer. No Flickr, as tags de pessoa e álbum podem aparecer como tags normais. Em programas como Lightroom Classic ou Mylio, as keywords e captions certamente serão legíveis
+saveamemory.photo
+. Dessa forma, o usuário final não fica preso a um formato proprietário – os dados estarão no próprio arquivo, de forma interoperável.
+
+Automatização vs. conferência manual: Dependendo do volume, a fusão JSON -> EXIF pode demorar. Ferramentas como a mencionada Google Photos Takeout Helper e Metadata Fixer agilizam. Um desenvolvedor poderia integrar essas ferramentas (por exemplo, rodar ExifTool via script dentro do app se ambiente permitir). Sempre mantenha backups dos JSON e fotos originais antes de escrever, pois a manipulação de metadados em lote pode corromper algo se feita incorretamente. O usuário deve ser instruído a verificar amostras antes de substituir todo seu acervo.
+
+Em termos de “sincronização contínua”, isso se tornou complicado devido às restrições de API. Uma estratégia poderia ser: manter localmente (no app) um cache dos metadados vistos e usar alguma notificação manual para atualizar quando o usuário faz mudanças no Google Fotos. Talvez pouco viável – possivelmente o melhor é proceder por exportações periódicas (o usuário roda um Takeout a cada X meses e re-importa os JSONs, o app então atualiza os arquivos locais). Como a pergunta foca em decisões técnicas de integração, a resposta pragmática é: usar exportações quando se quer todos os dados, e usar o Picker API quando se quer fluxos interativos limitados, e sempre normalizar os dados para padrões abertos (EXIF/IPTC) assim que possível para evitar lock-in.
+
+Por fim, acompanhe as atualizações: a Google pode expandir a Photos API no futuro para talvez suportar content credentials ou outras consultas, mas por ora, em 2026, a abordagem descrita acima é a mais segura para integrar e preservar metadados entre seu aplicativo e o Google Fotos.
+
+Referências: As conclusões acima foram embasadas em documentos oficiais e relatos técnicos, incluindo a documentação da Google sobre as mudanças na API do Google Fotos
+developers.google.com
+developers.google.com
+, comunicados do blog de desenvolvedores Google
+developers.googleblog.com
+developers.googleblog.com
+, páginas de ajuda do Google Fotos sobre metadados IPTC e IA
+support.google.com
+support.google.com
+, além de análises de terceiros sobre exportação de dados do Google Fotos
+saveamemory.photo
+saveamemory.photo
+. Esses recursos elucidam o suporte atual a padrões de metadados e serviram de base para as práticas recomendadas aqui. Em suma, conhecer as capacidades e limitações do Google Fotos em 2026 permite tomar decisões informadas para construir integrações robustas e evitar perda de informações valiosas no trânsito de fotos entre plataformas.

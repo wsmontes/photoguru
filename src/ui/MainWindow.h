@@ -74,6 +74,9 @@ private slots:
     void onIncreaseRating();
     void onDecreaseRating();
     
+    // Google Takeout
+    void onImportGoogleTakeout();
+    
 private:
     void setupUI();
     void createMenuBar();
@@ -86,6 +89,7 @@ private:
     void refreshViews();
     void updateStatusBar();
     void setImageRating(const QString& filepath, int stars);
+    void checkAndOfferGoogleTakeoutImport(const QString& directoryPath);
     
     // UI Components
     QToolBar* m_toolbar;

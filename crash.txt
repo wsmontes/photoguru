@@ -1,0 +1,4062 @@
+-------------------------------------
+Translated Report (Full Report Below)
+-------------------------------------
+
+Process:               PhotoGuruViewer [41331]
+Path:                  /Users/USER/Documents/*/PhotoGuruViewer.app/Contents/MacOS/PhotoGuruViewer
+Identifier:            com.photoguru.viewer
+Version:               1.0.0 (1)
+Code Type:             ARM-64 (Native)
+Parent Process:        zsh [33696]
+Responsible:           Electron [709]
+User ID:               501
+
+Date/Time:             2026-01-05 13:51:09.0635 -0800
+OS Version:            macOS 15.6.1 (24G90)
+Report Version:        12
+Anonymous UUID:        CC3427E2-E807-029D-A436-1917D2A321B0
+
+
+Time Awake Since Boot: 16000 seconds
+
+System Integrity Protection: enabled
+
+Crashed Thread:        0
+
+Exception Type:        EXC_CRASH (SIGABRT)
+Exception Codes:       0x0000000000000000, 0x0000000000000000
+
+Termination Reason:    Namespace SIGNAL, Code 6 Abort trap: 6
+Terminating Process:   PhotoGuruViewer [41331]
+
+Application Specific Information:
+abort() called
+
+
+Thread 0 Crashed:
+0   libsystem_kernel.dylib        	       0x18866a388 0x188661000 + 37768
+1   libsystem_c.dylib             	       0x1885aca3c abort + 124
+2   libc++abi.dylib               	       0x188659384 0x188643000 + 91012
+3   libc++abi.dylib               	       0x188647cd8 0x188643000 + 19672
+4   libobjc.A.dylib               	       0x1882ccde4 0x1882a8000 + 151012
+5   libggml-base.0.9.5.dylib      	       0x103bc1228 0x103bac000 + 86568
+6   libc++abi.dylib               	       0x188658698 0x188643000 + 87704
+7   libc++abi.dylib               	       0x18865863c 0x188643000 + 87612
+8   libonnxruntime.1.22.2.dylib   	       0x1055126a0 0x104e54000 + 7071392
+9   libonnxruntime.1.22.2.dylib   	       0x104e8b27c 0x104e54000 + 225916
+10  libonnxruntime.1.22.2.dylib   	       0x104e86e7c 0x104e54000 + 208508
+11  libonnxruntime.1.22.2.dylib   	       0x104e8b2a4 0x104e54000 + 225956
+12  libonnxruntime.1.22.2.dylib   	       0x104ee4e3c 0x104e54000 + 593468
+13  libonnxruntime.1.22.2.dylib   	       0x104ee5348 0x104e54000 + 594760
+14  libonnxruntime.1.22.2.dylib   	       0x104ee5228 0x104e54000 + 594472
+15  libonnxruntime.1.22.2.dylib   	       0x104edd640 0x104e54000 + 562752
+16  PhotoGuruViewer               	       0x1027a4fb0 std::__1::unique_ptr<Ort::Env, std::__1::default_delete<Ort::Env>>::~unique_ptr[abi:ne190102]() + 52
+17  libsystem_c.dylib             	       0x18855b944 __cxa_finalize_ranges + 480
+18  libsystem_c.dylib             	       0x18855b704 exit + 44
+19  libdyld.dylib                 	       0x1886addc8 0x1886aa000 + 15816
+20  dyld                          	       0x188302cac 0x1882fc000 + 27820
+21  dyld                          	       0x188302bc8 0x1882fc000 + 27592
+
+Thread 1:
+0   libsystem_pthread.dylib       	       0x18869eb6c 0x18869d000 + 7020
+
+Thread 2:: com.apple.NSEventThread
+0   libsystem_kernel.dylib        	       0x188661c34 0x188661000 + 3124
+1   libsystem_kernel.dylib        	       0x18866a764 0x188661000 + 38756
+2   libsystem_kernel.dylib        	       0x188661fa8 0x188661000 + 4008
+3   CoreFoundation                	       0x18878ecbc 0x188712000 + 511164
+4   CoreFoundation                	       0x18878d5d8 0x188712000 + 505304
+5   CoreFoundation                	       0x18878ca98 0x188712000 + 502424
+6   AppKit                        	       0x18c7d578c 0x18c677000 + 1435532
+7   libsystem_pthread.dylib       	       0x1886a3c0c 0x18869d000 + 27660
+8   libsystem_pthread.dylib       	       0x18869eb80 0x18869d000 + 7040
+
+Thread 3:: com.apple.CFSocket.private
+0   libsystem_kernel.dylib        	       0x18866cc2c 0x188661000 + 48172
+1   libsystem_pthread.dylib       	       0x1886a3c0c 0x18869d000 + 27660
+2   libsystem_pthread.dylib       	       0x18869eb80 0x18869d000 + 7040
+
+Thread 4:
+0   libsystem_pthread.dylib       	       0x18869eb6c 0x18869d000 + 7020
+
+Thread 5:
+0   libsystem_pthread.dylib       	       0x18869eb6c 0x18869d000 + 7020
+
+Thread 6:
+0   libsystem_pthread.dylib       	       0x18869eb6c 0x18869d000 + 7020
+
+Thread 7:
+0   libsystem_pthread.dylib       	       0x18869eb6c 0x18869d000 + 7020
+
+Thread 8:
+0   libsystem_pthread.dylib       	       0x18869eb6c 0x18869d000 + 7020
+
+Thread 9:
+0   libsystem_pthread.dylib       	       0x18869eb6c 0x18869d000 + 7020
+
+
+Thread 0 crashed with ARM Thread State (64-bit):
+    x0: 0x0000000000000000   x1: 0x0000000000000000   x2: 0x0000000000000000   x3: 0x0000000000000000
+    x4: 0x000000018865de04   x5: 0x000000016d6e65c0   x6: 0x0000000000000074   x7: 0x0000000000000000
+    x8: 0x50e9fc798edff044   x9: 0x50e9fc7878bc9084  x10: 0x0000000000000039  x11: 0x0000000000000023
+   x12: 0x0000000000000023  x13: 0x000000015dd14588  x14: 0x0000000030119222  x15: 0x0000000030119222
+   x16: 0x0000000000000148  x17: 0x00000001f768d558  x18: 0x0000000000000000  x19: 0x0000000000000006
+   x20: 0x0000000000000103  x21: 0x00000001f66361a0  x22: 0x0000000137815a00  x23: 0x0000000000000000
+   x24: 0x0000000000000002  x25: 0x00000001f663f000  x26: 0x0000000000000003  x27: 0x0000000137815a10
+   x28: 0x0000000000000002   fp: 0x000000016d6e6530   lr: 0x00000001886a388c
+    sp: 0x000000016d6e6510   pc: 0x000000018866a388 cpsr: 0x40000000
+   far: 0x0000000000000000  esr: 0x56000080  Address size fault
+
+Binary Images:
+       0x102718000 -        0x1027ebfff PhotoGuruViewer (*) <71a426da-670f-30c7-9105-b2f378682148> */PhotoGuruViewer.app/Contents/MacOS/PhotoGuruViewer
+       0x10288c000 -        0x1028a3fff org.qt-project.QtWebEngineWidgets (6.9) <4eafff13-c0ab-3bf8-bd4d-d13b0040bbad> /opt/homebrew/*/QtWebEngineWidgets.framework/Versions/A/QtWebEngineWidgets
+       0x102860000 -        0x102863fff org.qt-project.QtConcurrent (6.9) <82ed70eb-db8e-3824-94f4-8c1706b67ae6> /opt/homebrew/*/QtConcurrent.framework/Versions/A/QtConcurrent
+       0x102924000 -        0x102953fff org.qt-project.QtSql (6.9) <9315ccc9-3c3f-3789-9f54-776e751987ae> /opt/homebrew/*/QtSql.framework/Versions/A/QtSql
+       0x102ef8000 -        0x10313bfff libopencv_gapi.4.12.0.dylib (*) <3111e702-b533-3564-b903-5bfbabe33f41> /opt/homebrew/*/libopencv_gapi.4.12.0.dylib
+       0x102af0000 -        0x102b3bfff libopencv_stitching.4.12.0.dylib (*) <cb5285ce-d09b-33e2-8e58-b79f5e189ee2> /opt/homebrew/*/libopencv_stitching.4.12.0.dylib
+       0x1028f4000 -        0x102907fff libopencv_alphamat.4.12.0.dylib (*) <0cb65c30-ad2f-3424-8c0d-1c2ef5813a7d> /opt/homebrew/*/libopencv_alphamat.4.12.0.dylib
+       0x1028cc000 -        0x1028d3fff libopencv_aruco.4.12.0.dylib (*) <f5c5e45b-a6f7-3ee6-a417-0ceab8607675> /opt/homebrew/*/libopencv_aruco.4.12.0.dylib
+       0x1029a0000 -        0x1029affff libopencv_bgsegm.4.12.0.dylib (*) <c7e7d065-6aca-3cb0-b553-7008c33d48b8> /opt/homebrew/*/libopencv_bgsegm.4.12.0.dylib
+       0x102aa8000 -        0x102acbfff libopencv_bioinspired.4.12.0.dylib (*) <e3daf8ee-3023-3fe3-bcc6-cd234219324a> /opt/homebrew/*/libopencv_bioinspired.4.12.0.dylib
+       0x102bc8000 -        0x102bfbfff libopencv_ccalib.4.12.0.dylib (*) <1f89a48d-6fc3-32f8-94c9-2f2b2ec2d23f> /opt/homebrew/*/libopencv_ccalib.4.12.0.dylib
+       0x102874000 -        0x10287bfff libopencv_dnn_objdetect.4.12.0.dylib (*) <14f8fd45-c11e-3d8b-9bbc-349b4d5a4278> /opt/homebrew/*/libopencv_dnn_objdetect.4.12.0.dylib
+       0x1029c4000 -        0x1029cbfff libopencv_dnn_superres.4.12.0.dylib (*) <3f1e2484-0733-3a94-b51f-9676ade1c49f> /opt/homebrew/*/libopencv_dnn_superres.4.12.0.dylib
+       0x1029e0000 -        0x1029effff libopencv_dpm.4.12.0.dylib (*) <519586f6-1ab7-3e34-96f4-d69d314076bc> /opt/homebrew/*/libopencv_dpm.4.12.0.dylib
+       0x102c80000 -        0x102cc3fff libopencv_face.4.12.0.dylib (*) <196f58ca-bf96-3e6e-ba6c-730865c4f6bf> /opt/homebrew/*/libopencv_face.4.12.0.dylib
+       0x10297c000 -        0x102983fff libopencv_freetype.4.12.0.dylib (*) <883b0201-060c-37bc-bcac-52132fa037cd> /opt/homebrew/*/libopencv_freetype.4.12.0.dylib
+       0x102a7c000 -        0x102a87fff libopencv_fuzzy.4.12.0.dylib (*) <b6983811-5feb-3be2-80bb-70315e12ead3> /opt/homebrew/*/libopencv_fuzzy.4.12.0.dylib
+       0x102b98000 -        0x102ba3fff libopencv_hfs.4.12.0.dylib (*) <667c0c17-c300-3f81-8a2c-047994e9b80d> /opt/homebrew/*/libopencv_hfs.4.12.0.dylib
+       0x102c14000 -        0x102c1bfff libopencv_img_hash.4.12.0.dylib (*) <1998de3c-e085-3ffd-b0fc-76a4329529c9> /opt/homebrew/*/libopencv_img_hash.4.12.0.dylib
+       0x102cf0000 -        0x102d03fff libopencv_intensity_transform.4.12.0.dylib (*) <6bec4e87-6cc6-36ea-bf7c-eae58f87355f> /opt/homebrew/*/libopencv_intensity_transform.4.12.0.dylib
+       0x102d1c000 -        0x102d33fff libopencv_line_descriptor.4.12.0.dylib (*) <096421b7-8c45-3cc0-92a2-d486316d2b02> /opt/homebrew/*/libopencv_line_descriptor.4.12.0.dylib
+       0x102dc0000 -        0x102df3fff libopencv_mcc.4.12.0.dylib (*) <5875cdbf-3e38-3851-8224-09b10131c4f5> /opt/homebrew/*/libopencv_mcc.4.12.0.dylib
+       0x102b7c000 -        0x102b83fff libopencv_quality.4.12.0.dylib (*) <6dc28f5b-78c7-3fb3-b70b-5b1c1adc8d40> /opt/homebrew/*/libopencv_quality.4.12.0.dylib
+       0x102c4c000 -        0x102c57fff libopencv_rapid.4.12.0.dylib (*) <d5663f0e-1207-3b83-8bdd-fd70b79de5ba> /opt/homebrew/*/libopencv_rapid.4.12.0.dylib
+       0x102d74000 -        0x102d83fff libopencv_reg.4.12.0.dylib (*) <70c85243-7508-3abb-9deb-07540d161fff> /opt/homebrew/*/libopencv_reg.4.12.0.dylib
+       0x1034b0000 -        0x10355bfff libopencv_rgbd.4.12.0.dylib (*) <92812037-89b9-3bba-a3fd-3eb742f7b17e> /opt/homebrew/*/libopencv_rgbd.4.12.0.dylib
+       0x102e2c000 -        0x102e3bfff libopencv_saliency.4.12.0.dylib (*) <908ccd85-3310-3aed-9a6b-7efc49c808f9> /opt/homebrew/*/libopencv_saliency.4.12.0.dylib
+       0x1035d4000 -        0x103653fff libopencv_sfm.4.12.0.dylib (*) <c9442c46-d253-365f-855c-9d2a6014b0ce> /opt/homebrew/*/libopencv_sfm.4.12.0.dylib
+       0x102a64000 -        0x102a67fff libopencv_signal.4.12.0.dylib (*) <341cf758-527b-34bb-ae19-74ba5cfc3c81> /opt/homebrew/*/libopencv_signal.4.12.0.dylib
+       0x102e84000 -        0x102e9bfff libopencv_stereo.4.12.0.dylib (*) <074c6d27-6ee1-3ea4-9d69-5d90488340b1> /opt/homebrew/*/libopencv_stereo.4.12.0.dylib
+       0x102d54000 -        0x102d5ffff libopencv_structured_light.4.12.0.dylib (*) <cb3e3bf4-00aa-3c8f-9a53-1d01855eac57> /opt/homebrew/*/libopencv_structured_light.4.12.0.dylib
+       0x102e54000 -        0x102e67fff libopencv_superres.4.12.0.dylib (*) <40a4bda1-9429-31b5-963d-af571a17722d> /opt/homebrew/*/libopencv_superres.4.12.0.dylib
+       0x1033e0000 -        0x103407fff libopencv_surface_matching.4.12.0.dylib (*) <98d3dae9-d39f-3618-89ba-609427cdafe3> /opt/homebrew/*/libopencv_surface_matching.4.12.0.dylib
+       0x103890000 -        0x103a2bfff libopencv_tracking.4.12.0.dylib (*) <e9ccc0f5-0829-359c-a071-b50cdc6f6f36> /opt/homebrew/*/libopencv_tracking.4.12.0.dylib
+       0x10338c000 -        0x1033a7fff libopencv_videostab.4.12.0.dylib (*) <95d34b35-4008-3191-985a-1b84457c81a0> /opt/homebrew/*/libopencv_videostab.4.12.0.dylib
+       0x10369c000 -        0x1036cffff libopencv_viz.4.12.0.dylib (*) <0dbecef8-0c3b-3320-b5f0-cf5af763351f> /opt/homebrew/*/libopencv_viz.4.12.0.dylib
+       0x103794000 -        0x1037e7fff libopencv_wechat_qrcode.4.12.0.dylib (*) <d5b965b3-9403-3a6b-a3f9-e8b5da1e7e1c> /opt/homebrew/*/libopencv_wechat_qrcode.4.12.0.dylib
+       0x103d54000 -        0x103fdffff libopencv_xfeatures2d.4.12.0.dylib (*) <4361ac90-e9db-3173-8749-db8da48195f0> /opt/homebrew/*/libopencv_xfeatures2d.4.12.0.dylib
+       0x102d94000 -        0x102d9ffff libopencv_xobjdetect.4.12.0.dylib (*) <a9531705-d955-3d0e-bd47-f50f482c6a97> /opt/homebrew/*/libopencv_xobjdetect.4.12.0.dylib
+       0x103a84000 -        0x103ae7fff libopencv_xphoto.4.12.0.dylib (*) <4cc68fd6-c57e-3481-9ae8-ba9dcd9873ab> /opt/homebrew/*/libopencv_xphoto.4.12.0.dylib
+       0x104e54000 -        0x105653fff libonnxruntime.1.22.2.dylib (*) <01db7a61-9411-3ecb-a9ac-0b5061958756> /opt/homebrew/*/libonnxruntime.1.22.2.dylib
+       0x104024000 -        0x10418bfff libllama.0.0.1.dylib (*) <8753d856-7a7e-3d25-ad6c-c0e2baae80ea> /Users/USER/Documents/*/libllama.0.0.1.dylib
+       0x102a94000 -        0x102a9bfff libggml.0.9.5.dylib (*) <6610c92b-7389-389b-9223-091fe0624b1f> /Users/USER/Documents/*/libggml.0.9.5.dylib
+       0x103bac000 -        0x103c2bfff libggml-base.0.9.5.dylib (*) <8a4fcb94-8915-37dc-be38-90f19772ae1f> /Users/USER/Documents/*/libggml-base.0.9.5.dylib
+       0x104224000 -        0x104243fff libggml-metal.0.9.5.dylib (*) <5edf6774-1720-3525-8897-78974a6b14a3> /Users/USER/Documents/*/libggml-metal.0.9.5.dylib
+       0x1042e0000 -        0x10436bfff libmtmd.0.0.1.dylib (*) <97d2eeb8-d855-3387-b615-a5c74c7272d4> /Users/USER/Documents/*/libmtmd.0.0.1.dylib
+       0x10438c000 -        0x104417fff libraw.23.dylib (*) <4aee42da-3955-370c-9219-448355577c0f> /opt/homebrew/*/libraw.23.dylib
+       0x104600000 -        0x1046dbfff libheif.1.21.1.dylib (*) <13eaf9fe-86e2-3777-8282-6a7f0a059c4a> /opt/homebrew/*/libheif.1.21.1.dylib
+       0x11acd4000 -        0x124283fff org.qt-project.QtWebEngineCore (6.9) <90faefdb-8443-3d32-9993-ec35d6d3709c> /opt/homebrew/*/QtWebEngineCore.framework/Versions/A/QtWebEngineCore
+       0x103700000 -        0x103727fff org.qt-project.QtWebChannel (6.9) <6fa52a32-1bfb-30b2-8f98-53690b3b33e7> /opt/homebrew/*/QtWebChannel.framework/Versions/A/QtWebChannel
+       0x104484000 -        0x1044ebfff org.qt-project.QtPositioning (6.9) <cd2fd79d-11c4-363b-aee1-94d24ee543b1> /opt/homebrew/*/QtPositioning.framework/Versions/A/QtPositioning
+       0x103c48000 -        0x103c8bfff org.qt-project.QtPrintSupport (6.9) <04fbaa07-542b-34a1-b033-0561c7700714> /opt/homebrew/*/QtPrintSupport.framework/Versions/A/QtPrintSupport
+       0x106364000 -        0x1067cffff org.qt-project.QtWidgets (6.9) <2956680d-8b1a-31d9-9580-25219943fa61> /opt/homebrew/*/QtWidgets.framework/Versions/A/QtWidgets
+       0x1071a8000 -        0x1075cffff org.qt-project.QtQuick (6.9) <73415553-e66d-3587-8f3b-3d7bfb97a829> /opt/homebrew/*/QtQuick.framework/Versions/A/QtQuick
+       0x103434000 -        0x10344bfff org.qt-project.QtQmlMeta (6.9) <b4aaeec7-5206-3865-ba54-b7e342e67279> /opt/homebrew/*/QtQmlMeta.framework/Versions/A/QtQmlMeta
+       0x10346c000 -        0x103477fff org.qt-project.QtQmlWorkerScript (6.9) <f7b89427-36f3-3484-bcc3-5c34d5b0b69a> /opt/homebrew/*/QtQmlWorkerScript.framework/Versions/A/QtQmlWorkerScript
+       0x104878000 -        0x1048fbfff org.qt-project.QtQmlModels (6.9) <e49f5739-c810-35a5-a63a-dfb2606514ff> /opt/homebrew/*/QtQmlModels.framework/Versions/A/QtQmlModels
+       0x10477c000 -        0x1047e3fff org.qt-project.QtOpenGL (6.9) <6560bce0-7e61-3d82-a80c-b5b75eebf67f> /opt/homebrew/*/QtOpenGL.framework/Versions/A/QtOpenGL
+       0x10811c000 -        0x108697fff org.qt-project.QtGui (6.9) <cd9b6a3c-4479-35ba-8008-d003800d5944> /opt/homebrew/*/QtGui.framework/Versions/A/QtGui
+       0x106a48000 -        0x106dfffff org.qt-project.QtQml (6.9) <62666d6c-4c42-39ca-a1f3-89e7072ad5a5> /opt/homebrew/*/QtQml.framework/Versions/A/QtQml
+       0x104b84000 -        0x104cb7fff org.qt-project.QtNetwork (6.9) <175edaaa-de07-3b3c-af0b-42ba3e2ada49> /opt/homebrew/*/QtNetwork.framework/Versions/A/QtNetwork
+       0x107908000 -        0x107d6ffff org.qt-project.QtCore (6.9) <943f9896-7c01-3283-b415-b08151d86715> /opt/homebrew/*/QtCore.framework/Versions/A/QtCore
+       0x103750000 -        0x103763fff libopencv_shape.4.12.0.dylib (*) <fefc61d9-b65a-3a11-9106-20c003e96406> /opt/homebrew/*/libopencv_shape.4.12.0.dylib
+       0x103828000 -        0x103843fff libopencv_highgui.4.12.0.dylib (*) <4704469d-d707-3a89-8cea-1402e5c7cb97> /opt/homebrew/*/libopencv_highgui.4.12.0.dylib
+       0x103cd4000 -        0x103d0bfff libopencv_datasets.4.12.0.dylib (*) <c9c6e4f8-7d27-3d16-9feb-b6b27b6d7781> /opt/homebrew/*/libopencv_datasets.4.12.0.dylib
+       0x1028e4000 -        0x1028e7fff libopencv_plot.4.12.0.dylib (*) <f6b749c9-3c69-3b4c-bd55-7cfcfb494862> /opt/homebrew/*/libopencv_plot.4.12.0.dylib
+       0x104538000 -        0x104577fff libopencv_text.4.12.0.dylib (*) <cfeaf9ef-e8db-30c7-98cd-6dbbfa3f1d98> /opt/homebrew/*/libopencv_text.4.12.0.dylib
+       0x104974000 -        0x1049bffff libopencv_ml.4.12.0.dylib (*) <04a9e377-1635-3614-a7da-1b4a640e139d> /opt/homebrew/*/libopencv_ml.4.12.0.dylib
+       0x102bb4000 -        0x102bb7fff libopencv_phase_unwrapping.4.12.0.dylib (*) <724fb047-0b82-35da-a663-9fcabd4f6e5d> /opt/homebrew/*/libopencv_phase_unwrapping.4.12.0.dylib
+       0x1045a0000 -        0x1045cffff libopencv_optflow.4.12.0.dylib (*) <62d7b194-a4e7-38da-aa88-675cb13574e9> /opt/homebrew/*/libopencv_optflow.4.12.0.dylib
+       0x108938000 -        0x1089f3fff libopencv_ximgproc.4.12.0.dylib (*) <7ff65c67-79d5-3e64-b07d-1004a4d41a0f> /opt/homebrew/*/libopencv_ximgproc.4.12.0.dylib
+       0x1049f0000 -        0x104a3ffff libopencv_video.4.12.0.dylib (*) <d43dea40-7c8d-3582-b6a1-dd2211b4ea81> /opt/homebrew/*/libopencv_video.4.12.0.dylib
+       0x104a74000 -        0x104ab3fff libopencv_videoio.4.12.0.dylib (*) <20e17895-41bd-3bcc-8f61-3880d2c9c20f> /opt/homebrew/*/libopencv_videoio.4.12.0.dylib
+       0x104ae4000 -        0x104b2ffff libopencv_imgcodecs.4.12.0.dylib (*) <f416d535-fa2b-31ec-8c25-39aa67209993> /opt/homebrew/*/libopencv_imgcodecs.4.12.0.dylib
+       0x105d9c000 -        0x105e33fff libopencv_objdetect.4.12.0.dylib (*) <43353d9b-ebd9-3f03-95e4-ee6db898d9ae> /opt/homebrew/*/libopencv_objdetect.4.12.0.dylib
+       0x1060ac000 -        0x1061fbfff libopencv_calib3d.4.12.0.dylib (*) <ea2ab7c2-9c20-312e-ac63-13e6b2c338eb> /opt/homebrew/*/libopencv_calib3d.4.12.0.dylib
+       0x10d1d8000 -        0x10d4cbfff libopencv_dnn.4.12.0.dylib (*) <3ac71c32-982c-3419-8ca0-93f8f4e4818d> /opt/homebrew/*/libopencv_dnn.4.12.0.dylib
+       0x105c84000 -        0x105cebfff libopencv_features2d.4.12.0.dylib (*) <99007a72-b6d1-30e5-9df7-359ae9d635fb> /opt/homebrew/*/libopencv_features2d.4.12.0.dylib
+       0x104d98000 -        0x104dcffff libopencv_flann.4.12.0.dylib (*) <0e80dccf-edae-3f70-a2e4-07dbf7179b80> /opt/homebrew/*/libopencv_flann.4.12.0.dylib
+       0x105eb4000 -        0x105f07fff libopencv_photo.4.12.0.dylib (*) <becaf3ef-8b2f-3942-aaf7-1e22f076cf11> /opt/homebrew/*/libopencv_photo.4.12.0.dylib
+       0x10d794000 -        0x10da03fff libopencv_imgproc.4.12.0.dylib (*) <73aea280-5de7-3944-a5bf-3487fddcaf90> /opt/homebrew/*/libopencv_imgproc.4.12.0.dylib
+       0x10db8c000 -        0x10dd8bfff libopencv_core.4.12.0.dylib (*) <78954f5b-a266-30b2-ae6c-6a5efc2b0d54> /opt/homebrew/*/libopencv_core.4.12.0.dylib
+       0x103b10000 -        0x103b23fff org.qt-project.QtQuickWidgets (6.9) <b6fa767a-9cca-38b8-a98a-e8f309ef760d> /opt/homebrew/*/QtQuickWidgets.framework/Versions/A/QtQuickWidgets
+       0x102c68000 -        0x102c73fff libbrotlidec.1.2.0.dylib (*) <43eb690d-1071-35e5-a6b2-9a5005643ea0> /opt/homebrew/*/libbrotlidec.1.2.0.dylib
+       0x105fdc000 -        0x106067fff libzstd.1.5.7.dylib (*) <afd03688-5fac-3b3d-96aa-9d88c034ff23> /opt/homebrew/*/libzstd.1.5.7.dylib
+       0x107f90000 -        0x108023fff libssl.3.dylib (*) <810d99f1-2504-3db7-9357-4bce9d47fc76> /opt/homebrew/*/libssl.3.dylib
+       0x10de7c000 -        0x10e1bbfff libcrypto.3.dylib (*) <efba4c7a-a8ab-3429-8076-3bf9f22bd40b> /opt/homebrew/*/libcrypto.3.dylib
+       0x10e324000 -        0x10e4d7fff libicui18n.78.1.dylib (*) <6c55395e-b734-3b0e-a467-b632e578e4ad> /opt/homebrew/*/libicui18n.78.1.dylib
+       0x10cde8000 -        0x10cf27fff libicuuc.78.1.dylib (*) <f256a7f3-627c-3491-b38f-8ccd64a512a5> /opt/homebrew/*/libicuuc.78.1.dylib
+       0x110608000 -        0x11259bfff libicudata.78.1.dylib (*) <2b3ec0b8-7a93-31fa-89e8-8da6dff11445> /opt/homebrew/*/libicudata.78.1.dylib
+       0x10cfb8000 -        0x10d0b3fff libglib-2.0.0.dylib (*) <0e884680-cac9-306a-adf9-19639d9e044d> /opt/homebrew/*/libglib-2.0.0.dylib
+       0x102eb4000 -        0x102ebffff libdouble-conversion.3.4.0.dylib (*) <783457bd-de5e-3f5d-ac39-e84316558704> /opt/homebrew/*/libdouble-conversion.3.4.0.dylib
+       0x102ed0000 -        0x102ed7fff libb2.1.dylib (*) <c4431360-2960-3e50-b699-3691771ade27> /opt/homebrew/*/libb2.1.dylib
+       0x1062a4000 -        0x106313fff libpcre2-16.0.dylib (*) <b34a76f8-4fd5-3754-8d91-af7265e83ab6> /opt/homebrew/*/libpcre2-16.0.dylib
+       0x102990000 -        0x102993fff libgthread-2.0.0.dylib (*) <3df6d0fd-61b8-35ec-a8ee-758a8b7ef1bf> /opt/homebrew/*/libgthread-2.0.0.dylib
+       0x10482c000 -        0x104853fff libintl.8.dylib (*) <85a5d333-79ed-39ec-b780-3629376eeaa3> /opt/homebrew/*/libintl.8.dylib
+       0x10706c000 -        0x1070e3fff libpcre2-8.0.dylib (*) <a3b936d6-4fb9-3878-9595-aa9965261546> /opt/homebrew/*/libpcre2-8.0.dylib
+       0x103b44000 -        0x103b63fff libbrotlicommon.1.2.0.dylib (*) <7f8ceda3-e294-3ee4-bc9d-e2e619fbaaed> /opt/homebrew/*/libbrotlicommon.1.2.0.dylib
+       0x10e630000 -        0x10e6affff org.qt-project.QtDBus (6.9) <369adaa6-7e25-3492-b378-b7312c8cf667> /opt/homebrew/*/QtDBus.framework/Versions/A/QtDBus
+       0x104e10000 -        0x104e33fff libpng16.16.dylib (*) <b7fd2151-3c85-3deb-95ad-7d4f037df396> /opt/homebrew/*/libpng16.16.dylib
+       0x10e724000 -        0x10e7e3fff libharfbuzz.0.dylib (*) <dc3ee7d3-0bc0-3581-a896-5f1d71886235> /opt/homebrew/*/libharfbuzz.0.dylib
+       0x1033c8000 -        0x1033d3fff libmd4c.0.5.2.dylib (*) <bbb78130-97b1-3019-9bb2-db21119d3562> /opt/homebrew/*/libmd4c.0.5.2.dylib
+       0x107100000 -        0x10717bfff libfreetype.6.dylib (*) <5642e153-03c7-3193-9276-871551a3a55e> /opt/homebrew/*/libfreetype.6.dylib
+       0x105f38000 -        0x105f67fff libdbus-1.3.dylib (*) <fb8085dc-9746-335c-90d0-429dfe91dd60> /opt/homebrew/*/libdbus-1.3.dylib
+       0x103b70000 -        0x103b83fff libgraphite2.3.2.1.dylib (*) <d07b94fc-f322-3e73-a5e0-727b6e8e8c90> /opt/homebrew/*/libgraphite2.3.2.1.dylib
+       0x1125e0000 -        0x11344bfff libopenvino.2025.4.1.dylib (*) <9f89c1f7-b720-397d-a69b-00e215d969ba> /opt/homebrew/*/libopenvino.2025.4.1.dylib
+       0x105f88000 -        0x105f9ffff libtbb.12.17.dylib (*) <15985736-3d43-38f0-99c1-b1990bef7155> /opt/homebrew/*/libtbb.12.17.dylib
+       0x10eb44000 -        0x10ecc3fff libprotobuf.33.2.0.dylib (*) <5fd4622c-9c67-3aea-b2dc-c2b87cb6399d> /opt/homebrew/*/libprotobuf.33.2.0.dylib
+       0x113c68000 -        0x114efbfff libopenblasp-r0.3.30.dylib (*) <d24f5fa5-540a-377e-9c30-0d13347e0691> /opt/homebrew/*/libopenblasp-r0.3.30.dylib
+       0x103490000 -        0x10349ffff libabsl_log_internal_check_op.2508.0.0.dylib (*) <945f02cf-29d2-36f0-b455-b952c084748e> /opt/homebrew/*/libabsl_log_internal_check_op.2508.0.0.dylib
+       0x103864000 -        0x103873fff libabsl_die_if_null.2508.0.0.dylib (*) <09e7cd58-1f10-3ab5-8348-5d091ceded2a> /opt/homebrew/*/libabsl_die_if_null.2508.0.0.dylib
+       0x102c30000 -        0x102c33fff libabsl_log_internal_conditions.2508.0.0.dylib (*) <d3cebc7f-27af-3a1b-8b71-7f1752bedc72> /opt/homebrew/*/libabsl_log_internal_conditions.2508.0.0.dylib
+       0x105d54000 -        0x105d63fff libabsl_log_internal_message.2508.0.0.dylib (*) <76141a6a-e9d1-36bc-be5e-d30d94644c0b> /opt/homebrew/*/libabsl_log_internal_message.2508.0.0.dylib
+       0x102c40000 -        0x102c43fff libabsl_log_internal_nullguard.2508.0.0.dylib (*) <5e81be07-7322-38cc-a4a1-36e9c5018859> /opt/homebrew/*/libabsl_log_internal_nullguard.2508.0.0.dylib
+       0x103b94000 -        0x103b9bfff libabsl_examine_stack.2508.0.0.dylib (*) <5ad4feb6-8d52-30ff-afce-f0d8a1d02ad8> /opt/homebrew/*/libabsl_examine_stack.2508.0.0.dylib
+       0x103780000 -        0x103787fff libabsl_log_internal_format.2508.0.0.dylib (*) <cc99d8df-ff80-32a6-903c-bc85890a895a> /opt/homebrew/*/libabsl_log_internal_format.2508.0.0.dylib
+       0x102db0000 -        0x102db3fff libabsl_log_internal_structured_proto.2508.0.0.dylib (*) <4b863735-b3ba-365a-ba65-74294e6a2f12> /opt/homebrew/*/libabsl_log_internal_structured_proto.2508.0.0.dylib
+       0x105d30000 -        0x105d3bfff libabsl_log_internal_log_sink_set.2508.0.0.dylib (*) <a74e298c-5d52-30e7-885d-ee9b1d609da1> /opt/homebrew/*/libabsl_log_internal_log_sink_set.2508.0.0.dylib
+       0x104b68000 -        0x104b6ffff libabsl_log_sink.2508.0.0.dylib (*) <9f647ff2-f1ca-342f-aaa9-abe6c59a5401> /opt/homebrew/*/libabsl_log_sink.2508.0.0.dylib
+       0x105d7c000 -        0x105d83fff libabsl_log_entry.2508.0.0.dylib (*) <80339d45-f2a3-3545-84a2-4eff67cbcc13> /opt/homebrew/*/libabsl_log_entry.2508.0.0.dylib
+       0x106084000 -        0x10608bfff libabsl_log_internal_proto.2508.0.0.dylib (*) <d132d740-d495-3933-9f66-e732997deaf6> /opt/homebrew/*/libabsl_log_internal_proto.2508.0.0.dylib
+       0x108070000 -        0x10807ffff libabsl_flags_internal.2508.0.0.dylib (*) <12a78447-ab56-3307-8add-af97006378a0> /opt/homebrew/*/libabsl_flags_internal.2508.0.0.dylib
+       0x106344000 -        0x10634bfff libabsl_flags_marshalling.2508.0.0.dylib (*) <c72d7eca-0c48-3e3b-9323-6cb1cee12872> /opt/homebrew/*/libabsl_flags_marshalling.2508.0.0.dylib
+       0x1080b8000 -        0x1080cbfff libabsl_flags_reflection.2508.0.0.dylib (*) <d7919b65-48b6-39c3-821d-933fff82a720> /opt/homebrew/*/libabsl_flags_reflection.2508.0.0.dylib
+       0x1080e0000 -        0x1080ebfff libabsl_flags_config.2508.0.0.dylib (*) <f7127736-b97f-321c-b010-93e50bd28359> /opt/homebrew/*/libabsl_flags_config.2508.0.0.dylib
+       0x108094000 -        0x10809ffff libabsl_flags_program_name.2508.0.0.dylib (*) <ebae11ce-4bd5-3ec3-8ca4-5a6f201e2a80> /opt/homebrew/*/libabsl_flags_program_name.2508.0.0.dylib
+       0x102ee8000 -        0x102eeffff libabsl_flags_private_handle_accessor.2508.0.0.dylib (*) <29eea5b7-fb19-3f51-9cdb-d786887f9ebf> /opt/homebrew/*/libabsl_flags_private_handle_accessor.2508.0.0.dylib
+       0x103880000 -        0x103883fff libabsl_flags_commandlineflag.2508.0.0.dylib (*) <ed83cd46-6968-3d44-ba01-6eb9cf259990> /opt/homebrew/*/libabsl_flags_commandlineflag.2508.0.0.dylib
+       0x104868000 -        0x10486bfff libabsl_flags_commandlineflag_internal.2508.0.0.dylib (*) <30e65e43-149d-381a-8522-031982bfbe2a> /opt/homebrew/*/libabsl_flags_commandlineflag_internal.2508.0.0.dylib
+       0x108100000 -        0x10810bfff libabsl_log_initialize.2508.0.0.dylib (*) <f1c30d5d-3af3-352f-a8ee-07317f8290dd> /opt/homebrew/*/libabsl_log_initialize.2508.0.0.dylib
+       0x10cc1c000 -        0x10cc23fff libabsl_log_internal_globals.2508.0.0.dylib (*) <6ce4563e-123e-32cf-8f6e-88b2ad2896a3> /opt/homebrew/*/libabsl_log_internal_globals.2508.0.0.dylib
+       0x10cc50000 -        0x10cc5bfff libabsl_log_globals.2508.0.0.dylib (*) <eaf72b1e-2057-320e-af40-bfe5d4a5338c> /opt/homebrew/*/libabsl_log_globals.2508.0.0.dylib
+       0x10cc34000 -        0x10cc3ffff libabsl_vlog_config_internal.2508.0.0.dylib (*) <a9187754-aeaf-3dc8-b161-3026e4a111f0> /opt/homebrew/*/libabsl_vlog_config_internal.2508.0.0.dylib
+       0x104e44000 -        0x104e47fff libabsl_log_internal_fnmatch.2508.0.0.dylib (*) <57980004-6138-3cdc-820f-b42b08bddf6c> /opt/homebrew/*/libabsl_log_internal_fnmatch.2508.0.0.dylib
+       0x10cc8c000 -        0x10cc9bfff libabsl_raw_hash_set.2508.0.0.dylib (*) <7e778558-eff9-338f-bd50-2e0b603d0f6e> /opt/homebrew/*/libabsl_raw_hash_set.2508.0.0.dylib
+       0x10ccac000 -        0x10ccb7fff libabsl_hashtablez_sampler.2508.0.0.dylib (*) <9b13e216-99ab-3c7d-b259-25566cbc9342> /opt/homebrew/*/libabsl_hashtablez_sampler.2508.0.0.dylib
+       0x106098000 -        0x10609ffff libabsl_random_distributions.2508.0.0.dylib (*) <4182b848-fb79-31b7-8576-20d93ae1f42b> /opt/homebrew/*/libabsl_random_distributions.2508.0.0.dylib
+       0x10cc6c000 -        0x10cc77fff libabsl_random_seed_sequences.2508.0.0.dylib (*) <1912203f-00db-329c-8a52-344c28fcc064> /opt/homebrew/*/libabsl_random_seed_sequences.2508.0.0.dylib
+       0x10cce4000 -        0x10cceffff libabsl_random_internal_entropy_pool.2508.0.0.dylib (*) <86083d3f-84f9-380d-ad62-38f21f398350> /opt/homebrew/*/libabsl_random_internal_entropy_pool.2508.0.0.dylib
+       0x10632c000 -        0x10632ffff libabsl_random_internal_randen.2508.0.0.dylib (*) <723ac366-0230-3bc2-8b84-fbe23880f726> /opt/homebrew/*/libabsl_random_internal_randen.2508.0.0.dylib
+       0x10ccc8000 -        0x10cccbfff libabsl_random_internal_randen_hwaes.2508.0.0.dylib (*) <426d60a0-ae67-3038-b09b-f635799dabae> /opt/homebrew/*/libabsl_random_internal_randen_hwaes.2508.0.0.dylib
+       0x10cd00000 -        0x10cd03fff libabsl_random_internal_randen_hwaes_impl.2508.0.0.dylib (*) <1280f93d-ce2f-3df3-8e9f-fe7a93fea8b3> /opt/homebrew/*/libabsl_random_internal_randen_hwaes_impl.2508.0.0.dylib
+       0x10cd30000 -        0x10cd33fff libabsl_random_internal_randen_slow.2508.0.0.dylib (*) <1ecaa94c-193c-3595-bb07-666d19733d17> /opt/homebrew/*/libabsl_random_internal_randen_slow.2508.0.0.dylib
+       0x1045f4000 -        0x1045f7fff libabsl_random_internal_platform.2508.0.0.dylib (*) <9f5a83fa-1f7b-3a2b-b8fc-6406db02cedc> /opt/homebrew/*/libabsl_random_internal_platform.2508.0.0.dylib
+       0x10cd40000 -        0x10cd43fff libabsl_random_internal_seed_material.2508.0.0.dylib (*) <e17cdfed-857f-3a8a-849c-7aa993330caf> /opt/homebrew/*/libabsl_random_internal_seed_material.2508.0.0.dylib
+       0x10cd54000 -        0x10cd57fff libabsl_random_seed_gen_exception.2508.0.0.dylib (*) <0131e551-94bf-353a-a825-382c01e9fe64> /opt/homebrew/*/libabsl_random_seed_gen_exception.2508.0.0.dylib
+       0x10cd80000 -        0x10cd8ffff libabsl_statusor.2508.0.0.dylib (*) <e216e93e-c09c-30f3-aaaf-3d57825482a0> /opt/homebrew/*/libabsl_statusor.2508.0.0.dylib
+       0x10cdc0000 -        0x10cdcffff libabsl_status.2508.0.0.dylib (*) <9c72274a-92ec-31ef-a9bf-1500cf0c8181> /opt/homebrew/*/libabsl_status.2508.0.0.dylib
+       0x10d134000 -        0x10d14bfff libabsl_cord.2508.0.0.dylib (*) <abdbdc49-d668-3c8b-a5ea-c315672f2a0c> /opt/homebrew/*/libabsl_cord.2508.0.0.dylib
+       0x10cd9c000 -        0x10cda7fff libabsl_cordz_info.2508.0.0.dylib (*) <dbe6eb3c-403e-325d-8d37-14bc327f20f5> /opt/homebrew/*/libabsl_cordz_info.2508.0.0.dylib
+       0x10d160000 -        0x10d16ffff libabsl_cord_internal.2508.0.0.dylib (*) <2f863c93-dfba-358a-b512-4250a9ffbe5e> /opt/homebrew/*/libabsl_cord_internal.2508.0.0.dylib
+       0x10cd64000 -        0x10cd6bfff libabsl_hash.2508.0.0.dylib (*) <6de59308-e79d-37ef-8f31-523481b1bbc2> /opt/homebrew/*/libabsl_hash.2508.0.0.dylib
+       0x105d90000 -        0x105d93fff libabsl_city.2508.0.0.dylib (*) <2cb56eba-c06f-33cc-b3f5-0aa8fed03ebf> /opt/homebrew/*/libabsl_city.2508.0.0.dylib
+       0x10d108000 -        0x10d10bfff libabsl_cordz_functions.2508.0.0.dylib (*) <765ff98f-7d2d-3a71-a9ad-9e5091507124> /opt/homebrew/*/libabsl_cordz_functions.2508.0.0.dylib
+       0x10d118000 -        0x10d11bfff libabsl_exponential_biased.2508.0.0.dylib (*) <92957c1c-dc8f-3efc-9fa6-35ca32eea864> /opt/homebrew/*/libabsl_exponential_biased.2508.0.0.dylib
+       0x10d19c000 -        0x10d1a7fff libabsl_cordz_handle.2508.0.0.dylib (*) <f5ab4ff3-fb73-3890-8d16-067b34268b87> /opt/homebrew/*/libabsl_cordz_handle.2508.0.0.dylib
+       0x10d184000 -        0x10d18bfff libabsl_crc_cord_state.2508.0.0.dylib (*) <1404eddf-b0b1-3e59-a9d1-e38d0c9c51bd> /opt/homebrew/*/libabsl_crc_cord_state.2508.0.0.dylib
+       0x10e85c000 -        0x10e863fff libabsl_crc32c.2508.0.0.dylib (*) <ba5606f9-a399-367a-a3a8-7f830d661940> /opt/homebrew/*/libabsl_crc32c.2508.0.0.dylib
+       0x10e874000 -        0x10e883fff libabsl_crc_internal.2508.0.0.dylib (*) <d516f403-823b-3e90-9328-d0eaec197bf5> /opt/homebrew/*/libabsl_crc_internal.2508.0.0.dylib
+       0x10d1b8000 -        0x10d1bbfff libabsl_crc_cpu_detect.2508.0.0.dylib (*) <83dc9361-3df2-3d4a-a84a-22ef59a0d39a> /opt/homebrew/*/libabsl_crc_cpu_detect.2508.0.0.dylib
+       0x10d1cc000 -        0x10d1cffff libabsl_leak_check.2508.0.0.dylib (*) <7d5726b3-65ea-33c7-a327-44d14f972709> /opt/homebrew/*/libabsl_leak_check.2508.0.0.dylib
+       0x10e898000 -        0x10e89bfff libabsl_strerror.2508.0.0.dylib (*) <d3597cf0-493e-3b9f-abf8-12654e719e43> /opt/homebrew/*/libabsl_strerror.2508.0.0.dylib
+       0x10e8d0000 -        0x10e8dffff libabsl_str_format_internal.2508.0.0.dylib (*) <0b4809b0-5e72-397e-ac84-1f350213a99e> /opt/homebrew/*/libabsl_str_format_internal.2508.0.0.dylib
+       0x10e8f4000 -        0x10e903fff libabsl_synchronization.2508.0.0.dylib (*) <a0828745-446f-361b-9fc0-a2eac9cf36b4> /opt/homebrew/*/libabsl_synchronization.2508.0.0.dylib
+       0x10e8ac000 -        0x10e8affff libabsl_stacktrace.2508.0.0.dylib (*) <3d509c61-4b79-3574-b183-06249b7bd20f> /opt/homebrew/*/libabsl_stacktrace.2508.0.0.dylib
+       0x10e918000 -        0x10e91ffff libabsl_symbolize.2508.0.0.dylib (*) <79964967-4edf-3b66-bd0a-3ad01a692a13> /opt/homebrew/*/libabsl_symbolize.2508.0.0.dylib
+       0x10e8c0000 -        0x10e8c3fff libabsl_debugging_internal.2508.0.0.dylib (*) <0f05164b-fd84-3617-848c-73611cfaa068> /opt/homebrew/*/libabsl_debugging_internal.2508.0.0.dylib
+       0x10e92c000 -        0x10e933fff libabsl_demangle_internal.2508.0.0.dylib (*) <6908f51d-1cf2-38a0-be00-71dacf733f22> /opt/homebrew/*/libabsl_demangle_internal.2508.0.0.dylib
+       0x10e940000 -        0x10e947fff libabsl_demangle_rust.2508.0.0.dylib (*) <599bf11a-8f21-3957-9498-b4a414017cd8> /opt/homebrew/*/libabsl_demangle_rust.2508.0.0.dylib
+       0x10e954000 -        0x10e957fff libabsl_decode_rust_punycode.2508.0.0.dylib (*) <4a1edbc0-c443-3c9d-84aa-6907459c62c2> /opt/homebrew/*/libabsl_decode_rust_punycode.2508.0.0.dylib
+       0x10e964000 -        0x10e967fff libabsl_utf8_for_code_point.2508.0.0.dylib (*) <6c0da4b7-4017-3b31-a407-3b8ee02d95b6> /opt/homebrew/*/libabsl_utf8_for_code_point.2508.0.0.dylib
+       0x10e970000 -        0x10e977fff libabsl_graphcycles_internal.2508.0.0.dylib (*) <22eaadac-bdf1-3f2e-9abd-dc91528621c0> /opt/homebrew/*/libabsl_graphcycles_internal.2508.0.0.dylib
+       0x10e988000 -        0x10e98ffff libabsl_kernel_timeout_internal.2508.0.0.dylib (*) <57c3a340-efa9-3639-80f2-564f30e46375> /opt/homebrew/*/libabsl_kernel_timeout_internal.2508.0.0.dylib
+       0x10e99c000 -        0x10e99ffff libabsl_malloc_internal.2508.0.0.dylib (*) <22ad814f-52be-3c32-8abf-3b9b91352400> /opt/homebrew/*/libabsl_malloc_internal.2508.0.0.dylib
+       0x10e9b0000 -        0x10e9b3fff libabsl_tracing_internal.2508.0.0.dylib (*) <f683f43c-bbf8-3c59-8598-e565b6277646> /opt/homebrew/*/libabsl_tracing_internal.2508.0.0.dylib
+       0x10e9d8000 -        0x10e9e3fff libabsl_time.2508.0.0.dylib (*) <39523b73-e865-30a5-b0de-3bbf6e21649d> /opt/homebrew/*/libabsl_time.2508.0.0.dylib
+       0x10e9bc000 -        0x10e9bffff libabsl_civil_time.2508.0.0.dylib (*) <035758d0-1851-353a-bae9-ccf13c3eab35> /opt/homebrew/*/libabsl_civil_time.2508.0.0.dylib
+       0x10ea20000 -        0x10ea2ffff libabsl_time_zone.2508.0.0.dylib (*) <4df425ff-dda4-3ddc-9648-0c246e594bc6> /opt/homebrew/*/libabsl_time_zone.2508.0.0.dylib
+       0x10e9f4000 -        0x10e9f7fff libutf8_validity.33.2.0.dylib (*) <50b1c6e7-843c-3278-b07a-1f060e3d0c87> /opt/homebrew/*/libutf8_validity.33.2.0.dylib
+       0x10ea74000 -        0x10ea87fff libabsl_strings.2508.0.0.dylib (*) <d851f223-8b40-3fa4-9b36-bbf1941b765c> /opt/homebrew/*/libabsl_strings.2508.0.0.dylib
+       0x10ea04000 -        0x10ea07fff libabsl_int128.2508.0.0.dylib (*) <31acac19-1c44-35d0-9e10-2a86aee59809> /opt/homebrew/*/libabsl_int128.2508.0.0.dylib
+       0x10ea4c000 -        0x10ea4ffff libabsl_strings_internal.2508.0.0.dylib (*) <3fddd6c5-3cf5-3966-9336-fb5d731152ac> /opt/homebrew/*/libabsl_strings_internal.2508.0.0.dylib
+       0x10e9cc000 -        0x10e9cffff libabsl_string_view.2508.0.0.dylib (*) <e662181f-a22b-3a7f-930b-33671fd1bff8> /opt/homebrew/*/libabsl_string_view.2508.0.0.dylib
+       0x10ea5c000 -        0x10ea5ffff libabsl_base.2508.0.0.dylib (*) <41d2852c-e2ff-390c-820a-3628144e2927> /opt/homebrew/*/libabsl_base.2508.0.0.dylib
+       0x10ea9c000 -        0x10ea9ffff libabsl_spinlock_wait.2508.0.0.dylib (*) <bae3fe38-8de3-3b0b-b359-d29b9e77e038> /opt/homebrew/*/libabsl_spinlock_wait.2508.0.0.dylib
+       0x10eab0000 -        0x10eab3fff libabsl_throw_delegate.2508.0.0.dylib (*) <7078f40d-d04c-3dc0-b4b9-8d16ce07568e> /opt/homebrew/*/libabsl_throw_delegate.2508.0.0.dylib
+       0x10eac0000 -        0x10eac3fff libabsl_raw_logging_internal.2508.0.0.dylib (*) <7c8ac632-9bd7-3c71-886c-596e1210a9f6> /opt/homebrew/*/libabsl_raw_logging_internal.2508.0.0.dylib
+       0x10ead4000 -        0x10ead7fff libabsl_log_severity.2508.0.0.dylib (*) <d608d978-9aa3-33bf-889e-368ce5247199> /opt/homebrew/*/libabsl_log_severity.2508.0.0.dylib
+       0x10f04c000 -        0x10f1dbfff libgfortran.5.dylib (*) <6c809dfb-cf31-32a6-b7ff-c403fa721441> /opt/homebrew/*/libgfortran.5.dylib
+       0x10ee98000 -        0x10eedbfff libgomp.1.dylib (*) <b3759338-4bc8-3e22-9af4-6ce2fbd09800> /opt/homebrew/*/libgomp.1.dylib
+       0x10ee2c000 -        0x10ee6bfff libquadmath.0.dylib (*) <35af3d2b-4b6c-3d5a-8959-c167a4d4a419> /opt/homebrew/*/libquadmath.0.dylib
+       0x10ef04000 -        0x10ef1bfff libgcc_s.1.1.dylib (*) <41ea8c5a-fa81-3c05-a32c-5a0134689dab> /opt/homebrew/*/libgcc_s.1.1.dylib
+       0x10ef38000 -        0x10ef53fff libpugixml.1.15.dylib (*) <72b0d7ad-e110-3a23-a3dd-1a2bb48ca5c8> /opt/homebrew/*/libpugixml.1.15.dylib
+       0x10f4bc000 -        0x10f6b7fff libavformat.62.3.100.dylib (*) <7538f960-d74d-3547-b538-7a116eb63337> /opt/homebrew/*/libavformat.62.3.100.dylib
+       0x115148000 -        0x115a6bfff libavcodec.62.11.100.dylib (*) <18d87bea-5aa8-3ce3-8414-e0d841fedbd5> /opt/homebrew/*/libavcodec.62.11.100.dylib
+       0x10f26c000 -        0x10f2dbfff libswscale.9.1.100.dylib (*) <4385445f-e8d1-3cdc-add5-dde6b03f5745> /opt/homebrew/*/libswscale.9.1.100.dylib
+       0x116188000 -        0x1161fffff libavutil.60.8.100.dylib (*) <56b7c549-a850-3969-9c3d-4b27ceaa80ab> /opt/homebrew/*/libavutil.60.8.100.dylib
+       0x10f330000 -        0x10f38ffff libjpeg.8.3.2.dylib (*) <23df3384-ad9b-3c37-ad6b-c5d0e7aa3967> /opt/homebrew/*/libjpeg.8.3.2.dylib
+       0x10ef70000 -        0x10efaffff libwebp.7.2.0.dylib (*) <125736f7-37e7-3884-8f27-b6e94e711760> /opt/homebrew/*/libwebp.7.2.0.dylib
+       0x10eae4000 -        0x10eaebfff libwebpmux.3.1.2.dylib (*) <fe78d744-8517-3724-a827-9bbf058f020b> /opt/homebrew/*/libwebpmux.3.1.2.dylib
+       0x10eaf8000 -        0x10eafbfff libwebpdemux.2.0.17.dylib (*) <8f1ff548-ec66-34ea-b797-f10a04ace3b4> /opt/homebrew/*/libwebpdemux.2.0.17.dylib
+       0x10f430000 -        0x10f497fff libtiff.6.dylib (*) <b36fef81-9f46-35eb-b267-561a7757b909> /opt/homebrew/*/libtiff.6.dylib
+       0x10f3a8000 -        0x10f3e7fff libopenjp2.2.5.4.dylib (*) <e4193d91-9682-3486-b1fc-18bfbc55008b> /opt/homebrew/*/libopenjp2.2.5.4.dylib
+       0x10f80c000 -        0x10f887fff libOpenEXR-3_4.33.3.4.4.dylib (*) <c7051153-401f-3cd9-a5c5-268455781af4> /opt/homebrew/*/libOpenEXR-3_4.33.3.4.4.dylib
+       0x10eb08000 -        0x10eb0bfff libIlmThread-3_4.33.3.4.4.dylib (*) <cb2e51d3-6e63-3019-a9c0-086ca180749f> /opt/homebrew/*/libIlmThread-3_4.33.3.4.4.dylib
+       0x10f90c000 -        0x10f92bfff libIex-3_4.33.3.4.4.dylib (*) <b0b9bfa8-b282-30e1-8fce-149343547efe> /opt/homebrew/*/libIex-3_4.33.3.4.4.dylib
+       0x10f70c000 -        0x10f747fff libOpenEXRCore-3_4.33.3.4.4.dylib (*) <1924afea-a380-38ad-b7bc-e544b02b7833> /opt/homebrew/*/libOpenEXRCore-3_4.33.3.4.4.dylib
+       0x10f99c000 -        0x10f9e3fff libImath-3_2.30.3.2.2.dylib (*) <228bf3cc-2b12-3ac9-9c3c-581cbafbf57f> /opt/homebrew/*/libImath-3_2.30.3.2.2.dylib
+       0x10eb20000 -        0x10eb23fff libsharpyuv.0.1.2.dylib (*) <c9262a37-4290-3a1c-b9fa-793d0404d712> /opt/homebrew/*/libsharpyuv.0.1.2.dylib
+       0x10eff8000 -        0x10f017fff liblzma.5.dylib (*) <bc9cf488-263b-371e-a310-197d38b4b182> /opt/homebrew/*/liblzma.5.dylib
+       0x10f028000 -        0x10f033fff libdeflate.0.dylib (*) <4b498124-7b5f-3f7d-a0b7-2fa7aa533664> /opt/homebrew/*/libdeflate.0.dylib
+       0x10fa40000 -        0x10fa73fff libopenjph.0.26.0.dylib (*) <942de6d4-e1c6-303d-9719-2c5c8ce15321> /opt/homebrew/*/libopenjph.0.26.0.dylib
+       0x10f3fc000 -        0x10f40ffff libswresample.6.1.100.dylib (*) <c29dc09e-c63c-32e8-be37-0cb3e0211d20> /opt/homebrew/*/libswresample.6.1.100.dylib
+       0x10fae8000 -        0x10fb27fff libbluray.3.dylib (*) <3e9ec9a9-27bc-3cd6-b333-124f425b7b00> /opt/homebrew/*/libbluray.3.dylib
+       0x10fd88000 -        0x10ff2ffff libgnutls.30.dylib (*) <ecdc31fa-896e-3935-a19b-a1de1487393e> /opt/homebrew/*/libgnutls.30.dylib
+       0x10f9f4000 -        0x10fa0ffff librist.4.dylib (*) <a2ef2b59-328f-33fe-bd63-762c6cb70301> /opt/homebrew/*/librist.4.dylib
+       0x10fbf4000 -        0x10fc63fff libsrt.1.5.4.dylib (*) <352a8ce8-c881-3101-937e-4a06f533724f> /opt/homebrew/*/libsrt.1.5.4.dylib
+       0x10fca4000 -        0x10fcf7fff libssh.4.10.3.dylib (*) <2056938e-5615-39f5-994d-cc8a8a8aed3f> /opt/homebrew/*/libssh.4.10.3.dylib
+       0x10ffd0000 -        0x110027fff libzmq.5.dylib (*) <64f8285e-b984-3afc-ab22-0e957659cb4c> /opt/homebrew/*/libzmq.5.dylib
+       0x110228000 -        0x11039ffff libvpx.11.dylib (*) <a1447fe8-49c4-33bd-8142-dc6c79df20d8> /opt/homebrew/*/libvpx.11.dylib
+       0x10f7e0000 -        0x10f7effff libaribb24.0.dylib (*) <b1552c61-e456-3606-8e45-bda0e5ab1c16> /opt/homebrew/*/libaribb24.0.dylib
+       0x1103dc000 -        0x110473fff libdav1d.7.dylib (*) <f9f1ea3d-f827-32b4-bc7a-b880cda2d185> /opt/homebrew/*/libdav1d.7.dylib
+       0x10fa24000 -        0x10fa33fff libopencore-amrwb.0.dylib (*) <8fcf8f11-548c-37a5-b6e3-150996876fd2> /opt/homebrew/*/libopencore-amrwb.0.dylib
+       0x10efc8000 -        0x10efcffff libsnappy.1.2.2.dylib (*) <987fdc3c-aa25-3422-820e-a23b806caed6> /opt/homebrew/*/libsnappy.1.2.2.dylib
+       0x11761c000 -        0x11797ffff libaom.3.13.1.dylib (*) <557d4e38-db38-3298-81d7-345b6a9241b9> /opt/homebrew/*/libaom.3.13.1.dylib
+       0x110130000 -        0x110157fff libvmaf.3.dylib (*) <e90a2f2d-c90d-3faf-8d2c-8dd468dca594> /opt/homebrew/*/libvmaf.3.dylib
+       0x117410000 -        0x117557fff libjxl.0.11.1.dylib (*) <c72e40ca-aae2-3693-b68b-d02ed5c5a5c0> /opt/homebrew/*/libjxl.0.11.1.dylib
+       0x10eb34000 -        0x10eb37fff libjxl_threads.0.11.1.dylib (*) <d3f0a429-17b7-3f04-adf7-5153d6f1998e> /opt/homebrew/*/libjxl_threads.0.11.1.dylib
+       0x10fb44000 -        0x10fb77fff libmp3lame.0.dylib (*) <de863ab7-3cf8-38fe-ae37-59a526573730> /opt/homebrew/*/libmp3lame.0.dylib
+       0x10fab8000 -        0x10fad7fff libopencore-amrnb.0.dylib (*) <0b1f87fa-c004-3dcc-acfd-e82a301817cb> /opt/homebrew/*/libopencore-amrnb.0.dylib
+       0x110078000 -        0x1100c3fff libopus.0.dylib (*) <18a55861-2fd4-3b34-8aad-58bb9b8f6067> /opt/homebrew/*/libopus.0.dylib
+       0x117d20000 -        0x117f1ffff librav1e.0.8.1.dylib (*) <e25136f6-57c3-36c2-b0a2-97e754156c1a> /opt/homebrew/*/librav1e.0.8.1.dylib
+       0x10fbbc000 -        0x10fbcffff libspeex.1.dylib (*) <20b22b75-fec3-363a-87aa-a6e621228801> /opt/homebrew/*/libspeex.1.dylib
+       0x11830c000 -        0x1185c3fff libSvtAv1Enc.3.1.2.dylib (*) <35ebd5fa-b680-3dcf-bca6-a3a7295e5462> /opt/homebrew/*/libSvtAv1Enc.3.1.2.dylib
+       0x10fd1c000 -        0x10fd3bfff libtheoraenc.2.dylib (*) <40f5addc-2fa4-3a01-9ab6-5b682f7a5e2e> /opt/homebrew/*/libtheoraenc.2.dylib
+       0x10fa8c000 -        0x10fa97fff libtheoradec.2.dylib (*) <44d43420-b882-3f56-945a-9818eb83594e> /opt/homebrew/*/libtheoradec.2.dylib
+       0x10efdc000 -        0x10efe3fff libogg.0.8.6.dylib (*) <0aa27540-8c54-3526-acdf-1bdaa7fa0dee> /opt/homebrew/*/libogg.0.8.6.dylib
+       0x1100d4000 -        0x1100f7fff libvorbis.0.dylib (*) <72c642b8-e216-3cba-83f5-da5a5000f51e> /opt/homebrew/*/libvorbis.0.dylib
+       0x117238000 -        0x1172affff libvorbisenc.2.dylib (*) <df8f7c25-b7bb-35a8-99cc-8bd9d410124a> /opt/homebrew/*/libvorbisenc.2.dylib
+       0x117ff4000 -        0x118113fff libx264.165.dylib (*) <0be38c8b-a748-37b2-9113-7b7b7dd073c0> /opt/homebrew/*/libx264.165.dylib
+       0x118cb4000 -        0x1190affff libx265.215.dylib (*) <cb61927f-339c-3138-991b-28e77d175503> /opt/homebrew/*/libx265.215.dylib
+       0x1104d8000 -        0x1104effff libsoxr.0.1.2.dylib (*) <c9442c0d-c2d8-3154-8211-5746899d2f11> /opt/homebrew/*/libsoxr.0.1.2.dylib
+       0x117a4c000 -        0x117b1ffff libX11.6.dylib (*) <2665be26-d15f-3a64-b1c7-eeec879eea3c> /opt/homebrew/*/libX11.6.dylib
+       0x110534000 -        0x110547fff libxcb.1.1.0.dylib (*) <f8a17a6d-f51b-3d9a-8107-a0c086a6719a> /opt/homebrew/*/libxcb.1.1.0.dylib
+       0x10f41c000 -        0x10f41ffff libXau.6.dylib (*) <d53ca926-d7dd-3428-8a81-578f76379c5a> /opt/homebrew/*/libXau.6.dylib
+       0x10ee88000 -        0x10ee8bfff libXdmcp.6.dylib (*) <6d278a79-ea83-37c1-b760-80b2d8c19cd7> /opt/homebrew/*/libXdmcp.6.dylib
+       0x10fd64000 -        0x10fd6ffff libjxl_cms.0.11.1.dylib (*) <0b6b8235-213d-3836-a3ad-02db081f843a> /opt/homebrew/*/libjxl_cms.0.11.1.dylib
+       0x10fd48000 -        0x10fd4ffff libhwy.1.3.0.dylib (*) <004b61a3-08cb-3153-bd8e-6da178e304c0> /opt/homebrew/*/libhwy.1.3.0.dylib
+       0x1172ec000 -        0x11737bfff libbrotlienc.1.2.0.dylib (*) <ac606ea3-96d5-39d0-a257-ba99d25fa281> /opt/homebrew/*/libbrotlienc.1.2.0.dylib
+       0x117390000 -        0x1173cbfff liblcms2.2.dylib (*) <cd4b4715-5ce3-39d9-a1b0-f9e59af30f3a> /opt/homebrew/*/liblcms2.2.dylib
+       0x1105b0000 -        0x1105e3fff libfontconfig.1.dylib (*) <17a317d7-1f10-3ee7-ae02-88039b4a8406> /opt/homebrew/*/libfontconfig.1.dylib
+       0x10fbdc000 -        0x10fbe3fff libudfread.3.dylib (*) <6996fecc-1136-3559-8c97-216853fcb9a4> /opt/homebrew/*/libudfread.3.dylib
+       0x118774000 -        0x118863fff libp11-kit.0.dylib (*) <f3f81f1f-3e0b-3822-8a74-f7ac8117dde3> /opt/homebrew/*/libp11-kit.0.dylib
+       0x117b48000 -        0x117b77fff libidn2.0.dylib (*) <dd8858f3-a24f-3811-89ce-4f3122eebd98> /opt/homebrew/*/libidn2.0.dylib
+       0x119204000 -        0x1193d3fff libunistring.5.dylib (*) <a6dea0ac-51c3-355e-81ae-7d17e15fdfb6> /opt/homebrew/*/libunistring.5.dylib
+       0x110564000 -        0x11056ffff libtasn1.6.dylib (*) <fe0141fb-d482-3f5f-81eb-c56a7a508a4a> /opt/homebrew/*/libtasn1.6.dylib
+       0x117bd8000 -        0x117c13fff libhogweed.6.11.dylib (*) <81294815-d060-3b94-9fd7-835a403daf7b> /opt/homebrew/*/libhogweed.6.11.dylib
+       0x117c7c000 -        0x117cb3fff libnettle.8.11.dylib (*) <3caa1766-1965-33d9-b5d9-4a91c88d595d> /opt/homebrew/*/libnettle.8.11.dylib
+       0x118298000 -        0x1182effff libgmp.10.dylib (*) <90556aa3-2210-35a5-8beb-0f6610a44116> /opt/homebrew/*/libgmp.10.dylib
+       0x118958000 -        0x1189abfff libmbedcrypto.3.6.5.dylib (*) <67760da0-9ed2-3ec0-bf1e-04f1bad6bbe4> /opt/homebrew/*/libmbedcrypto.3.6.5.dylib
+       0x10faa4000 -        0x10faa7fff libcjson.1.7.19.dylib (*) <27b712ef-9d6b-30be-99bd-73b89c03813d> /opt/homebrew/*/libcjson.1.7.19.dylib
+       0x117c28000 -        0x117c53fff libsodium.26.dylib (*) <4a8d2f5b-6453-3eb5-ba8d-b9f6644e7bbc> /opt/homebrew/*/libsodium.26.dylib
+       0x110580000 -        0x11058ffff libvtkFiltersTexture-9.5.9.5.dylib (*) <1bb1786f-7c98-3c99-8ef0-a558e9528487> /opt/homebrew/*/libvtkFiltersTexture-9.5.9.5.dylib
+       0x118a74000 -        0x118acffff libvtkIOExport-9.5.9.5.dylib (*) <31d4aea6-97c5-3829-a323-2a6db07085a8> /opt/homebrew/*/libvtkIOExport-9.5.9.5.dylib
+       0x1195a4000 -        0x1196affff libvtkIOGeometry-9.5.9.5.dylib (*) <4335d95c-a9f6-3e75-be47-8964359df44d> /opt/homebrew/*/libvtkIOGeometry-9.5.9.5.dylib
+       0x1175ec000 -        0x1175fbfff libvtkIOPLY-9.5.9.5.dylib (*) <78986d57-f394-3eac-9db8-c0770dcda72f> /opt/homebrew/*/libvtkIOPLY-9.5.9.5.dylib
+       0x117cd0000 -        0x117cebfff libvtkInteractionStyle-9.5.9.5.dylib (*) <f060e8aa-c2c4-3488-9453-31933ed9a1a5> /opt/homebrew/*/libvtkInteractionStyle-9.5.9.5.dylib
+       0x1173e8000 -        0x1173f3fff libvtkRenderingLOD-9.5.9.5.dylib (*) <9f18fb9b-ba59-3789-9427-70a37eece21d> /opt/homebrew/*/libvtkRenderingLOD-9.5.9.5.dylib
+       0x1199a8000 -        0x119afbfff libvtkRenderingOpenGL2-9.5.9.5.dylib (*) <103e4c35-e94c-3a32-b424-f2884445b88a> /opt/homebrew/*/libvtkRenderingOpenGL2-9.5.9.5.dylib
+       0x118228000 -        0x118243fff libvtkRenderingContext2D-9.5.9.5.dylib (*) <858d6b59-206a-3d97-91c0-73ebb2da862c> /opt/homebrew/*/libvtkRenderingContext2D-9.5.9.5.dylib
+       0x117b88000 -        0x117b9bfff libvtkRenderingVtkJS-9.5.9.5.dylib (*) <f729525a-d439-3680-923f-fe48ea175846> /opt/homebrew/*/libvtkRenderingVtkJS-9.5.9.5.dylib
+       0x117bb4000 -        0x117bbffff libvtkRenderingSceneGraph-9.5.9.5.dylib (*) <e6ae7e03-e346-30e1-b06e-01a0ece6f571> /opt/homebrew/*/libvtkRenderingSceneGraph-9.5.9.5.dylib
+       0x118914000 -        0x11892ffff libjsoncpp.26.dylib (*) <67786923-706d-3410-a55c-693e29a3339c> /opt/homebrew/*/libjsoncpp.26.dylib
+       0x1193f8000 -        0x11947bfff libvtkFiltersExtraction-9.5.9.5.dylib (*) <16bd55b7-0e39-35f6-a70a-9eeefba6b976> /opt/homebrew/*/libvtkFiltersExtraction-9.5.9.5.dylib
+       0x119750000 -        0x1197c7fff libvtkIOXML-9.5.9.5.dylib (*) <c7dd14c1-3913-38d5-8374-93ae758aa90f> /opt/homebrew/*/libvtkIOXML-9.5.9.5.dylib
+       0x11826c000 -        0x11827bfff libvtkIOXMLParser-9.5.9.5.dylib (*) <7142f47d-70ee-3f99-a8f1-993ab2e6f2a4> /opt/homebrew/*/libvtkIOXMLParser-9.5.9.5.dylib
+       0x118bc4000 -        0x118c2bfff libvtkIOLegacy-9.5.9.5.dylib (*) <5f8c86f1-0007-3f71-9039-c564f91762b0> /opt/homebrew/*/libvtkIOLegacy-9.5.9.5.dylib
+       0x118b10000 -        0x118b57fff libvtkIOCellGrid-9.5.9.5.dylib (*) <fcfeced5-4b3c-31ad-83e3-931e761503a0> /opt/homebrew/*/libvtkIOCellGrid-9.5.9.5.dylib
+       0x119844000 -        0x11987ffff libvtkIOCore-9.5.9.5.dylib (*) <4b9a2a2a-6cc2-31d9-be5d-f1f569ab3558> /opt/homebrew/*/libvtkIOCore-9.5.9.5.dylib
+       0x119d44000 -        0x119ddbfff libvtkFiltersCellGrid-9.5.9.5.dylib (*) <90959ceb-6b7d-3f2c-ad11-f6ae5bd649d8> /opt/homebrew/*/libvtkFiltersCellGrid-9.5.9.5.dylib
+       0x119e88000 -        0x119f5bfff libvtkIOImage-9.5.9.5.dylib (*) <40787f01-e0b1-3bb0-ba46-539053cbd8dc> /opt/homebrew/*/libvtkIOImage-9.5.9.5.dylib
+       0x119c00000 -        0x119c23fff libvtkRenderingFreeType-9.5.9.5.dylib (*) <06a10574-c213-3145-bd53-a7227cb3a559> /opt/homebrew/*/libvtkRenderingFreeType-9.5.9.5.dylib
+       0x1188d8000 -        0x1188e3fff libvtkRenderingHyperTreeGrid-9.5.9.5.dylib (*) <cb6b5f1f-8748-3d55-9446-1dad55c3d92b> /opt/homebrew/*/libvtkRenderingHyperTreeGrid-9.5.9.5.dylib
+       0x1189d8000 -        0x1189e3fff libvtkRenderingUI-9.5.9.5.dylib (*) <9b81faa1-fccc-39cb-af9d-07d862a07a37> /opt/homebrew/*/libvtkRenderingUI-9.5.9.5.dylib
+       0x11a194000 -        0x11a283fff libvtkRenderingCore-9.5.9.5.dylib (*) <ff8ef679-bbe3-313f-9961-0a67b98daf53> /opt/homebrew/*/libvtkRenderingCore-9.5.9.5.dylib
+       0x119fb8000 -        0x11a00ffff libvtkFiltersSources-9.5.9.5.dylib (*) <4d06160e-1b5b-3b7b-8d36-60d21bd081bb> /opt/homebrew/*/libvtkFiltersSources-9.5.9.5.dylib
+       0x12ff6c000 -        0x13021bfff libvtkFiltersGeneral-9.5.9.5.dylib (*) <9ebba3ca-68eb-33d4-a915-248e8531dc68> /opt/homebrew/*/libvtkFiltersGeneral-9.5.9.5.dylib
+       0x131028000 -        0x131517fff libvtkFiltersCore-9.5.9.5.dylib (*) <3add70e5-7f44-39a4-b57a-3df5285a7336> /opt/homebrew/*/libvtkFiltersCore-9.5.9.5.dylib
+       0x119cb0000 -        0x119cf3fff libvtkglad-9.5.9.5.dylib (*) <a5757705-bfc1-3e2b-bef6-6f2c6b3aae1f> /opt/homebrew/*/libvtkglad-9.5.9.5.dylib
+       0x11a4ec000 -        0x11a5f3fff libvtkImagingCore-9.5.9.5.dylib (*) <f05f6b46-3894-397a-8d71-7572b22ac5b5> /opt/homebrew/*/libvtkImagingCore-9.5.9.5.dylib
+       0x11a370000 -        0x11a3dbfff libvtkCommonExecutionModel-9.5.9.5.dylib (*) <833f1c4e-9367-3a78-ab9f-2ad4618b6a1a> /opt/homebrew/*/libvtkCommonExecutionModel-9.5.9.5.dylib
+       0x130560000 -        0x1307d7fff libvtkCommonDataModel-9.5.9.5.dylib (*) <b8e311ae-0715-3e18-bf8d-e40e9884c522> /opt/homebrew/*/libvtkCommonDataModel-9.5.9.5.dylib
+       0x130a7c000 -        0x130c23fff libvtkCommonMisc-9.5.9.5.dylib (*) <6d26f251-e5b7-3442-bf4c-e0ac0a121e90> /opt/homebrew/*/libvtkCommonMisc-9.5.9.5.dylib
+       0x119550000 -        0x11956bfff libvtkCommonTransforms-9.5.9.5.dylib (*) <8d0d54f9-9b09-3a0c-9d28-54c9f5ff0120> /opt/homebrew/*/libvtkCommonTransforms-9.5.9.5.dylib
+       0x1189fc000 -        0x118a0bfff libvtkCommonMath-9.5.9.5.dylib (*) <79e5ab4e-8499-3c64-941d-03dcfdbe61f9> /opt/homebrew/*/libvtkCommonMath-9.5.9.5.dylib
+       0x110104000 -        0x110107fff libvtkkissfft-9.5.9.5.dylib (*) <b76df5de-3dd5-395b-8902-31c008ad9cfa> /opt/homebrew/*/libvtkkissfft-9.5.9.5.dylib
+       0x133f70000 -        0x134b8bfff libvtkCommonCore-9.5.9.5.dylib (*) <58f9158a-8461-3bc2-a5a7-ca2dd1ff1fb9> /opt/homebrew/*/libvtkCommonCore-9.5.9.5.dylib
+       0x118c7c000 -        0x118c8bfff libvtktoken-9.5.9.5.dylib (*) <e7b1d61f-afbd-3e0a-9188-8163f6c5badc> /opt/homebrew/*/libvtktoken-9.5.9.5.dylib
+       0x1198c0000 -        0x1198e7fff libvtksys-9.5.9.5.dylib (*) <416c862c-80df-35b7-936c-94b25a962a38> /opt/homebrew/*/libvtksys-9.5.9.5.dylib
+       0x119910000 -        0x11991ffff libvtkCommonComputationalGeometry-9.5.9.5.dylib (*) <cadbc578-c9c7-33f5-b9f9-cdac8703f61d> /opt/homebrew/*/libvtkCommonComputationalGeometry-9.5.9.5.dylib
+       0x119944000 -        0x119963fff libvtkFiltersVerdict-9.5.9.5.dylib (*) <3381fe05-b9fb-3015-8518-b32bef860b51> /opt/homebrew/*/libvtkFiltersVerdict-9.5.9.5.dylib
+       0x11a068000 -        0x11a07bfff libvtkfmt-9.5.9.5.dylib (*) <0626ce35-4eaa-3275-b38f-bd5fe5a20bc9> /opt/homebrew/*/libvtkfmt-9.5.9.5.dylib
+       0x11a7f4000 -        0x11a89bfff libvtkFiltersGeometry-9.5.9.5.dylib (*) <ce4b105d-5185-3bda-8bbe-334636f6ccdf> /opt/homebrew/*/libvtkFiltersGeometry-9.5.9.5.dylib
+       0x11a094000 -        0x11a0a3fff libvtkCommonSystem-9.5.9.5.dylib (*) <d13d5bcd-4964-3373-8417-f2501f06507c> /opt/homebrew/*/libvtkCommonSystem-9.5.9.5.dylib
+       0x1188f8000 -        0x1188fffff libvtkloguru-9.5.9.5.dylib (*) <a4509578-4939-3d56-b937-500a7f240a66> /opt/homebrew/*/libvtkloguru-9.5.9.5.dylib
+       0x11a0bc000 -        0x11a0d3fff libvtkverdict-9.5.9.5.dylib (*) <fd3057d7-7345-3615-8532-63714afbba23> /opt/homebrew/*/libvtkverdict-9.5.9.5.dylib
+       0x131b04000 -        0x131bd3fff libvtkFiltersReduction-9.5.9.5.dylib (*) <85160550-be15-3012-b32c-9c8735bae7cf> /opt/homebrew/*/libvtkFiltersReduction-9.5.9.5.dylib
+       0x11a0e8000 -        0x11a107fff libvtkDomainsChemistry-9.5.9.5.dylib (*) <99360b65-1af8-308d-b5a6-1700c17737a1> /opt/homebrew/*/libvtkDomainsChemistry-9.5.9.5.dylib
+       0x11a130000 -        0x11a14ffff liblz4.1.10.0.dylib (*) <c3d46d2e-7535-352f-887c-49eca396fb23> /opt/homebrew/*/liblz4.1.10.0.dylib
+       0x11a15c000 -        0x11a16bfff libvtkCommonColor-9.5.9.5.dylib (*) <c2ad5a43-1b54-34fc-9daa-21b6a169f1c7> /opt/homebrew/*/libvtkCommonColor-9.5.9.5.dylib
+       0x11a984000 -        0x11aa03fff libvtkFiltersHybrid-9.5.9.5.dylib (*) <efa10d3c-7597-353c-bee1-2f2943e654c8> /opt/homebrew/*/libvtkFiltersHybrid-9.5.9.5.dylib
+       0x11a48c000 -        0x11a4a7fff libvtkImagingSources-9.5.9.5.dylib (*) <f00e8d36-6429-3278-80ea-0905794513d3> /opt/homebrew/*/libvtkImagingSources-9.5.9.5.dylib
+       0x11a4c4000 -        0x11a4d3fff libvtkDICOMParser-9.5.9.5.dylib (*) <f714f601-a182-3f11-b90d-4732064c978d> /opt/homebrew/*/libvtkDICOMParser-9.5.9.5.dylib
+       0x11a700000 -        0x11a763fff libvtkmetaio-9.5.9.5.dylib (*) <2428c8fb-c087-39a4-afa1-7b7b123086f2> /opt/homebrew/*/libvtkmetaio-9.5.9.5.dylib
+       0x11aa54000 -        0x11aa8ffff libvtkFiltersHyperTree-9.5.9.5.dylib (*) <185b47bd-3a9b-3e3d-90a3-779b9c9d1ef0> /opt/homebrew/*/libvtkFiltersHyperTree-9.5.9.5.dylib
+       0x11abc4000 -        0x11ac3bfff libvtkFiltersStatistics-9.5.9.5.dylib (*) <2a95857a-44cd-3619-9382-13d9e330f175> /opt/homebrew/*/libvtkFiltersStatistics-9.5.9.5.dylib
+       0x131e2c000 -        0x131ec7fff libvtkParallelDIY-9.5.9.5.dylib (*) <90c706fb-2ba5-3784-babd-279fc2d5bc4f> /opt/homebrew/*/libvtkParallelDIY-9.5.9.5.dylib
+       0x11a798000 -        0x11a7c3fff libvtkParallelCore-9.5.9.5.dylib (*) <2235801c-605b-3224-b763-67d358f9f319> /opt/homebrew/*/libvtkParallelCore-9.5.9.5.dylib
+       0x131f84000 -        0x131ff3fff libvtkFiltersModeling-9.5.9.5.dylib (*) <c04a7472-4f76-38a6-8fbc-2105f180d75e> /opt/homebrew/*/libvtkFiltersModeling-9.5.9.5.dylib
+       0x11a668000 -        0x11a67bfff libgflags.2.3.0.dylib (*) <223aa0d9-6df7-36c9-9b84-bdb57bbf945b> /opt/homebrew/*/libgflags.2.3.0.dylib
+       0x1327b8000 -        0x132af3fff libceres.2.2.0.dylib (*) <3b240b35-e729-3c2d-8388-07da37954647> /opt/homebrew/*/libceres.2.2.0.dylib
+       0x11a694000 -        0x11a6a7fff libglog.0.6.0.dylib (*) <6853d5a4-6079-30b2-8e5c-c3cc43bc9d84> /opt/homebrew/*/libglog.0.6.0.dylib
+       0x132274000 -        0x13244ffff libcholmod.5.3.4.dylib (*) <0558b564-c3c3-34c3-b05a-536ee29c758c> /opt/homebrew/*/libcholmod.5.3.4.dylib
+       0x11ab30000 -        0x11ab63fff libspqr.4.3.6.dylib (*) <48e80222-f8d9-373f-90d3-54e9b92dbd1a> /opt/homebrew/*/libspqr.4.3.6.dylib
+       0x131cd4000 -        0x131d17fff libmetis.dylib (*) <5726570f-22cf-33a1-a9f3-dc849d331b71> /opt/homebrew/*/libmetis.dylib
+       0x118a28000 -        0x118a33fff libamd.3.3.4.dylib (*) <a1b91c93-6144-39c8-9e4b-6201c04b36c9> /opt/homebrew/*/libamd.3.3.4.dylib
+       0x118a40000 -        0x118a4bfff libcamd.3.3.5.dylib (*) <203f37c3-d446-37ae-98eb-c81d28966a6f> /opt/homebrew/*/libcamd.3.3.5.dylib
+       0x118a58000 -        0x118a63fff libccolamd.3.3.5.dylib (*) <848e87a1-7c0f-3de5-b814-e543133363a9> /opt/homebrew/*/libccolamd.3.3.5.dylib
+       0x110114000 -        0x11011bfff libcolamd.3.3.5.dylib (*) <570fffd6-4d3c-3e8b-941a-332db000a34c> /opt/homebrew/*/libcolamd.3.3.5.dylib
+       0x118ba8000 -        0x118babfff libsuitesparseconfig.7.12.1.dylib (*) <adae3d5a-d249-3fe1-8c0b-3635bd13b6d0> /opt/homebrew/*/libsuitesparseconfig.7.12.1.dylib
+       0x132f00000 -        0x1330cffff libtesseract.5.dylib (*) <4e3fc79d-2139-3724-88a1-70c6f6a2c072> /opt/homebrew/*/libtesseract.5.dylib
+       0x132070000 -        0x1320f7fff libarchive.13.dylib (*) <f756f814-778d-34c7-bed6-266c093b65d6> /opt/homebrew/*/libarchive.13.dylib
+       0x1331b4000 -        0x13338ffff libleptonica.6.dylib (*) <4724b79a-118b-32ce-979c-61eb352fa963> /opt/homebrew/*/libleptonica.6.dylib
+       0x119990000 -        0x119997fff libgif.7.2.0.dylib (*) <b3fe47f3-406c-3916-bdd0-cf7f7ae8d9fa> /opt/homebrew/*/libgif.7.2.0.dylib
+       0x1337c8000 -        0x133a03fff libonnx.dylib (*) <0b8c2cc5-492b-371a-aae0-f5de7994975c> /opt/homebrew/*/libonnx.dylib
+       0x130f80000 -        0x130fabfff libonnx_proto.dylib (*) <251d8d98-8835-3217-86e6-e555ddefcd90> /opt/homebrew/*/libonnx_proto.dylib
+       0x132120000 -        0x13216ffff libre2.11.0.0.dylib (*) <4f96c606-2279-37e7-8744-441763e09fc7> /opt/homebrew/*/libre2.11.0.0.dylib
+       0x11a184000 -        0x11a187fff libutf8_range.33.2.0.dylib (*) <44c1733b-efca-39f0-abe9-38270ab8b069> /opt/homebrew/*/libutf8_range.33.2.0.dylib
+       0x132478000 -        0x132523fff libggml-cpu.0.9.5.dylib (*) <b2f54276-36e7-3a78-9193-3e8f73289c54> /Users/USER/Documents/*/libggml-cpu.0.9.5.dylib
+       0x11a6d8000 -        0x11a6dbfff libggml-blas.0.9.5.dylib (*) <d1e1cfbd-342b-3543-9a3c-b1c7ed2f99be> /Users/USER/Documents/*/libggml-blas.0.9.5.dylib
+       0x1321a4000 -        0x13221bfff libomp.dylib (*) <0e12d2f4-7408-39bd-b6e9-d56a3dba63b3> /opt/homebrew/*/libomp.dylib
+       0x130fd0000 -        0x131003fff libjasper.7.0.0.dylib (*) <694e1ae2-d944-3184-9906-16735062c5e6> /opt/homebrew/*/libjasper.7.0.0.dylib
+       0x131da4000 -        0x131de3fff libde265.0.dylib (*) <bd4150e7-6c90-3dc5-bd33-f3e9e0ad1f3a> /opt/homebrew/*/libde265.0.dylib
+       0x13262c000 -        0x13264bfff com.apple.security.csparser (3.0) <3a905673-ada9-3c57-992e-b83f555baa61> /System/Library/Frameworks/Security.framework/Versions/A/PlugIns/csparser.bundle/Contents/MacOS/csparser
+       0x1325c0000 -        0x1325cbfff libtbbmalloc.2.17.dylib (*) <0638c8e5-8b0c-3fb3-96dc-b03fe6ce9a4c> /opt/homebrew/*/libtbbmalloc.2.17.dylib
+       0x1335d4000 -        0x13367bfff libqcocoa.dylib (*) <3efac96a-deb5-3b80-9dfa-44a8104a8ca3> /opt/homebrew/*/libqcocoa.dylib
+       0x133574000 -        0x13357ffff libobjc-trampolines.dylib (*) <a3faee04-0f8b-3428-9497-560c97eca6fb> /usr/lib/libobjc-trampolines.dylib
+       0x133dbc000 -        0x133ddffff libqmacstyle.dylib (*) <cde3e59c-eef8-33c0-8c90-a9bbe4b4fa39> /opt/homebrew/*/libqmacstyle.dylib
+       0x13378c000 -        0x133797fff libqsvgicon.dylib (*) <db345a69-6812-37ab-a14e-ec2253a42036> /opt/homebrew/*/libqsvgicon.dylib
+       0x15eb44000 -        0x15eb9bfff org.qt-project.QtSvg (6.9) <057445e7-05a8-3eba-824b-954d5e04f2d3> /opt/homebrew/*/QtSvg.framework/Versions/A/QtSvg
+       0x30f45c000 -        0x30fb8ffff com.apple.AGXMetalG16G-B0 (329.2) <508cbb0b-cb8e-3d12-a0bb-b687aa5dd372> /System/Library/Extensions/AGXMetalG16G_B0.bundle/Contents/MacOS/AGXMetalG16G_B0
+       0x15dae8000 -        0x15daeffff libqgif.dylib (*) <8390af84-7e68-3d19-bef4-8340600d9367> /opt/homebrew/*/libqgif.dylib
+       0x15ffd8000 -        0x15ffdffff libqwbmp.dylib (*) <f81d1b97-d276-3366-a7ef-c042552fcf96> /opt/homebrew/*/libqwbmp.dylib
+       0x1696c0000 -        0x1696c7fff libqwebp.dylib (*) <4ab6f71b-8898-37c4-bb18-0d1dbd9ead93> /opt/homebrew/*/libqwebp.dylib
+       0x15ebd8000 -        0x15ebdffff libqico.dylib (*) <950fd123-d8ba-3715-bac3-74e33dbe1131> /opt/homebrew/*/libqico.dylib
+       0x3485e4000 -        0x3485ebfff libqmacheif.dylib (*) <d89acc27-deeb-32b9-a4a5-955019c9fd68> /opt/homebrew/*/libqmacheif.dylib
+       0x34861c000 -        0x348627fff libqjpeg.dylib (*) <9b26022e-165b-3724-840d-a081c98eaf19> /opt/homebrew/*/libqjpeg.dylib
+       0x34863c000 -        0x348647fff libqtiff.dylib (*) <9c62b2a4-9879-30c1-83ef-ffdccda276c7> /opt/homebrew/*/libqtiff.dylib
+       0x3485fc000 -        0x348603fff libqsvg.dylib (*) <1ca6b8df-9a5d-37c5-a4c7-cc2d4857d69f> /opt/homebrew/*/libqsvg.dylib
+       0x34865c000 -        0x348663fff libqmng.dylib (*) <9148794c-5214-367d-957a-2494568e9c8d> /opt/homebrew/*/libqmng.dylib
+       0x3486d0000 -        0x34870ffff libmng.2.dylib (*) <16a7907b-604d-3105-8f58-183f69b5f19b> /opt/homebrew/*/libmng.2.dylib
+       0x348674000 -        0x34867bfff libqjp2.dylib (*) <95173e97-f3c5-39cf-90be-514e0fb09c0a> /opt/homebrew/*/libqjp2.dylib
+       0x34868c000 -        0x348693fff libqpdf.dylib (*) <50d31d7d-9e60-3b3d-b45b-d4711c0826f7> /opt/homebrew/*/libqpdf.dylib
+       0x3490ec000 -        0x3497a3fff org.qt-project.QtPdf (6.9) <36af8e02-dd9c-3ec3-a30b-f128051f8aa4> /opt/homebrew/*/QtPdf.framework/Versions/A/QtPdf
+       0x3486a4000 -        0x3486abfff libqicns.dylib (*) <8cec44d3-c533-392b-9d77-cd3fe8ba7d02> /opt/homebrew/*/libqicns.dylib
+       0x34872c000 -        0x348733fff libqtga.dylib (*) <eb285dbc-6070-3696-a306-3ddd50271ab1> /opt/homebrew/*/libqtga.dylib
+       0x188661000 -        0x18869c653 libsystem_kernel.dylib (*) <6e4a96ad-04b8-3e8a-b91d-087e62306246> /usr/lib/system/libsystem_kernel.dylib
+       0x188534000 -        0x1885b5243 libsystem_c.dylib (*) <dfea8794-80ce-37c3-8f6a-108aa1d0b1b0> /usr/lib/system/libsystem_c.dylib
+       0x188643000 -        0x188660fff libc++abi.dylib (*) <776a4afb-71ee-32ab-b2ee-e6ff80818654> /usr/lib/libc++abi.dylib
+       0x1882a8000 -        0x1882fb893 libobjc.A.dylib (*) <8ca52e4d-f699-3d14-8061-eea9d4366538> /usr/lib/libobjc.A.dylib
+       0x1886aa000 -        0x1886d9ba3 libdyld.dylib (*) <01bcb3f7-ab89-30bd-87ee-91b291eadae8> /usr/lib/system/libdyld.dylib
+       0x1882fc000 -        0x188397577 dyld (*) <3247e185-ced2-36ff-9e29-47a77c23e004> /usr/lib/dyld
+               0x0 - 0xffffffffffffffff ??? (*) <00000000-0000-0000-0000-000000000000> ???
+       0x18869d000 -        0x1886a9a47 libsystem_pthread.dylib (*) <d6494ba9-171e-39fc-b1aa-28ecf87975d1> /usr/lib/system/libsystem_pthread.dylib
+       0x188712000 -        0x188c50fff com.apple.CoreFoundation (6.9) <8d45baee-6cc0-3b89-93fd-ea1c8e15c6d7> /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
+       0x18c677000 -        0x18db07e3f com.apple.AppKit (6.9) <860c164c-d04c-30ff-8c6f-e672b74caf11> /System/Library/Frameworks/AppKit.framework/Versions/C/AppKit
+
+External Modification Summary:
+  Calls made by other processes targeting this process:
+    task_for_pid: 0
+    thread_create: 0
+    thread_set_state: 0
+  Calls made by this process:
+    task_for_pid: 0
+    thread_create: 0
+    thread_set_state: 0
+  Calls made by all processes on this machine:
+    task_for_pid: 0
+    thread_create: 0
+    thread_set_state: 0
+
+
+-----------
+Full Report
+-----------
+
+{"app_name":"PhotoGuruViewer","timestamp":"2026-01-05 13:51:20.00 -0800","app_version":"1.0.0","slice_uuid":"71a426da-670f-30c7-9105-b2f378682148","build_version":"1","platform":1,"bundleID":"com.photoguru.viewer","share_with_app_devs":0,"is_first_party":0,"bug_type":"309","os_version":"macOS 15.6.1 (24G90)","roots_installed":0,"name":"PhotoGuruViewer","incident_id":"DCB47F3F-0B64-444F-9EAC-4F3CD5FC512D"}
+{
+  "uptime" : 16000,
+  "procRole" : "Foreground",
+  "version" : 2,
+  "userID" : 501,
+  "deployVersion" : 210,
+  "modelCode" : "Mac16,12",
+  "coalitionID" : 837,
+  "osVersion" : {
+    "train" : "macOS 15.6.1",
+    "build" : "24G90",
+    "releaseType" : "User"
+  },
+  "captureTime" : "2026-01-05 13:51:09.0635 -0800",
+  "codeSigningMonitor" : 2,
+  "incident" : "DCB47F3F-0B64-444F-9EAC-4F3CD5FC512D",
+  "pid" : 41331,
+  "translated" : false,
+  "cpuType" : "ARM-64",
+  "roots_installed" : 0,
+  "bug_type" : "309",
+  "procLaunch" : "2026-01-05 13:48:37.7982 -0800",
+  "procStartAbsTime" : 385200430872,
+  "procExitAbsTime" : 388830752596,
+  "procName" : "PhotoGuruViewer",
+  "procPath" : "\/Users\/USER\/Documents\/*\/PhotoGuruViewer.app\/Contents\/MacOS\/PhotoGuruViewer",
+  "bundleInfo" : {"CFBundleShortVersionString":"1.0.0","CFBundleVersion":"1","CFBundleIdentifier":"com.photoguru.viewer"},
+  "storeInfo" : {"deviceIdentifierForVendor":"03C53257-1631-58C6-A834-DFE6D933CFCF","thirdParty":true},
+  "parentProc" : "zsh",
+  "parentPid" : 33696,
+  "coalitionName" : "com.microsoft.VSCode",
+  "crashReporterKey" : "CC3427E2-E807-029D-A436-1917D2A321B0",
+  "appleIntelligenceStatus" : {"state":"available"},
+  "responsiblePid" : 709,
+  "responsibleProc" : "Electron",
+  "codeSigningID" : "PhotoGuruViewer",
+  "codeSigningTeamID" : "",
+  "codeSigningFlags" : 570556929,
+  "codeSigningValidationCategory" : 10,
+  "codeSigningTrustLevel" : 4294967295,
+  "codeSigningAuxiliaryInfo" : 0,
+  "instructionByteStream" : {"beforePC":"fyMD1f17v6n9AwCRm+D\/l78DAJH9e8Go\/w9f1sADX9YQKYDSARAA1A==","atPC":"AwEAVH8jA9X9e7+p\/QMAkZDg\/5e\/AwCR\/XvBqP8PX9bAA1\/WcAqA0g=="},
+  "bootSessionUUID" : "63F73B88-45BA-4D92-9314-F8D03FDA29BB",
+  "sip" : "enabled",
+  "exception" : {"codes":"0x0000000000000000, 0x0000000000000000","rawCodes":[0,0],"type":"EXC_CRASH","signal":"SIGABRT"},
+  "termination" : {"flags":0,"code":6,"namespace":"SIGNAL","indicator":"Abort trap: 6","byProc":"PhotoGuruViewer","byPid":41331},
+  "asi" : {"libsystem_c.dylib":["abort() called"]},
+  "extMods" : {"caller":{"thread_create":0,"thread_set_state":0,"task_for_pid":0},"system":{"thread_create":0,"thread_set_state":0,"task_for_pid":0},"targeted":{"thread_create":0,"thread_set_state":0,"task_for_pid":0},"warnings":0},
+  "faultingThread" : 0,
+  "threads" : [{"triggered":true,"id":257369,"threadState":{"x":[{"value":0},{"value":0},{"value":0},{"value":0},{"value":6583344644},{"value":6130918848},{"value":116},{"value":0},{"value":5830468791626100804},{"value":5830468786959716484},{"value":57},{"value":35},{"value":35},{"value":5868963208},{"value":806457890},{"value":806457890},{"value":328},{"value":8445810008},{"value":0},{"value":6},{"value":259},{"value":8428675488},{"value":5226191360},{"value":0},{"value":2},{"value":8428711936,"symbolLocation":1728,"symbol":"usual"},{"value":3},{"value":5226191376},{"value":2}],"flavor":"ARM_THREAD_STATE64","lr":{"value":6583629964},"cpsr":{"value":1073741824},"fp":{"value":6130918704},"sp":{"value":6130918672},"esr":{"value":1442840704,"description":" Address size fault"},"pc":{"value":6583395208,"matchesCrashFrame":1},"far":{"value":0}},"frames":[{"imageOffset":37768,"imageIndex":366},{"imageOffset":494140,"symbol":"abort","symbolLocation":124,"imageIndex":367},{"imageOffset":91012,"imageIndex":368},{"imageOffset":19672,"imageIndex":368},{"imageOffset":151012,"imageIndex":369},{"imageOffset":86568,"imageIndex":43},{"imageOffset":87704,"imageIndex":368},{"imageOffset":87612,"imageIndex":368},{"imageOffset":7071392,"imageIndex":40},{"imageOffset":225916,"imageIndex":40},{"imageOffset":208508,"imageIndex":40},{"imageOffset":225956,"imageIndex":40},{"imageOffset":593468,"imageIndex":40},{"imageOffset":594760,"imageIndex":40},{"imageOffset":594472,"imageIndex":40},{"imageOffset":562752,"imageIndex":40},{"imageOffset":577456,"symbol":"std::__1::unique_ptr<Ort::Env, std::__1::default_delete<Ort::Env>>::~unique_ptr[abi:ne190102]()","symbolLocation":52,"imageIndex":0},{"imageOffset":162116,"symbol":"__cxa_finalize_ranges","symbolLocation":480,"imageIndex":367},{"imageOffset":161540,"symbol":"exit","symbolLocation":44,"imageIndex":367},{"imageOffset":15816,"imageIndex":370},{"imageOffset":27820,"imageIndex":371},{"imageOffset":27592,"imageIndex":371}]},{"id":257431,"frames":[{"imageOffset":7020,"imageIndex":373}],"threadState":{"x":[{"value":6132625408},{"value":8451},{"value":6132088832},{"value":0},{"value":409604},{"value":18446744073709551615},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0}],"flavor":"ARM_THREAD_STATE64","lr":{"value":0},"cpsr":{"value":0},"fp":{"value":0},"sp":{"value":6132625408},"esr":{"value":1442840704,"description":" Address size fault"},"pc":{"value":6583610220},"far":{"value":0}}},{"id":257470,"name":"com.apple.NSEventThread","threadState":{"x":[{"value":268451845},{"value":21592279046},{"value":8589934592},{"value":278189326729216},{"value":0},{"value":278189326729216},{"value":2},{"value":4294967295},{"value":0},{"value":17179869184},{"value":0},{"value":2},{"value":0},{"value":0},{"value":64771},{"value":0},{"value":18446744073709551569},{"value":8445811816},{"value":0},{"value":4294967295},{"value":2},{"value":278189326729216},{"value":0},{"value":278189326729216},{"value":14172053640},{"value":8589934592},{"value":21592279046},{"value":18446744073709550527},{"value":4412409862}],"flavor":"ARM_THREAD_STATE64","lr":{"value":6583436192},"cpsr":{"value":0},"fp":{"value":14172053488},"sp":{"value":14172053408},"esr":{"value":1442840704,"description":" Address size fault"},"pc":{"value":6583360564},"far":{"value":0}},"frames":[{"imageOffset":3124,"imageIndex":366},{"imageOffset":38756,"imageIndex":366},{"imageOffset":4008,"imageIndex":366},{"imageOffset":511164,"imageIndex":374},{"imageOffset":505304,"imageIndex":374},{"imageOffset":502424,"imageIndex":374},{"imageOffset":1435532,"imageIndex":375},{"imageOffset":27660,"imageIndex":373},{"imageOffset":7040,"imageIndex":373}]},{"id":257818,"name":"com.apple.CFSocket.private","threadState":{"x":[{"value":4},{"value":0},{"value":5885495696},{"value":0},{"value":0},{"value":5},{"value":64},{"value":0},{"value":14854664416},{"value":0},{"value":3200276263},{"value":31},{"value":7},{"value":14152003280},{"value":72057602466712433},{"value":8428784496},{"value":93},{"value":8445814152},{"value":0},{"value":8428790984},{"value":32},{"value":14126088864},{"value":5885495696},{"value":8449720960},{"value":0},{"value":5206856704},{"value":5885612768},{"value":5206856816},{"value":5165439344}],"flavor":"ARM_THREAD_STATE64","lr":{"value":6584748848},"cpsr":{"value":1610612736},"fp":{"value":14854664128},"sp":{"value":14854630352},"esr":{"value":1442840704,"description":" Address size fault"},"pc":{"value":6583405612},"far":{"value":0}},"frames":[{"imageOffset":48172,"imageIndex":366},{"imageOffset":27660,"imageIndex":373},{"imageOffset":7040,"imageIndex":373}]},{"id":259082,"frames":[{"imageOffset":7020,"imageIndex":373}],"threadState":{"x":[{"value":14101032960},{"value":32815},{"value":14100496384},{"value":0},{"value":409604},{"value":18446744073709551615},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0}],"flavor":"ARM_THREAD_STATE64","lr":{"value":0},"cpsr":{"value":0},"fp":{"value":0},"sp":{"value":14101032960},"esr":{"value":1442840704,"description":" Address size fault"},"pc":{"value":6583610220},"far":{"value":0}}},{"id":261230,"frames":[{"imageOffset":7020,"imageIndex":373}],"threadState":{"x":[{"value":14766223360},{"value":98375},{"value":14765686784},{"value":0},{"value":409602},{"value":18446744073709551615},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0}],"flavor":"ARM_THREAD_STATE64","lr":{"value":0},"cpsr":{"value":0},"fp":{"value":0},"sp":{"value":14766223360},"esr":{"value":1442840704,"description":" Address size fault"},"pc":{"value":6583610220},"far":{"value":0}}},{"id":262704,"frames":[{"imageOffset":7020,"imageIndex":373}],"threadState":{"x":[{"value":14123347968},{"value":81943},{"value":14122811392},{"value":0},{"value":409603},{"value":18446744073709551615},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0}],"flavor":"ARM_THREAD_STATE64","lr":{"value":0},"cpsr":{"value":0},"fp":{"value":0},"sp":{"value":14123347968},"esr":{"value":1442840704,"description":" Address size fault"},"pc":{"value":6583610220},"far":{"value":0}}},{"id":262888,"frames":[{"imageOffset":7020,"imageIndex":373}],"threadState":{"x":[{"value":14122774528},{"value":88075},{"value":14122237952},{"value":0},{"value":409604},{"value":18446744073709551615},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0}],"flavor":"ARM_THREAD_STATE64","lr":{"value":0},"cpsr":{"value":0},"fp":{"value":0},"sp":{"value":14122774528},"esr":{"value":1442840704,"description":" Address size fault"},"pc":{"value":6583610220},"far":{"value":0}}},{"id":262889,"frames":[{"imageOffset":7020,"imageIndex":373}],"threadState":{"x":[{"value":14153183232},{"value":76859},{"value":14152646656},{"value":0},{"value":409604},{"value":18446744073709551615},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0}],"flavor":"ARM_THREAD_STATE64","lr":{"value":0},"cpsr":{"value":0},"fp":{"value":0},"sp":{"value":14153183232},"esr":{"value":1442840704,"description":" Address size fault"},"pc":{"value":6583610220},"far":{"value":0}}},{"id":262890,"frames":[{"imageOffset":7020,"imageIndex":373}],"threadState":{"x":[{"value":14155280384},{"value":0},{"value":14154743808},{"value":0},{"value":278532},{"value":18446744073709551615},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0},{"value":0}],"flavor":"ARM_THREAD_STATE64","lr":{"value":0},"cpsr":{"value":0},"fp":{"value":0},"sp":{"value":14155280384},"esr":{"value":0,"description":" Address size fault"},"pc":{"value":6583610220},"far":{"value":0}}}],
+  "usedImages" : [
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4335960064,
+    "size" : 868352,
+    "uuid" : "71a426da-670f-30c7-9105-b2f378682148",
+    "path" : "*\/PhotoGuruViewer.app\/Contents\/MacOS\/PhotoGuruViewer",
+    "name" : "PhotoGuruViewer"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4337483776,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "org.qt-project.QtWebEngineWidgets",
+    "size" : 98304,
+    "uuid" : "4eafff13-c0ab-3bf8-bd4d-d13b0040bbad",
+    "path" : "\/opt\/homebrew\/*\/QtWebEngineWidgets.framework\/Versions\/A\/QtWebEngineWidgets",
+    "name" : "QtWebEngineWidgets",
+    "CFBundleVersion" : "6.9.3"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4337303552,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "org.qt-project.QtConcurrent",
+    "size" : 16384,
+    "uuid" : "82ed70eb-db8e-3824-94f4-8c1706b67ae6",
+    "path" : "\/opt\/homebrew\/*\/QtConcurrent.framework\/Versions\/A\/QtConcurrent",
+    "name" : "QtConcurrent",
+    "CFBundleVersion" : "6.9.3"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4338106368,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "org.qt-project.QtSql",
+    "size" : 196608,
+    "uuid" : "9315ccc9-3c3f-3789-9f54-776e751987ae",
+    "path" : "\/opt\/homebrew\/*\/QtSql.framework\/Versions\/A\/QtSql",
+    "name" : "QtSql",
+    "CFBundleVersion" : "6.9.3"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4344217600,
+    "size" : 2375680,
+    "uuid" : "3111e702-b533-3564-b903-5bfbabe33f41",
+    "path" : "\/opt\/homebrew\/*\/libopencv_gapi.4.12.0.dylib",
+    "name" : "libopencv_gapi.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4339990528,
+    "size" : 311296,
+    "uuid" : "cb5285ce-d09b-33e2-8e58-b79f5e189ee2",
+    "path" : "\/opt\/homebrew\/*\/libopencv_stitching.4.12.0.dylib",
+    "name" : "libopencv_stitching.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4337909760,
+    "size" : 81920,
+    "uuid" : "0cb65c30-ad2f-3424-8c0d-1c2ef5813a7d",
+    "path" : "\/opt\/homebrew\/*\/libopencv_alphamat.4.12.0.dylib",
+    "name" : "libopencv_alphamat.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4337745920,
+    "size" : 32768,
+    "uuid" : "f5c5e45b-a6f7-3ee6-a417-0ceab8607675",
+    "path" : "\/opt\/homebrew\/*\/libopencv_aruco.4.12.0.dylib",
+    "name" : "libopencv_aruco.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4338614272,
+    "size" : 65536,
+    "uuid" : "c7e7d065-6aca-3cb0-b553-7008c33d48b8",
+    "path" : "\/opt\/homebrew\/*\/libopencv_bgsegm.4.12.0.dylib",
+    "name" : "libopencv_bgsegm.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4339695616,
+    "size" : 147456,
+    "uuid" : "e3daf8ee-3023-3fe3-bcc6-cd234219324a",
+    "path" : "\/opt\/homebrew\/*\/libopencv_bioinspired.4.12.0.dylib",
+    "name" : "libopencv_bioinspired.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4340875264,
+    "size" : 212992,
+    "uuid" : "1f89a48d-6fc3-32f8-94c9-2f2b2ec2d23f",
+    "path" : "\/opt\/homebrew\/*\/libopencv_ccalib.4.12.0.dylib",
+    "name" : "libopencv_ccalib.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4337385472,
+    "size" : 32768,
+    "uuid" : "14f8fd45-c11e-3d8b-9bbc-349b4d5a4278",
+    "path" : "\/opt\/homebrew\/*\/libopencv_dnn_objdetect.4.12.0.dylib",
+    "name" : "libopencv_dnn_objdetect.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4338761728,
+    "size" : 32768,
+    "uuid" : "3f1e2484-0733-3a94-b51f-9676ade1c49f",
+    "path" : "\/opt\/homebrew\/*\/libopencv_dnn_superres.4.12.0.dylib",
+    "name" : "libopencv_dnn_superres.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4338876416,
+    "size" : 65536,
+    "uuid" : "519586f6-1ab7-3e34-96f4-d69d314076bc",
+    "path" : "\/opt\/homebrew\/*\/libopencv_dpm.4.12.0.dylib",
+    "name" : "libopencv_dpm.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4341628928,
+    "size" : 278528,
+    "uuid" : "196f58ca-bf96-3e6e-ba6c-730865c4f6bf",
+    "path" : "\/opt\/homebrew\/*\/libopencv_face.4.12.0.dylib",
+    "name" : "libopencv_face.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4338466816,
+    "size" : 32768,
+    "uuid" : "883b0201-060c-37bc-bcac-52132fa037cd",
+    "path" : "\/opt\/homebrew\/*\/libopencv_freetype.4.12.0.dylib",
+    "name" : "libopencv_freetype.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4339515392,
+    "size" : 49152,
+    "uuid" : "b6983811-5feb-3be2-80bb-70315e12ead3",
+    "path" : "\/opt\/homebrew\/*\/libopencv_fuzzy.4.12.0.dylib",
+    "name" : "libopencv_fuzzy.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4340678656,
+    "size" : 49152,
+    "uuid" : "667c0c17-c300-3f81-8a2c-047994e9b80d",
+    "path" : "\/opt\/homebrew\/*\/libopencv_hfs.4.12.0.dylib",
+    "name" : "libopencv_hfs.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4341186560,
+    "size" : 32768,
+    "uuid" : "1998de3c-e085-3ffd-b0fc-76a4329529c9",
+    "path" : "\/opt\/homebrew\/*\/libopencv_img_hash.4.12.0.dylib",
+    "name" : "libopencv_img_hash.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4342087680,
+    "size" : 81920,
+    "uuid" : "6bec4e87-6cc6-36ea-bf7c-eae58f87355f",
+    "path" : "\/opt\/homebrew\/*\/libopencv_intensity_transform.4.12.0.dylib",
+    "name" : "libopencv_intensity_transform.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4342267904,
+    "size" : 98304,
+    "uuid" : "096421b7-8c45-3cc0-92a2-d486316d2b02",
+    "path" : "\/opt\/homebrew\/*\/libopencv_line_descriptor.4.12.0.dylib",
+    "name" : "libopencv_line_descriptor.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4342939648,
+    "size" : 212992,
+    "uuid" : "5875cdbf-3e38-3851-8224-09b10131c4f5",
+    "path" : "\/opt\/homebrew\/*\/libopencv_mcc.4.12.0.dylib",
+    "name" : "libopencv_mcc.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4340563968,
+    "size" : 32768,
+    "uuid" : "6dc28f5b-78c7-3fb3-b70b-5b1c1adc8d40",
+    "path" : "\/opt\/homebrew\/*\/libopencv_quality.4.12.0.dylib",
+    "name" : "libopencv_quality.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4341415936,
+    "size" : 49152,
+    "uuid" : "d5663f0e-1207-3b83-8bdd-fd70b79de5ba",
+    "path" : "\/opt\/homebrew\/*\/libopencv_rapid.4.12.0.dylib",
+    "name" : "libopencv_rapid.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4342628352,
+    "size" : 65536,
+    "uuid" : "70c85243-7508-3abb-9deb-07540d161fff",
+    "path" : "\/opt\/homebrew\/*\/libopencv_reg.4.12.0.dylib",
+    "name" : "libopencv_reg.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4350214144,
+    "size" : 704512,
+    "uuid" : "92812037-89b9-3bba-a3fd-3eb742f7b17e",
+    "path" : "\/opt\/homebrew\/*\/libopencv_rgbd.4.12.0.dylib",
+    "name" : "libopencv_rgbd.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4343382016,
+    "size" : 65536,
+    "uuid" : "908ccd85-3310-3aed-9a6b-7efc49c808f9",
+    "path" : "\/opt\/homebrew\/*\/libopencv_saliency.4.12.0.dylib",
+    "name" : "libopencv_saliency.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4351410176,
+    "size" : 524288,
+    "uuid" : "c9442c46-d253-365f-855c-9d2a6014b0ce",
+    "path" : "\/opt\/homebrew\/*\/libopencv_sfm.4.12.0.dylib",
+    "name" : "libopencv_sfm.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4339417088,
+    "size" : 16384,
+    "uuid" : "341cf758-527b-34bb-ae19-74ba5cfc3c81",
+    "path" : "\/opt\/homebrew\/*\/libopencv_signal.4.12.0.dylib",
+    "name" : "libopencv_signal.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4343742464,
+    "size" : 98304,
+    "uuid" : "074c6d27-6ee1-3ea4-9d69-5d90488340b1",
+    "path" : "\/opt\/homebrew\/*\/libopencv_stereo.4.12.0.dylib",
+    "name" : "libopencv_stereo.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4342497280,
+    "size" : 49152,
+    "uuid" : "cb3e3bf4-00aa-3c8f-9a53-1d01855eac57",
+    "path" : "\/opt\/homebrew\/*\/libopencv_structured_light.4.12.0.dylib",
+    "name" : "libopencv_structured_light.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4343545856,
+    "size" : 81920,
+    "uuid" : "40a4bda1-9429-31b5-963d-af571a17722d",
+    "path" : "\/opt\/homebrew\/*\/libopencv_superres.4.12.0.dylib",
+    "name" : "libopencv_superres.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4349362176,
+    "size" : 163840,
+    "uuid" : "98d3dae9-d39f-3618-89ba-609427cdafe3",
+    "path" : "\/opt\/homebrew\/*\/libopencv_surface_matching.4.12.0.dylib",
+    "name" : "libopencv_surface_matching.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4354277376,
+    "size" : 1687552,
+    "uuid" : "e9ccc0f5-0829-359c-a071-b50cdc6f6f36",
+    "path" : "\/opt\/homebrew\/*\/libopencv_tracking.4.12.0.dylib",
+    "name" : "libopencv_tracking.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4349018112,
+    "size" : 114688,
+    "uuid" : "95d34b35-4008-3191-985a-1b84457c81a0",
+    "path" : "\/opt\/homebrew\/*\/libopencv_videostab.4.12.0.dylib",
+    "name" : "libopencv_videostab.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4352229376,
+    "size" : 212992,
+    "uuid" : "0dbecef8-0c3b-3320-b5f0-cf5af763351f",
+    "path" : "\/opt\/homebrew\/*\/libopencv_viz.4.12.0.dylib",
+    "name" : "libopencv_viz.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4353245184,
+    "size" : 344064,
+    "uuid" : "d5b965b3-9403-3a6b-a3f9-e8b5da1e7e1c",
+    "path" : "\/opt\/homebrew\/*\/libopencv_wechat_qrcode.4.12.0.dylib",
+    "name" : "libopencv_wechat_qrcode.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4359274496,
+    "size" : 2670592,
+    "uuid" : "4361ac90-e9db-3173-8749-db8da48195f0",
+    "path" : "\/opt\/homebrew\/*\/libopencv_xfeatures2d.4.12.0.dylib",
+    "name" : "libopencv_xfeatures2d.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4342759424,
+    "size" : 49152,
+    "uuid" : "a9531705-d955-3d0e-bd47-f50f482c6a97",
+    "path" : "\/opt\/homebrew\/*\/libopencv_xobjdetect.4.12.0.dylib",
+    "name" : "libopencv_xobjdetect.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4356325376,
+    "size" : 409600,
+    "uuid" : "4cc68fd6-c57e-3481-9ae8-ba9dcd9873ab",
+    "path" : "\/opt\/homebrew\/*\/libopencv_xphoto.4.12.0.dylib",
+    "name" : "libopencv_xphoto.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4377100288,
+    "size" : 8388608,
+    "uuid" : "01db7a61-9411-3ecb-a9ac-0b5061958756",
+    "path" : "\/opt\/homebrew\/*\/libonnxruntime.1.22.2.dylib",
+    "name" : "libonnxruntime.1.22.2.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4362223616,
+    "size" : 1474560,
+    "uuid" : "8753d856-7a7e-3d25-ad6c-c0e2baae80ea",
+    "path" : "\/Users\/USER\/Documents\/*\/libllama.0.0.1.dylib",
+    "name" : "libllama.0.0.1.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4339613696,
+    "size" : 32768,
+    "uuid" : "6610c92b-7389-389b-9223-091fe0624b1f",
+    "path" : "\/Users\/USER\/Documents\/*\/libggml.0.9.5.dylib",
+    "name" : "libggml.0.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4357537792,
+    "size" : 524288,
+    "uuid" : "8a4fcb94-8915-37dc-be38-90f19772ae1f",
+    "path" : "\/Users\/USER\/Documents\/*\/libggml-base.0.9.5.dylib",
+    "name" : "libggml-base.0.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4364320768,
+    "size" : 131072,
+    "uuid" : "5edf6774-1720-3525-8897-78974a6b14a3",
+    "path" : "\/Users\/USER\/Documents\/*\/libggml-metal.0.9.5.dylib",
+    "name" : "libggml-metal.0.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4365090816,
+    "size" : 573440,
+    "uuid" : "97d2eeb8-d855-3387-b615-a5c74c7272d4",
+    "path" : "\/Users\/USER\/Documents\/*\/libmtmd.0.0.1.dylib",
+    "name" : "libmtmd.0.0.1.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4365795328,
+    "size" : 573440,
+    "uuid" : "4aee42da-3955-370c-9219-448355577c0f",
+    "path" : "\/opt\/homebrew\/*\/libraw.23.dylib",
+    "name" : "libraw.23.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4368367616,
+    "size" : 901120,
+    "uuid" : "13eaf9fe-86e2-3777-8282-6a7f0a059c4a",
+    "path" : "\/opt\/homebrew\/*\/libheif.1.21.1.dylib",
+    "name" : "libheif.1.21.1.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4744626176,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "org.qt-project.QtWebEngineCore",
+    "size" : 156958720,
+    "uuid" : "90faefdb-8443-3d32-9993-ec35d6d3709c",
+    "path" : "\/opt\/homebrew\/*\/QtWebEngineCore.framework\/Versions\/A\/QtWebEngineCore",
+    "name" : "QtWebEngineCore",
+    "CFBundleVersion" : "6.9.3"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4352638976,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "org.qt-project.QtWebChannel",
+    "size" : 163840,
+    "uuid" : "6fa52a32-1bfb-30b2-8f98-53690b3b33e7",
+    "path" : "\/opt\/homebrew\/*\/QtWebChannel.framework\/Versions\/A\/QtWebChannel",
+    "name" : "QtWebChannel",
+    "CFBundleVersion" : "6.9.3"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4366811136,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "org.qt-project.QtPositioning",
+    "size" : 425984,
+    "uuid" : "cd2fd79d-11c4-363b-aee1-94d24ee543b1",
+    "path" : "\/opt\/homebrew\/*\/QtPositioning.framework\/Versions\/A\/QtPositioning",
+    "name" : "QtPositioning",
+    "CFBundleVersion" : "6.9.3"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4358176768,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "org.qt-project.QtPrintSupport",
+    "size" : 278528,
+    "uuid" : "04fbaa07-542b-34a1-b033-0561c7700714",
+    "path" : "\/opt\/homebrew\/*\/QtPrintSupport.framework\/Versions\/A\/QtPrintSupport",
+    "name" : "QtPrintSupport",
+    "CFBundleVersion" : "6.9.3"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4399185920,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "org.qt-project.QtWidgets",
+    "size" : 4636672,
+    "uuid" : "2956680d-8b1a-31d9-9580-25219943fa61",
+    "path" : "\/opt\/homebrew\/*\/QtWidgets.framework\/Versions\/A\/QtWidgets",
+    "name" : "QtWidgets",
+    "CFBundleVersion" : "6.9.3"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4414144512,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "org.qt-project.QtQuick",
+    "size" : 4358144,
+    "uuid" : "73415553-e66d-3587-8f3b-3d7bfb97a829",
+    "path" : "\/opt\/homebrew\/*\/QtQuick.framework\/Versions\/A\/QtQuick",
+    "name" : "QtQuick",
+    "CFBundleVersion" : "6.9.3"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4349706240,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "org.qt-project.QtQmlMeta",
+    "size" : 98304,
+    "uuid" : "b4aaeec7-5206-3865-ba54-b7e342e67279",
+    "path" : "\/opt\/homebrew\/*\/QtQmlMeta.framework\/Versions\/A\/QtQmlMeta",
+    "name" : "QtQmlMeta",
+    "CFBundleVersion" : "6.9.3"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4349935616,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "org.qt-project.QtQmlWorkerScript",
+    "size" : 49152,
+    "uuid" : "f7b89427-36f3-3484-bcc3-5c34d5b0b69a",
+    "path" : "\/opt\/homebrew\/*\/QtQmlWorkerScript.framework\/Versions\/A\/QtQmlWorkerScript",
+    "name" : "QtQmlWorkerScript",
+    "CFBundleVersion" : "6.9.3"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4370956288,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "org.qt-project.QtQmlModels",
+    "size" : 540672,
+    "uuid" : "e49f5739-c810-35a5-a63a-dfb2606514ff",
+    "path" : "\/opt\/homebrew\/*\/QtQmlModels.framework\/Versions\/A\/QtQmlModels",
+    "name" : "QtQmlModels",
+    "CFBundleVersion" : "6.9.3"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4369924096,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "org.qt-project.QtOpenGL",
+    "size" : 425984,
+    "uuid" : "6560bce0-7e61-3d82-a80c-b5b75eebf67f",
+    "path" : "\/opt\/homebrew\/*\/QtOpenGL.framework\/Versions\/A\/QtOpenGL",
+    "name" : "QtOpenGL",
+    "CFBundleVersion" : "6.9.3"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4430348288,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "org.qt-project.QtGui",
+    "size" : 5750784,
+    "uuid" : "cd9b6a3c-4479-35ba-8008-d003800d5944",
+    "path" : "\/opt\/homebrew\/*\/QtGui.framework\/Versions\/A\/QtGui",
+    "name" : "QtGui",
+    "CFBundleVersion" : "6.9.3"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4406411264,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "org.qt-project.QtQml",
+    "size" : 3899392,
+    "uuid" : "62666d6c-4c42-39ca-a1f3-89e7072ad5a5",
+    "path" : "\/opt\/homebrew\/*\/QtQml.framework\/Versions\/A\/QtQml",
+    "name" : "QtQml",
+    "CFBundleVersion" : "6.9.3"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4374151168,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "org.qt-project.QtNetwork",
+    "size" : 1261568,
+    "uuid" : "175edaaa-de07-3b3c-af0b-42ba3e2ada49",
+    "path" : "\/opt\/homebrew\/*\/QtNetwork.framework\/Versions\/A\/QtNetwork",
+    "name" : "QtNetwork",
+    "CFBundleVersion" : "6.9.3"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4421877760,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "org.qt-project.QtCore",
+    "size" : 4620288,
+    "uuid" : "943f9896-7c01-3283-b415-b08151d86715",
+    "path" : "\/opt\/homebrew\/*\/QtCore.framework\/Versions\/A\/QtCore",
+    "name" : "QtCore",
+    "CFBundleVersion" : "6.9.3"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4352966656,
+    "size" : 81920,
+    "uuid" : "fefc61d9-b65a-3a11-9106-20c003e96406",
+    "path" : "\/opt\/homebrew\/*\/libopencv_shape.4.12.0.dylib",
+    "name" : "libopencv_shape.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4353851392,
+    "size" : 114688,
+    "uuid" : "4704469d-d707-3a89-8cea-1402e5c7cb97",
+    "path" : "\/opt\/homebrew\/*\/libopencv_highgui.4.12.0.dylib",
+    "name" : "libopencv_highgui.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4358750208,
+    "size" : 229376,
+    "uuid" : "c9c6e4f8-7d27-3d16-9feb-b6b27b6d7781",
+    "path" : "\/opt\/homebrew\/*\/libopencv_datasets.4.12.0.dylib",
+    "name" : "libopencv_datasets.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4337844224,
+    "size" : 16384,
+    "uuid" : "f6b749c9-3c69-3b4c-bd55-7cfcfb494862",
+    "path" : "\/opt\/homebrew\/*\/libopencv_plot.4.12.0.dylib",
+    "name" : "libopencv_plot.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4367548416,
+    "size" : 262144,
+    "uuid" : "cfeaf9ef-e8db-30c7-98cd-6dbbfa3f1d98",
+    "path" : "\/opt\/homebrew\/*\/libopencv_text.4.12.0.dylib",
+    "name" : "libopencv_text.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4371988480,
+    "size" : 311296,
+    "uuid" : "04a9e377-1635-3614-a7da-1b4a640e139d",
+    "path" : "\/opt\/homebrew\/*\/libopencv_ml.4.12.0.dylib",
+    "name" : "libopencv_ml.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4340793344,
+    "size" : 16384,
+    "uuid" : "724fb047-0b82-35da-a663-9fcabd4f6e5d",
+    "path" : "\/opt\/homebrew\/*\/libopencv_phase_unwrapping.4.12.0.dylib",
+    "name" : "libopencv_phase_unwrapping.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4367974400,
+    "size" : 196608,
+    "uuid" : "62d7b194-a4e7-38da-aa88-675cb13574e9",
+    "path" : "\/opt\/homebrew\/*\/libopencv_optflow.4.12.0.dylib",
+    "name" : "libopencv_optflow.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4438851584,
+    "size" : 770048,
+    "uuid" : "7ff65c67-79d5-3e64-b07d-1004a4d41a0f",
+    "path" : "\/opt\/homebrew\/*\/libopencv_ximgproc.4.12.0.dylib",
+    "name" : "libopencv_ximgproc.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4372496384,
+    "size" : 327680,
+    "uuid" : "d43dea40-7c8d-3582-b6a1-dd2211b4ea81",
+    "path" : "\/opt\/homebrew\/*\/libopencv_video.4.12.0.dylib",
+    "name" : "libopencv_video.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4373037056,
+    "size" : 262144,
+    "uuid" : "20e17895-41bd-3bcc-8f61-3880d2c9c20f",
+    "path" : "\/opt\/homebrew\/*\/libopencv_videoio.4.12.0.dylib",
+    "name" : "libopencv_videoio.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4373495808,
+    "size" : 311296,
+    "uuid" : "f416d535-fa2b-31ec-8c25-39aa67209993",
+    "path" : "\/opt\/homebrew\/*\/libopencv_imgcodecs.4.12.0.dylib",
+    "name" : "libopencv_imgcodecs.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4393123840,
+    "size" : 622592,
+    "uuid" : "43353d9b-ebd9-3f03-95e4-ee6db898d9ae",
+    "path" : "\/opt\/homebrew\/*\/libopencv_objdetect.4.12.0.dylib",
+    "name" : "libopencv_objdetect.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4396335104,
+    "size" : 1376256,
+    "uuid" : "ea2ab7c2-9c20-312e-ac63-13e6b2c338eb",
+    "path" : "\/opt\/homebrew\/*\/libopencv_calib3d.4.12.0.dylib",
+    "name" : "libopencv_calib3d.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4515004416,
+    "size" : 3096576,
+    "uuid" : "3ac71c32-982c-3419-8ca0-93f8f4e4818d",
+    "path" : "\/opt\/homebrew\/*\/libopencv_dnn.4.12.0.dylib",
+    "name" : "libopencv_dnn.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4391976960,
+    "size" : 425984,
+    "uuid" : "99007a72-b6d1-30e5-9df7-359ae9d635fb",
+    "path" : "\/opt\/homebrew\/*\/libopencv_features2d.4.12.0.dylib",
+    "name" : "libopencv_features2d.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4376330240,
+    "size" : 229376,
+    "uuid" : "0e80dccf-edae-3f70-a2e4-07dbf7179b80",
+    "path" : "\/opt\/homebrew\/*\/libopencv_flann.4.12.0.dylib",
+    "name" : "libopencv_flann.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4394270720,
+    "size" : 344064,
+    "uuid" : "becaf3ef-8b2f-3942-aaf7-1e22f076cf11",
+    "path" : "\/opt\/homebrew\/*\/libopencv_photo.4.12.0.dylib",
+    "name" : "libopencv_photo.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4521017344,
+    "size" : 2555904,
+    "uuid" : "73aea280-5de7-3944-a5bf-3487fddcaf90",
+    "path" : "\/opt\/homebrew\/*\/libopencv_imgproc.4.12.0.dylib",
+    "name" : "libopencv_imgproc.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4525178880,
+    "size" : 2097152,
+    "uuid" : "78954f5b-a266-30b2-ae6c-6a5efc2b0d54",
+    "path" : "\/opt\/homebrew\/*\/libopencv_core.4.12.0.dylib",
+    "name" : "libopencv_core.4.12.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4356898816,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "org.qt-project.QtQuickWidgets",
+    "size" : 81920,
+    "uuid" : "b6fa767a-9cca-38b8-a98a-e8f309ef760d",
+    "path" : "\/opt\/homebrew\/*\/QtQuickWidgets.framework\/Versions\/A\/QtQuickWidgets",
+    "name" : "QtQuickWidgets",
+    "CFBundleVersion" : "6.9.3"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4341530624,
+    "size" : 49152,
+    "uuid" : "43eb690d-1071-35e5-a6b2-9a5005643ea0",
+    "path" : "\/opt\/homebrew\/*\/libbrotlidec.1.2.0.dylib",
+    "name" : "libbrotlidec.1.2.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4395483136,
+    "size" : 573440,
+    "uuid" : "afd03688-5fac-3b3d-96aa-9d88c034ff23",
+    "path" : "\/opt\/homebrew\/*\/libzstd.1.5.7.dylib",
+    "name" : "libzstd.1.5.7.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4428726272,
+    "size" : 606208,
+    "uuid" : "810d99f1-2504-3db7-9357-4bce9d47fc76",
+    "path" : "\/opt\/homebrew\/*\/libssl.3.dylib",
+    "name" : "libssl.3.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4528259072,
+    "size" : 3407872,
+    "uuid" : "efba4c7a-a8ab-3429-8076-3bf9f22bd40b",
+    "path" : "\/opt\/homebrew\/*\/libcrypto.3.dylib",
+    "name" : "libcrypto.3.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4533141504,
+    "size" : 1785856,
+    "uuid" : "6c55395e-b734-3b0e-a467-b632e578e4ad",
+    "path" : "\/opt\/homebrew\/*\/libicui18n.78.1.dylib",
+    "name" : "libicui18n.78.1.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4510875648,
+    "size" : 1310720,
+    "uuid" : "f256a7f3-627c-3491-b38f-8ccd64a512a5",
+    "path" : "\/opt\/homebrew\/*\/libicuuc.78.1.dylib",
+    "name" : "libicuuc.78.1.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4569726976,
+    "size" : 33112064,
+    "uuid" : "2b3ec0b8-7a93-31fa-89e8-8da6dff11445",
+    "path" : "\/opt\/homebrew\/*\/libicudata.78.1.dylib",
+    "name" : "libicudata.78.1.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4512776192,
+    "size" : 1032192,
+    "uuid" : "0e884680-cac9-306a-adf9-19639d9e044d",
+    "path" : "\/opt\/homebrew\/*\/libglib-2.0.0.dylib",
+    "name" : "libglib-2.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4343939072,
+    "size" : 49152,
+    "uuid" : "783457bd-de5e-3f5d-ac39-e84316558704",
+    "path" : "\/opt\/homebrew\/*\/libdouble-conversion.3.4.0.dylib",
+    "name" : "libdouble-conversion.3.4.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4344053760,
+    "size" : 32768,
+    "uuid" : "c4431360-2960-3e50-b699-3691771ade27",
+    "path" : "\/opt\/homebrew\/*\/libb2.1.dylib",
+    "name" : "libb2.1.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4398399488,
+    "size" : 458752,
+    "uuid" : "b34a76f8-4fd5-3754-8d91-af7265e83ab6",
+    "path" : "\/opt\/homebrew\/*\/libpcre2-16.0.dylib",
+    "name" : "libpcre2-16.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4338548736,
+    "size" : 16384,
+    "uuid" : "3df6d0fd-61b8-35ec-a8ee-758a8b7ef1bf",
+    "path" : "\/opt\/homebrew\/*\/libgthread-2.0.0.dylib",
+    "name" : "libgthread-2.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4370644992,
+    "size" : 163840,
+    "uuid" : "85a5d333-79ed-39ec-b780-3629376eeaa3",
+    "path" : "\/opt\/homebrew\/*\/libintl.8.dylib",
+    "name" : "libintl.8.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4412850176,
+    "size" : 491520,
+    "uuid" : "a3b936d6-4fb9-3878-9595-aa9965261546",
+    "path" : "\/opt\/homebrew\/*\/libpcre2-8.0.dylib",
+    "name" : "libpcre2-8.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4357111808,
+    "size" : 131072,
+    "uuid" : "7f8ceda3-e294-3ee4-bc9d-e2e619fbaaed",
+    "path" : "\/opt\/homebrew\/*\/libbrotlicommon.1.2.0.dylib",
+    "name" : "libbrotlicommon.1.2.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4536336384,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "org.qt-project.QtDBus",
+    "size" : 524288,
+    "uuid" : "369adaa6-7e25-3492-b378-b7312c8cf667",
+    "path" : "\/opt\/homebrew\/*\/QtDBus.framework\/Versions\/A\/QtDBus",
+    "name" : "QtDBus",
+    "CFBundleVersion" : "6.9.3"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4376821760,
+    "size" : 147456,
+    "uuid" : "b7fd2151-3c85-3deb-95ad-7d4f037df396",
+    "path" : "\/opt\/homebrew\/*\/libpng16.16.dylib",
+    "name" : "libpng16.16.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4537335808,
+    "size" : 786432,
+    "uuid" : "dc3ee7d3-0bc0-3581-a896-5f1d71886235",
+    "path" : "\/opt\/homebrew\/*\/libharfbuzz.0.dylib",
+    "name" : "libharfbuzz.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4349263872,
+    "size" : 49152,
+    "uuid" : "bbb78130-97b1-3019-9bb2-db21119d3562",
+    "path" : "\/opt\/homebrew\/*\/libmd4c.0.5.2.dylib",
+    "name" : "libmd4c.0.5.2.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4413456384,
+    "size" : 507904,
+    "uuid" : "5642e153-03c7-3193-9276-871551a3a55e",
+    "path" : "\/opt\/homebrew\/*\/libfreetype.6.dylib",
+    "name" : "libfreetype.6.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4394811392,
+    "size" : 196608,
+    "uuid" : "fb8085dc-9746-335c-90d0-429dfe91dd60",
+    "path" : "\/opt\/homebrew\/*\/libdbus-1.3.dylib",
+    "name" : "libdbus-1.3.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4357292032,
+    "size" : 81920,
+    "uuid" : "d07b94fc-f322-3e73-a5e0-727b6e8e8c90",
+    "path" : "\/opt\/homebrew\/*\/libgraphite2.3.2.1.dylib",
+    "name" : "libgraphite2.3.2.1.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4603117568,
+    "size" : 15122432,
+    "uuid" : "9f89c1f7-b720-397d-a69b-00e215d969ba",
+    "path" : "\/opt\/homebrew\/*\/libopenvino.2025.4.1.dylib",
+    "name" : "libopenvino.2025.4.1.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4395139072,
+    "size" : 98304,
+    "uuid" : "15985736-3d43-38f0-99c1-b1990bef7155",
+    "path" : "\/opt\/homebrew\/*\/libtbb.12.17.dylib",
+    "name" : "libtbb.12.17.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4541661184,
+    "size" : 1572864,
+    "uuid" : "5fd4622c-9c67-3aea-b2dc-c2b87cb6399d",
+    "path" : "\/opt\/homebrew\/*\/libprotobuf.33.2.0.dylib",
+    "name" : "libprotobuf.33.2.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4626743296,
+    "size" : 19480576,
+    "uuid" : "d24f5fa5-540a-377e-9c30-0d13347e0691",
+    "path" : "\/opt\/homebrew\/*\/libopenblasp-r0.3.30.dylib",
+    "name" : "libopenblasp-r0.3.30.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4350083072,
+    "size" : 65536,
+    "uuid" : "945f02cf-29d2-36f0-b455-b952c084748e",
+    "path" : "\/opt\/homebrew\/*\/libabsl_log_internal_check_op.2508.0.0.dylib",
+    "name" : "libabsl_log_internal_check_op.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4354097152,
+    "size" : 65536,
+    "uuid" : "09e7cd58-1f10-3ab5-8348-5d091ceded2a",
+    "path" : "\/opt\/homebrew\/*\/libabsl_die_if_null.2508.0.0.dylib",
+    "name" : "libabsl_die_if_null.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4341301248,
+    "size" : 16384,
+    "uuid" : "d3cebc7f-27af-3a1b-8b71-7f1752bedc72",
+    "path" : "\/opt\/homebrew\/*\/libabsl_log_internal_conditions.2508.0.0.dylib",
+    "name" : "libabsl_log_internal_conditions.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4392828928,
+    "size" : 65536,
+    "uuid" : "76141a6a-e9d1-36bc-be5e-d30d94644c0b",
+    "path" : "\/opt\/homebrew\/*\/libabsl_log_internal_message.2508.0.0.dylib",
+    "name" : "libabsl_log_internal_message.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4341366784,
+    "size" : 16384,
+    "uuid" : "5e81be07-7322-38cc-a4a1-36e9c5018859",
+    "path" : "\/opt\/homebrew\/*\/libabsl_log_internal_nullguard.2508.0.0.dylib",
+    "name" : "libabsl_log_internal_nullguard.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4357439488,
+    "size" : 32768,
+    "uuid" : "5ad4feb6-8d52-30ff-afce-f0d8a1d02ad8",
+    "path" : "\/opt\/homebrew\/*\/libabsl_examine_stack.2508.0.0.dylib",
+    "name" : "libabsl_examine_stack.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4353163264,
+    "size" : 32768,
+    "uuid" : "cc99d8df-ff80-32a6-903c-bc85890a895a",
+    "path" : "\/opt\/homebrew\/*\/libabsl_log_internal_format.2508.0.0.dylib",
+    "name" : "libabsl_log_internal_format.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4342874112,
+    "size" : 16384,
+    "uuid" : "4b863735-b3ba-365a-ba65-74294e6a2f12",
+    "path" : "\/opt\/homebrew\/*\/libabsl_log_internal_structured_proto.2508.0.0.dylib",
+    "name" : "libabsl_log_internal_structured_proto.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4392681472,
+    "size" : 49152,
+    "uuid" : "a74e298c-5d52-30e7-885d-ee9b1d609da1",
+    "path" : "\/opt\/homebrew\/*\/libabsl_log_internal_log_sink_set.2508.0.0.dylib",
+    "name" : "libabsl_log_internal_log_sink_set.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4374036480,
+    "size" : 32768,
+    "uuid" : "9f647ff2-f1ca-342f-aaa9-abe6c59a5401",
+    "path" : "\/opt\/homebrew\/*\/libabsl_log_sink.2508.0.0.dylib",
+    "name" : "libabsl_log_sink.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4392992768,
+    "size" : 32768,
+    "uuid" : "80339d45-f2a3-3545-84a2-4eff67cbcc13",
+    "path" : "\/opt\/homebrew\/*\/libabsl_log_entry.2508.0.0.dylib",
+    "name" : "libabsl_log_entry.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4396171264,
+    "size" : 32768,
+    "uuid" : "d132d740-d495-3933-9f66-e732997deaf6",
+    "path" : "\/opt\/homebrew\/*\/libabsl_log_internal_proto.2508.0.0.dylib",
+    "name" : "libabsl_log_internal_proto.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4429643776,
+    "size" : 65536,
+    "uuid" : "12a78447-ab56-3307-8add-af97006378a0",
+    "path" : "\/opt\/homebrew\/*\/libabsl_flags_internal.2508.0.0.dylib",
+    "name" : "libabsl_flags_internal.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4399054848,
+    "size" : 32768,
+    "uuid" : "c72d7eca-0c48-3e3b-9323-6cb1cee12872",
+    "path" : "\/opt\/homebrew\/*\/libabsl_flags_marshalling.2508.0.0.dylib",
+    "name" : "libabsl_flags_marshalling.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4429938688,
+    "size" : 81920,
+    "uuid" : "d7919b65-48b6-39c3-821d-933fff82a720",
+    "path" : "\/opt\/homebrew\/*\/libabsl_flags_reflection.2508.0.0.dylib",
+    "name" : "libabsl_flags_reflection.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4430102528,
+    "size" : 49152,
+    "uuid" : "f7127736-b97f-321c-b010-93e50bd28359",
+    "path" : "\/opt\/homebrew\/*\/libabsl_flags_config.2508.0.0.dylib",
+    "name" : "libabsl_flags_config.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4429791232,
+    "size" : 49152,
+    "uuid" : "ebae11ce-4bd5-3ec3-8ca4-5a6f201e2a80",
+    "path" : "\/opt\/homebrew\/*\/libabsl_flags_program_name.2508.0.0.dylib",
+    "name" : "libabsl_flags_program_name.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4344152064,
+    "size" : 32768,
+    "uuid" : "29eea5b7-fb19-3f51-9cdb-d786887f9ebf",
+    "path" : "\/opt\/homebrew\/*\/libabsl_flags_private_handle_accessor.2508.0.0.dylib",
+    "name" : "libabsl_flags_private_handle_accessor.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4354211840,
+    "size" : 16384,
+    "uuid" : "ed83cd46-6968-3d44-ba01-6eb9cf259990",
+    "path" : "\/opt\/homebrew\/*\/libabsl_flags_commandlineflag.2508.0.0.dylib",
+    "name" : "libabsl_flags_commandlineflag.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4370890752,
+    "size" : 16384,
+    "uuid" : "30e65e43-149d-381a-8522-031982bfbe2a",
+    "path" : "\/opt\/homebrew\/*\/libabsl_flags_commandlineflag_internal.2508.0.0.dylib",
+    "name" : "libabsl_flags_commandlineflag_internal.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4430233600,
+    "size" : 49152,
+    "uuid" : "f1c30d5d-3af3-352f-a8ee-07317f8290dd",
+    "path" : "\/opt\/homebrew\/*\/libabsl_log_initialize.2508.0.0.dylib",
+    "name" : "libabsl_log_initialize.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4508991488,
+    "size" : 32768,
+    "uuid" : "6ce4563e-123e-32cf-8f6e-88b2ad2896a3",
+    "path" : "\/opt\/homebrew\/*\/libabsl_log_internal_globals.2508.0.0.dylib",
+    "name" : "libabsl_log_internal_globals.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4509204480,
+    "size" : 49152,
+    "uuid" : "eaf72b1e-2057-320e-af40-bfe5d4a5338c",
+    "path" : "\/opt\/homebrew\/*\/libabsl_log_globals.2508.0.0.dylib",
+    "name" : "libabsl_log_globals.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4509089792,
+    "size" : 49152,
+    "uuid" : "a9187754-aeaf-3dc8-b161-3026e4a111f0",
+    "path" : "\/opt\/homebrew\/*\/libabsl_vlog_config_internal.2508.0.0.dylib",
+    "name" : "libabsl_vlog_config_internal.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4377034752,
+    "size" : 16384,
+    "uuid" : "57980004-6138-3cdc-820f-b42b08bddf6c",
+    "path" : "\/opt\/homebrew\/*\/libabsl_log_internal_fnmatch.2508.0.0.dylib",
+    "name" : "libabsl_log_internal_fnmatch.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4509450240,
+    "size" : 65536,
+    "uuid" : "7e778558-eff9-338f-bd50-2e0b603d0f6e",
+    "path" : "\/opt\/homebrew\/*\/libabsl_raw_hash_set.2508.0.0.dylib",
+    "name" : "libabsl_raw_hash_set.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4509581312,
+    "size" : 49152,
+    "uuid" : "9b13e216-99ab-3c7d-b259-25566cbc9342",
+    "path" : "\/opt\/homebrew\/*\/libabsl_hashtablez_sampler.2508.0.0.dylib",
+    "name" : "libabsl_hashtablez_sampler.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4396253184,
+    "size" : 32768,
+    "uuid" : "4182b848-fb79-31b7-8576-20d93ae1f42b",
+    "path" : "\/opt\/homebrew\/*\/libabsl_random_distributions.2508.0.0.dylib",
+    "name" : "libabsl_random_distributions.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4509319168,
+    "size" : 49152,
+    "uuid" : "1912203f-00db-329c-8a52-344c28fcc064",
+    "path" : "\/opt\/homebrew\/*\/libabsl_random_seed_sequences.2508.0.0.dylib",
+    "name" : "libabsl_random_seed_sequences.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4509810688,
+    "size" : 49152,
+    "uuid" : "86083d3f-84f9-380d-ad62-38f21f398350",
+    "path" : "\/opt\/homebrew\/*\/libabsl_random_internal_entropy_pool.2508.0.0.dylib",
+    "name" : "libabsl_random_internal_entropy_pool.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4398956544,
+    "size" : 16384,
+    "uuid" : "723ac366-0230-3bc2-8b84-fbe23880f726",
+    "path" : "\/opt\/homebrew\/*\/libabsl_random_internal_randen.2508.0.0.dylib",
+    "name" : "libabsl_random_internal_randen.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4509696000,
+    "size" : 16384,
+    "uuid" : "426d60a0-ae67-3038-b09b-f635799dabae",
+    "path" : "\/opt\/homebrew\/*\/libabsl_random_internal_randen_hwaes.2508.0.0.dylib",
+    "name" : "libabsl_random_internal_randen_hwaes.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4509925376,
+    "size" : 16384,
+    "uuid" : "1280f93d-ce2f-3df3-8e9f-fe7a93fea8b3",
+    "path" : "\/opt\/homebrew\/*\/libabsl_random_internal_randen_hwaes_impl.2508.0.0.dylib",
+    "name" : "libabsl_random_internal_randen_hwaes_impl.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4510121984,
+    "size" : 16384,
+    "uuid" : "1ecaa94c-193c-3595-bb07-666d19733d17",
+    "path" : "\/opt\/homebrew\/*\/libabsl_random_internal_randen_slow.2508.0.0.dylib",
+    "name" : "libabsl_random_internal_randen_slow.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4368318464,
+    "size" : 16384,
+    "uuid" : "9f5a83fa-1f7b-3a2b-b8fc-6406db02cedc",
+    "path" : "\/opt\/homebrew\/*\/libabsl_random_internal_platform.2508.0.0.dylib",
+    "name" : "libabsl_random_internal_platform.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4510187520,
+    "size" : 16384,
+    "uuid" : "e17cdfed-857f-3a8a-849c-7aa993330caf",
+    "path" : "\/opt\/homebrew\/*\/libabsl_random_internal_seed_material.2508.0.0.dylib",
+    "name" : "libabsl_random_internal_seed_material.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4510269440,
+    "size" : 16384,
+    "uuid" : "0131e551-94bf-353a-a825-382c01e9fe64",
+    "path" : "\/opt\/homebrew\/*\/libabsl_random_seed_gen_exception.2508.0.0.dylib",
+    "name" : "libabsl_random_seed_gen_exception.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4510449664,
+    "size" : 65536,
+    "uuid" : "e216e93e-c09c-30f3-aaaf-3d57825482a0",
+    "path" : "\/opt\/homebrew\/*\/libabsl_statusor.2508.0.0.dylib",
+    "name" : "libabsl_statusor.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4510711808,
+    "size" : 65536,
+    "uuid" : "9c72274a-92ec-31ef-a9bf-1500cf0c8181",
+    "path" : "\/opt\/homebrew\/*\/libabsl_status.2508.0.0.dylib",
+    "name" : "libabsl_status.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4514332672,
+    "size" : 98304,
+    "uuid" : "abdbdc49-d668-3c8b-a5ea-c315672f2a0c",
+    "path" : "\/opt\/homebrew\/*\/libabsl_cord.2508.0.0.dylib",
+    "name" : "libabsl_cord.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4510564352,
+    "size" : 49152,
+    "uuid" : "dbe6eb3c-403e-325d-8d37-14bc327f20f5",
+    "path" : "\/opt\/homebrew\/*\/libabsl_cordz_info.2508.0.0.dylib",
+    "name" : "libabsl_cordz_info.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4514512896,
+    "size" : 65536,
+    "uuid" : "2f863c93-dfba-358a-b512-4250a9ffbe5e",
+    "path" : "\/opt\/homebrew\/*\/libabsl_cord_internal.2508.0.0.dylib",
+    "name" : "libabsl_cord_internal.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4510334976,
+    "size" : 32768,
+    "uuid" : "6de59308-e79d-37ef-8f31-523481b1bbc2",
+    "path" : "\/opt\/homebrew\/*\/libabsl_hash.2508.0.0.dylib",
+    "name" : "libabsl_hash.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4393074688,
+    "size" : 16384,
+    "uuid" : "2cb56eba-c06f-33cc-b3f5-0aa8fed03ebf",
+    "path" : "\/opt\/homebrew\/*\/libabsl_city.2508.0.0.dylib",
+    "name" : "libabsl_city.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4514152448,
+    "size" : 16384,
+    "uuid" : "765ff98f-7d2d-3a71-a9ad-9e5091507124",
+    "path" : "\/opt\/homebrew\/*\/libabsl_cordz_functions.2508.0.0.dylib",
+    "name" : "libabsl_cordz_functions.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4514217984,
+    "size" : 16384,
+    "uuid" : "92957c1c-dc8f-3efc-9fa6-35ca32eea864",
+    "path" : "\/opt\/homebrew\/*\/libabsl_exponential_biased.2508.0.0.dylib",
+    "name" : "libabsl_exponential_biased.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4514758656,
+    "size" : 49152,
+    "uuid" : "f5ab4ff3-fb73-3890-8d16-067b34268b87",
+    "path" : "\/opt\/homebrew\/*\/libabsl_cordz_handle.2508.0.0.dylib",
+    "name" : "libabsl_cordz_handle.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4514660352,
+    "size" : 32768,
+    "uuid" : "1404eddf-b0b1-3e59-a9d1-e38d0c9c51bd",
+    "path" : "\/opt\/homebrew\/*\/libabsl_crc_cord_state.2508.0.0.dylib",
+    "name" : "libabsl_crc_cord_state.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4538613760,
+    "size" : 32768,
+    "uuid" : "ba5606f9-a399-367a-a3a8-7f830d661940",
+    "path" : "\/opt\/homebrew\/*\/libabsl_crc32c.2508.0.0.dylib",
+    "name" : "libabsl_crc32c.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4538712064,
+    "size" : 65536,
+    "uuid" : "d516f403-823b-3e90-9328-d0eaec197bf5",
+    "path" : "\/opt\/homebrew\/*\/libabsl_crc_internal.2508.0.0.dylib",
+    "name" : "libabsl_crc_internal.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4514873344,
+    "size" : 16384,
+    "uuid" : "83dc9361-3df2-3d4a-a84a-22ef59a0d39a",
+    "path" : "\/opt\/homebrew\/*\/libabsl_crc_cpu_detect.2508.0.0.dylib",
+    "name" : "libabsl_crc_cpu_detect.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4514955264,
+    "size" : 16384,
+    "uuid" : "7d5726b3-65ea-33c7-a327-44d14f972709",
+    "path" : "\/opt\/homebrew\/*\/libabsl_leak_check.2508.0.0.dylib",
+    "name" : "libabsl_leak_check.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4538859520,
+    "size" : 16384,
+    "uuid" : "d3597cf0-493e-3b9f-abf8-12654e719e43",
+    "path" : "\/opt\/homebrew\/*\/libabsl_strerror.2508.0.0.dylib",
+    "name" : "libabsl_strerror.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4539088896,
+    "size" : 65536,
+    "uuid" : "0b4809b0-5e72-397e-ac84-1f350213a99e",
+    "path" : "\/opt\/homebrew\/*\/libabsl_str_format_internal.2508.0.0.dylib",
+    "name" : "libabsl_str_format_internal.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4539236352,
+    "size" : 65536,
+    "uuid" : "a0828745-446f-361b-9fc0-a2eac9cf36b4",
+    "path" : "\/opt\/homebrew\/*\/libabsl_synchronization.2508.0.0.dylib",
+    "name" : "libabsl_synchronization.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4538941440,
+    "size" : 16384,
+    "uuid" : "3d509c61-4b79-3574-b183-06249b7bd20f",
+    "path" : "\/opt\/homebrew\/*\/libabsl_stacktrace.2508.0.0.dylib",
+    "name" : "libabsl_stacktrace.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4539383808,
+    "size" : 32768,
+    "uuid" : "79964967-4edf-3b66-bd0a-3ad01a692a13",
+    "path" : "\/opt\/homebrew\/*\/libabsl_symbolize.2508.0.0.dylib",
+    "name" : "libabsl_symbolize.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4539023360,
+    "size" : 16384,
+    "uuid" : "0f05164b-fd84-3617-848c-73611cfaa068",
+    "path" : "\/opt\/homebrew\/*\/libabsl_debugging_internal.2508.0.0.dylib",
+    "name" : "libabsl_debugging_internal.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4539465728,
+    "size" : 32768,
+    "uuid" : "6908f51d-1cf2-38a0-be00-71dacf733f22",
+    "path" : "\/opt\/homebrew\/*\/libabsl_demangle_internal.2508.0.0.dylib",
+    "name" : "libabsl_demangle_internal.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4539547648,
+    "size" : 32768,
+    "uuid" : "599bf11a-8f21-3957-9498-b4a414017cd8",
+    "path" : "\/opt\/homebrew\/*\/libabsl_demangle_rust.2508.0.0.dylib",
+    "name" : "libabsl_demangle_rust.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4539629568,
+    "size" : 16384,
+    "uuid" : "4a1edbc0-c443-3c9d-84aa-6907459c62c2",
+    "path" : "\/opt\/homebrew\/*\/libabsl_decode_rust_punycode.2508.0.0.dylib",
+    "name" : "libabsl_decode_rust_punycode.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4539695104,
+    "size" : 16384,
+    "uuid" : "6c0da4b7-4017-3b31-a407-3b8ee02d95b6",
+    "path" : "\/opt\/homebrew\/*\/libabsl_utf8_for_code_point.2508.0.0.dylib",
+    "name" : "libabsl_utf8_for_code_point.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4539744256,
+    "size" : 32768,
+    "uuid" : "22eaadac-bdf1-3f2e-9abd-dc91528621c0",
+    "path" : "\/opt\/homebrew\/*\/libabsl_graphcycles_internal.2508.0.0.dylib",
+    "name" : "libabsl_graphcycles_internal.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4539842560,
+    "size" : 32768,
+    "uuid" : "57c3a340-efa9-3639-80f2-564f30e46375",
+    "path" : "\/opt\/homebrew\/*\/libabsl_kernel_timeout_internal.2508.0.0.dylib",
+    "name" : "libabsl_kernel_timeout_internal.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4539924480,
+    "size" : 16384,
+    "uuid" : "22ad814f-52be-3c32-8abf-3b9b91352400",
+    "path" : "\/opt\/homebrew\/*\/libabsl_malloc_internal.2508.0.0.dylib",
+    "name" : "libabsl_malloc_internal.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4540006400,
+    "size" : 16384,
+    "uuid" : "f683f43c-bbf8-3c59-8598-e565b6277646",
+    "path" : "\/opt\/homebrew\/*\/libabsl_tracing_internal.2508.0.0.dylib",
+    "name" : "libabsl_tracing_internal.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4540170240,
+    "size" : 49152,
+    "uuid" : "39523b73-e865-30a5-b0de-3bbf6e21649d",
+    "path" : "\/opt\/homebrew\/*\/libabsl_time.2508.0.0.dylib",
+    "name" : "libabsl_time.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4540055552,
+    "size" : 16384,
+    "uuid" : "035758d0-1851-353a-bae9-ccf13c3eab35",
+    "path" : "\/opt\/homebrew\/*\/libabsl_civil_time.2508.0.0.dylib",
+    "name" : "libabsl_civil_time.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4540465152,
+    "size" : 65536,
+    "uuid" : "4df425ff-dda4-3ddc-9648-0c246e594bc6",
+    "path" : "\/opt\/homebrew\/*\/libabsl_time_zone.2508.0.0.dylib",
+    "name" : "libabsl_time_zone.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4540284928,
+    "size" : 16384,
+    "uuid" : "50b1c6e7-843c-3278-b07a-1f060e3d0c87",
+    "path" : "\/opt\/homebrew\/*\/libutf8_validity.33.2.0.dylib",
+    "name" : "libutf8_validity.33.2.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4540809216,
+    "size" : 81920,
+    "uuid" : "d851f223-8b40-3fa4-9b36-bbf1941b765c",
+    "path" : "\/opt\/homebrew\/*\/libabsl_strings.2508.0.0.dylib",
+    "name" : "libabsl_strings.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4540350464,
+    "size" : 16384,
+    "uuid" : "31acac19-1c44-35d0-9e10-2a86aee59809",
+    "path" : "\/opt\/homebrew\/*\/libabsl_int128.2508.0.0.dylib",
+    "name" : "libabsl_int128.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4540645376,
+    "size" : 16384,
+    "uuid" : "3fddd6c5-3cf5-3966-9336-fb5d731152ac",
+    "path" : "\/opt\/homebrew\/*\/libabsl_strings_internal.2508.0.0.dylib",
+    "name" : "libabsl_strings_internal.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4540121088,
+    "size" : 16384,
+    "uuid" : "e662181f-a22b-3a7f-930b-33671fd1bff8",
+    "path" : "\/opt\/homebrew\/*\/libabsl_string_view.2508.0.0.dylib",
+    "name" : "libabsl_string_view.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4540710912,
+    "size" : 16384,
+    "uuid" : "41d2852c-e2ff-390c-820a-3628144e2927",
+    "path" : "\/opt\/homebrew\/*\/libabsl_base.2508.0.0.dylib",
+    "name" : "libabsl_base.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4540973056,
+    "size" : 16384,
+    "uuid" : "bae3fe38-8de3-3b0b-b359-d29b9e77e038",
+    "path" : "\/opt\/homebrew\/*\/libabsl_spinlock_wait.2508.0.0.dylib",
+    "name" : "libabsl_spinlock_wait.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4541054976,
+    "size" : 16384,
+    "uuid" : "7078f40d-d04c-3dc0-b4b9-8d16ce07568e",
+    "path" : "\/opt\/homebrew\/*\/libabsl_throw_delegate.2508.0.0.dylib",
+    "name" : "libabsl_throw_delegate.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4541120512,
+    "size" : 16384,
+    "uuid" : "7c8ac632-9bd7-3c71-886c-596e1210a9f6",
+    "path" : "\/opt\/homebrew\/*\/libabsl_raw_logging_internal.2508.0.0.dylib",
+    "name" : "libabsl_raw_logging_internal.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4541202432,
+    "size" : 16384,
+    "uuid" : "d608d978-9aa3-33bf-889e-368ce5247199",
+    "path" : "\/opt\/homebrew\/*\/libabsl_log_severity.2508.0.0.dylib",
+    "name" : "libabsl_log_severity.2508.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4546936832,
+    "size" : 1638400,
+    "uuid" : "6c809dfb-cf31-32a6-b7ff-c403fa721441",
+    "path" : "\/opt\/homebrew\/*\/libgfortran.5.dylib",
+    "name" : "libgfortran.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4545150976,
+    "size" : 278528,
+    "uuid" : "b3759338-4bc8-3e22-9af4-6ce2fbd09800",
+    "path" : "\/opt\/homebrew\/*\/libgomp.1.dylib",
+    "name" : "libgomp.1.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4544708608,
+    "size" : 262144,
+    "uuid" : "35af3d2b-4b6c-3d5a-8959-c167a4d4a419",
+    "path" : "\/opt\/homebrew\/*\/libquadmath.0.dylib",
+    "name" : "libquadmath.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4545593344,
+    "size" : 98304,
+    "uuid" : "41ea8c5a-fa81-3c05-a32c-5a0134689dab",
+    "path" : "\/opt\/homebrew\/*\/libgcc_s.1.1.dylib",
+    "name" : "libgcc_s.1.1.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4545806336,
+    "size" : 114688,
+    "uuid" : "72b0d7ad-e110-3a23-a3dd-1a2bb48ca5c8",
+    "path" : "\/opt\/homebrew\/*\/libpugixml.1.15.dylib",
+    "name" : "libpugixml.1.15.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4551589888,
+    "size" : 2080768,
+    "uuid" : "7538f960-d74d-3547-b538-7a116eb63337",
+    "path" : "\/opt\/homebrew\/*\/libavformat.62.3.100.dylib",
+    "name" : "libavformat.62.3.100.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4648632320,
+    "size" : 9584640,
+    "uuid" : "18d87bea-5aa8-3ce3-8414-e0d841fedbd5",
+    "path" : "\/opt\/homebrew\/*\/libavcodec.62.11.100.dylib",
+    "name" : "libavcodec.62.11.100.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4549165056,
+    "size" : 458752,
+    "uuid" : "4385445f-e8d1-3cdc-add5-dde6b03f5745",
+    "path" : "\/opt\/homebrew\/*\/libswscale.9.1.100.dylib",
+    "name" : "libswscale.9.1.100.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4665671680,
+    "size" : 491520,
+    "uuid" : "56b7c549-a850-3969-9c3d-4b27ceaa80ab",
+    "path" : "\/opt\/homebrew\/*\/libavutil.60.8.100.dylib",
+    "name" : "libavutil.60.8.100.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4549967872,
+    "size" : 393216,
+    "uuid" : "23df3384-ad9b-3c37-ad6b-c5d0e7aa3967",
+    "path" : "\/opt\/homebrew\/*\/libjpeg.8.3.2.dylib",
+    "name" : "libjpeg.8.3.2.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4546035712,
+    "size" : 262144,
+    "uuid" : "125736f7-37e7-3884-8f27-b6e94e711760",
+    "path" : "\/opt\/homebrew\/*\/libwebp.7.2.0.dylib",
+    "name" : "libwebp.7.2.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4541267968,
+    "size" : 32768,
+    "uuid" : "fe78d744-8517-3724-a827-9bbf058f020b",
+    "path" : "\/opt\/homebrew\/*\/libwebpmux.3.1.2.dylib",
+    "name" : "libwebpmux.3.1.2.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4541349888,
+    "size" : 16384,
+    "uuid" : "8f1ff548-ec66-34ea-b797-f10a04ace3b4",
+    "path" : "\/opt\/homebrew\/*\/libwebpdemux.2.0.17.dylib",
+    "name" : "libwebpdemux.2.0.17.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4551016448,
+    "size" : 425984,
+    "uuid" : "b36fef81-9f46-35eb-b267-561a7757b909",
+    "path" : "\/opt\/homebrew\/*\/libtiff.6.dylib",
+    "name" : "libtiff.6.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4550459392,
+    "size" : 262144,
+    "uuid" : "e4193d91-9682-3486-b1fc-18bfbc55008b",
+    "path" : "\/opt\/homebrew\/*\/libopenjp2.2.5.4.dylib",
+    "name" : "libopenjp2.2.5.4.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4555063296,
+    "size" : 507904,
+    "uuid" : "c7051153-401f-3cd9-a5c5-268455781af4",
+    "path" : "\/opt\/homebrew\/*\/libOpenEXR-3_4.33.3.4.4.dylib",
+    "name" : "libOpenEXR-3_4.33.3.4.4.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4541415424,
+    "size" : 16384,
+    "uuid" : "cb2e51d3-6e63-3019-a9c0-086ca180749f",
+    "path" : "\/opt\/homebrew\/*\/libIlmThread-3_4.33.3.4.4.dylib",
+    "name" : "libIlmThread-3_4.33.3.4.4.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4556111872,
+    "size" : 131072,
+    "uuid" : "b0b9bfa8-b282-30e1-8fce-149343547efe",
+    "path" : "\/opt\/homebrew\/*\/libIex-3_4.33.3.4.4.dylib",
+    "name" : "libIex-3_4.33.3.4.4.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4554014720,
+    "size" : 245760,
+    "uuid" : "1924afea-a380-38ad-b7bc-e544b02b7833",
+    "path" : "\/opt\/homebrew\/*\/libOpenEXRCore-3_4.33.3.4.4.dylib",
+    "name" : "libOpenEXRCore-3_4.33.3.4.4.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4556701696,
+    "size" : 294912,
+    "uuid" : "228bf3cc-2b12-3ac9-9c3c-581cbafbf57f",
+    "path" : "\/opt\/homebrew\/*\/libImath-3_2.30.3.2.2.dylib",
+    "name" : "libImath-3_2.30.3.2.2.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4541513728,
+    "size" : 16384,
+    "uuid" : "c9262a37-4290-3a1c-b9fa-793d0404d712",
+    "path" : "\/opt\/homebrew\/*\/libsharpyuv.0.1.2.dylib",
+    "name" : "libsharpyuv.0.1.2.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4546592768,
+    "size" : 131072,
+    "uuid" : "bc9cf488-263b-371e-a310-197d38b4b182",
+    "path" : "\/opt\/homebrew\/*\/liblzma.5.dylib",
+    "name" : "liblzma.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4546789376,
+    "size" : 49152,
+    "uuid" : "4b498124-7b5f-3f7d-a0b7-2fa7aa533664",
+    "path" : "\/opt\/homebrew\/*\/libdeflate.0.dylib",
+    "name" : "libdeflate.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4557373440,
+    "size" : 212992,
+    "uuid" : "942de6d4-e1c6-303d-9719-2c5c8ce15321",
+    "path" : "\/opt\/homebrew\/*\/libopenjph.0.26.0.dylib",
+    "name" : "libopenjph.0.26.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4550803456,
+    "size" : 81920,
+    "uuid" : "c29dc09e-c63c-32e8-be37-0cb3e0211d20",
+    "path" : "\/opt\/homebrew\/*\/libswresample.6.1.100.dylib",
+    "name" : "libswresample.6.1.100.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4558061568,
+    "size" : 262144,
+    "uuid" : "3e9ec9a9-27bc-3cd6-b333-124f425b7b00",
+    "path" : "\/opt\/homebrew\/*\/libbluray.3.dylib",
+    "name" : "libbluray.3.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4560814080,
+    "size" : 1736704,
+    "uuid" : "ecdc31fa-896e-3935-a19b-a1de1487393e",
+    "path" : "\/opt\/homebrew\/*\/libgnutls.30.dylib",
+    "name" : "libgnutls.30.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4557062144,
+    "size" : 114688,
+    "uuid" : "a2ef2b59-328f-33fe-bd63-762c6cb70301",
+    "path" : "\/opt\/homebrew\/*\/librist.4.dylib",
+    "name" : "librist.4.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4559159296,
+    "size" : 458752,
+    "uuid" : "352a8ce8-c881-3101-937e-4a06f533724f",
+    "path" : "\/opt\/homebrew\/*\/libsrt.1.5.4.dylib",
+    "name" : "libsrt.1.5.4.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4559880192,
+    "size" : 344064,
+    "uuid" : "2056938e-5615-39f5-994d-cc8a8a8aed3f",
+    "path" : "\/opt\/homebrew\/*\/libssh.4.10.3.dylib",
+    "name" : "libssh.4.10.3.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4563206144,
+    "size" : 360448,
+    "uuid" : "64f8285e-b984-3afc-ab22-0e957659cb4c",
+    "path" : "\/opt\/homebrew\/*\/libzmq.5.dylib",
+    "name" : "libzmq.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4565663744,
+    "size" : 1540096,
+    "uuid" : "a1447fe8-49c4-33bd-8142-dc6c79df20d8",
+    "path" : "\/opt\/homebrew\/*\/libvpx.11.dylib",
+    "name" : "libvpx.11.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4554883072,
+    "size" : 65536,
+    "uuid" : "b1552c61-e456-3606-8e45-bda0e5ab1c16",
+    "path" : "\/opt\/homebrew\/*\/libaribb24.0.dylib",
+    "name" : "libaribb24.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4567449600,
+    "size" : 622592,
+    "uuid" : "f9f1ea3d-f827-32b4-bc7a-b880cda2d185",
+    "path" : "\/opt\/homebrew\/*\/libdav1d.7.dylib",
+    "name" : "libdav1d.7.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4557258752,
+    "size" : 65536,
+    "uuid" : "8fcf8f11-548c-37a5-b6e3-150996876fd2",
+    "path" : "\/opt\/homebrew\/*\/libopencore-amrwb.0.dylib",
+    "name" : "libopencore-amrwb.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4546396160,
+    "size" : 32768,
+    "uuid" : "987fdc3c-aa25-3422-820e-a23b806caed6",
+    "path" : "\/opt\/homebrew\/*\/libsnappy.1.2.2.dylib",
+    "name" : "libsnappy.1.2.2.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4687249408,
+    "size" : 3555328,
+    "uuid" : "557d4e38-db38-3298-81d7-345b6a9241b9",
+    "path" : "\/opt\/homebrew\/*\/libaom.3.13.1.dylib",
+    "name" : "libaom.3.13.1.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4564647936,
+    "size" : 163840,
+    "uuid" : "e90a2f2d-c90d-3faf-8d2c-8dd468dca594",
+    "path" : "\/opt\/homebrew\/*\/libvmaf.3.dylib",
+    "name" : "libvmaf.3.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4685103104,
+    "size" : 1343488,
+    "uuid" : "c72e40ca-aae2-3693-b68b-d02ed5c5a5c0",
+    "path" : "\/opt\/homebrew\/*\/libjxl.0.11.1.dylib",
+    "name" : "libjxl.0.11.1.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4541595648,
+    "size" : 16384,
+    "uuid" : "d3f0a429-17b7-3f04-adf7-5153d6f1998e",
+    "path" : "\/opt\/homebrew\/*\/libjxl_threads.0.11.1.dylib",
+    "name" : "libjxl_threads.0.11.1.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4558438400,
+    "size" : 212992,
+    "uuid" : "de863ab7-3cf8-38fe-ae37-59a526573730",
+    "path" : "\/opt\/homebrew\/*\/libmp3lame.0.dylib",
+    "name" : "libmp3lame.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4557864960,
+    "size" : 131072,
+    "uuid" : "0b1f87fa-c004-3dcc-acfd-e82a301817cb",
+    "path" : "\/opt\/homebrew\/*\/libopencore-amrnb.0.dylib",
+    "name" : "libopencore-amrnb.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4563894272,
+    "size" : 311296,
+    "uuid" : "18a55861-2fd4-3b34-8aad-58bb9b8f6067",
+    "path" : "\/opt\/homebrew\/*\/libopus.0.dylib",
+    "name" : "libopus.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4694605824,
+    "size" : 2097152,
+    "uuid" : "e25136f6-57c3-36c2-b0a2-97e754156c1a",
+    "path" : "\/opt\/homebrew\/*\/librav1e.0.8.1.dylib",
+    "name" : "librav1e.0.8.1.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4558929920,
+    "size" : 81920,
+    "uuid" : "20b22b75-fec3-363a-87aa-a6e621228801",
+    "path" : "\/opt\/homebrew\/*\/libspeex.1.dylib",
+    "name" : "libspeex.1.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4700815360,
+    "size" : 2850816,
+    "uuid" : "35ebd5fa-b680-3dcf-bca6-a3a7295e5462",
+    "path" : "\/opt\/homebrew\/*\/libSvtAv1Enc.3.1.2.dylib",
+    "name" : "libSvtAv1Enc.3.1.2.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4560371712,
+    "size" : 131072,
+    "uuid" : "40f5addc-2fa4-3a01-9ab6-5b682f7a5e2e",
+    "path" : "\/opt\/homebrew\/*\/libtheoraenc.2.dylib",
+    "name" : "libtheoraenc.2.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4557684736,
+    "size" : 49152,
+    "uuid" : "44d43420-b882-3f56-945a-9818eb83594e",
+    "path" : "\/opt\/homebrew\/*\/libtheoradec.2.dylib",
+    "name" : "libtheoradec.2.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4546478080,
+    "size" : 32768,
+    "uuid" : "0aa27540-8c54-3526-acdf-1bdaa7fa0dee",
+    "path" : "\/opt\/homebrew\/*\/libogg.0.8.6.dylib",
+    "name" : "libogg.0.8.6.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4564271104,
+    "size" : 147456,
+    "uuid" : "72c642b8-e216-3cba-83f5-da5a5000f51e",
+    "path" : "\/opt\/homebrew\/*\/libvorbis.0.dylib",
+    "name" : "libvorbis.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4683169792,
+    "size" : 491520,
+    "uuid" : "df8f7c25-b7bb-35a8-99cc-8bd9d410124a",
+    "path" : "\/opt\/homebrew\/*\/libvorbisenc.2.dylib",
+    "name" : "libvorbisenc.2.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4697571328,
+    "size" : 1179648,
+    "uuid" : "0be38c8b-a748-37b2-9113-7b7b7dd073c0",
+    "path" : "\/opt\/homebrew\/*\/libx264.165.dylib",
+    "name" : "libx264.165.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4710940672,
+    "size" : 4177920,
+    "uuid" : "cb61927f-339c-3138-991b-28e77d175503",
+    "path" : "\/opt\/homebrew\/*\/libx265.215.dylib",
+    "name" : "libx265.215.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4568481792,
+    "size" : 98304,
+    "uuid" : "c9442c0d-c2d8-3154-8211-5746899d2f11",
+    "path" : "\/opt\/homebrew\/*\/libsoxr.0.1.2.dylib",
+    "name" : "libsoxr.0.1.2.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4691640320,
+    "size" : 868352,
+    "uuid" : "2665be26-d15f-3a64-b1c7-eeec879eea3c",
+    "path" : "\/opt\/homebrew\/*\/libX11.6.dylib",
+    "name" : "libX11.6.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4568858624,
+    "size" : 81920,
+    "uuid" : "f8a17a6d-f51b-3d9a-8107-a0c086a6719a",
+    "path" : "\/opt\/homebrew\/*\/libxcb.1.1.0.dylib",
+    "name" : "libxcb.1.1.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4550934528,
+    "size" : 16384,
+    "uuid" : "d53ca926-d7dd-3428-8a81-578f76379c5a",
+    "path" : "\/opt\/homebrew\/*\/libXau.6.dylib",
+    "name" : "libXau.6.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4545085440,
+    "size" : 16384,
+    "uuid" : "6d278a79-ea83-37c1-b760-80b2d8c19cd7",
+    "path" : "\/opt\/homebrew\/*\/libXdmcp.6.dylib",
+    "name" : "libXdmcp.6.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4560666624,
+    "size" : 49152,
+    "uuid" : "0b6b8235-213d-3836-a3ad-02db081f843a",
+    "path" : "\/opt\/homebrew\/*\/libjxl_cms.0.11.1.dylib",
+    "name" : "libjxl_cms.0.11.1.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4560551936,
+    "size" : 32768,
+    "uuid" : "004b61a3-08cb-3153-bd8e-6da178e304c0",
+    "path" : "\/opt\/homebrew\/*\/libhwy.1.3.0.dylib",
+    "name" : "libhwy.1.3.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4683907072,
+    "size" : 589824,
+    "uuid" : "ac606ea3-96d5-39d0-a257-ba99d25fa281",
+    "path" : "\/opt\/homebrew\/*\/libbrotlienc.1.2.0.dylib",
+    "name" : "libbrotlienc.1.2.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4684578816,
+    "size" : 245760,
+    "uuid" : "cd4b4715-5ce3-39d9-a1b0-f9e59af30f3a",
+    "path" : "\/opt\/homebrew\/*\/liblcms2.2.dylib",
+    "name" : "liblcms2.2.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4569366528,
+    "size" : 212992,
+    "uuid" : "17a317d7-1f10-3ee7-ae02-88039b4a8406",
+    "path" : "\/opt\/homebrew\/*\/libfontconfig.1.dylib",
+    "name" : "libfontconfig.1.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4559060992,
+    "size" : 32768,
+    "uuid" : "6996fecc-1136-3559-8c97-216853fcb9a4",
+    "path" : "\/opt\/homebrew\/*\/libudfread.3.dylib",
+    "name" : "libudfread.3.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4705435648,
+    "size" : 983040,
+    "uuid" : "f3f81f1f-3e0b-3822-8a74-f7ac8117dde3",
+    "path" : "\/opt\/homebrew\/*\/libp11-kit.0.dylib",
+    "name" : "libp11-kit.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4692672512,
+    "size" : 196608,
+    "uuid" : "dd8858f3-a24f-3811-89ce-4f3122eebd98",
+    "path" : "\/opt\/homebrew\/*\/libidn2.0.dylib",
+    "name" : "libidn2.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4716511232,
+    "size" : 1900544,
+    "uuid" : "a6dea0ac-51c3-355e-81ae-7d17e15fdfb6",
+    "path" : "\/opt\/homebrew\/*\/libunistring.5.dylib",
+    "name" : "libunistring.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4569055232,
+    "size" : 49152,
+    "uuid" : "fe0141fb-d482-3f5f-81eb-c56a7a508a4a",
+    "path" : "\/opt\/homebrew\/*\/libtasn1.6.dylib",
+    "name" : "libtasn1.6.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4693262336,
+    "size" : 245760,
+    "uuid" : "81294815-d060-3b94-9fd7-835a403daf7b",
+    "path" : "\/opt\/homebrew\/*\/libhogweed.6.11.dylib",
+    "name" : "libhogweed.6.11.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4693934080,
+    "size" : 229376,
+    "uuid" : "3caa1766-1965-33d9-b5d9-4a91c88d595d",
+    "path" : "\/opt\/homebrew\/*\/libnettle.8.11.dylib",
+    "name" : "libnettle.8.11.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4700340224,
+    "size" : 360448,
+    "uuid" : "90556aa3-2210-35a5-8beb-0f6610a44116",
+    "path" : "\/opt\/homebrew\/*\/libgmp.10.dylib",
+    "name" : "libgmp.10.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4707418112,
+    "size" : 344064,
+    "uuid" : "67760da0-9ed2-3ec0-bf1e-04f1bad6bbe4",
+    "path" : "\/opt\/homebrew\/*\/libmbedcrypto.3.6.5.dylib",
+    "name" : "libmbedcrypto.3.6.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4557783040,
+    "size" : 16384,
+    "uuid" : "27b712ef-9d6b-30be-99bd-73b89c03813d",
+    "path" : "\/opt\/homebrew\/*\/libcjson.1.7.19.dylib",
+    "name" : "libcjson.1.7.19.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4693590016,
+    "size" : 180224,
+    "uuid" : "4a8d2f5b-6453-3eb5-ba8d-b9f6644e7bbc",
+    "path" : "\/opt\/homebrew\/*\/libsodium.26.dylib",
+    "name" : "libsodium.26.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4569169920,
+    "size" : 65536,
+    "uuid" : "1bb1786f-7c98-3c99-8ef0-a558e9528487",
+    "path" : "\/opt\/homebrew\/*\/libvtkFiltersTexture-9.5.9.5.dylib",
+    "name" : "libvtkFiltersTexture-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4708581376,
+    "size" : 376832,
+    "uuid" : "31d4aea6-97c5-3829-a323-2a6db07085a8",
+    "path" : "\/opt\/homebrew\/*\/libvtkIOExport-9.5.9.5.dylib",
+    "name" : "libvtkIOExport-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4720312320,
+    "size" : 1097728,
+    "uuid" : "4335d95c-a9f6-3e75-be47-8964359df44d",
+    "path" : "\/opt\/homebrew\/*\/libvtkIOGeometry-9.5.9.5.dylib",
+    "name" : "libvtkIOGeometry-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4687052800,
+    "size" : 65536,
+    "uuid" : "78986d57-f394-3eac-9db8-c0770dcda72f",
+    "path" : "\/opt\/homebrew\/*\/libvtkIOPLY-9.5.9.5.dylib",
+    "name" : "libvtkIOPLY-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4694278144,
+    "size" : 114688,
+    "uuid" : "f060e8aa-c2c4-3488-9453-31933ed9a1a5",
+    "path" : "\/opt\/homebrew\/*\/libvtkInteractionStyle-9.5.9.5.dylib",
+    "name" : "libvtkInteractionStyle-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4684939264,
+    "size" : 49152,
+    "uuid" : "9f18fb9b-ba59-3789-9427-70a37eece21d",
+    "path" : "\/opt\/homebrew\/*\/libvtkRenderingLOD-9.5.9.5.dylib",
+    "name" : "libvtkRenderingLOD-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4724523008,
+    "size" : 1392640,
+    "uuid" : "103e4c35-e94c-3a32-b424-f2884445b88a",
+    "path" : "\/opt\/homebrew\/*\/libvtkRenderingOpenGL2-9.5.9.5.dylib",
+    "name" : "libvtkRenderingOpenGL2-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4699881472,
+    "size" : 114688,
+    "uuid" : "858d6b59-206a-3d97-91c0-73ebb2da862c",
+    "path" : "\/opt\/homebrew\/*\/libvtkRenderingContext2D-9.5.9.5.dylib",
+    "name" : "libvtkRenderingContext2D-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4692934656,
+    "size" : 81920,
+    "uuid" : "f729525a-d439-3680-923f-fe48ea175846",
+    "path" : "\/opt\/homebrew\/*\/libvtkRenderingVtkJS-9.5.9.5.dylib",
+    "name" : "libvtkRenderingVtkJS-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4693114880,
+    "size" : 49152,
+    "uuid" : "e6ae7e03-e346-30e1-b06e-01a0ece6f571",
+    "path" : "\/opt\/homebrew\/*\/libvtkRenderingSceneGraph-9.5.9.5.dylib",
+    "name" : "libvtkRenderingSceneGraph-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4707139584,
+    "size" : 114688,
+    "uuid" : "67786923-706d-3410-a55c-693e29a3339c",
+    "path" : "\/opt\/homebrew\/*\/libjsoncpp.26.dylib",
+    "name" : "libjsoncpp.26.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4718559232,
+    "size" : 540672,
+    "uuid" : "16bd55b7-0e39-35f6-a70a-9eeefba6b976",
+    "path" : "\/opt\/homebrew\/*\/libvtkFiltersExtraction-9.5.9.5.dylib",
+    "name" : "libvtkFiltersExtraction-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4722065408,
+    "size" : 491520,
+    "uuid" : "c7dd14c1-3913-38d5-8374-93ae758aa90f",
+    "path" : "\/opt\/homebrew\/*\/libvtkIOXML-9.5.9.5.dylib",
+    "name" : "libvtkIOXML-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4700160000,
+    "size" : 65536,
+    "uuid" : "7142f47d-70ee-3f99-a8f1-993ab2e6f2a4",
+    "path" : "\/opt\/homebrew\/*\/libvtkIOXMLParser-9.5.9.5.dylib",
+    "name" : "libvtkIOXMLParser-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4709957632,
+    "size" : 425984,
+    "uuid" : "5f8c86f1-0007-3f71-9039-c564f91762b0",
+    "path" : "\/opt\/homebrew\/*\/libvtkIOLegacy-9.5.9.5.dylib",
+    "name" : "libvtkIOLegacy-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4709220352,
+    "size" : 294912,
+    "uuid" : "fcfeced5-4b3c-31ad-83e3-931e761503a0",
+    "path" : "\/opt\/homebrew\/*\/libvtkIOCellGrid-9.5.9.5.dylib",
+    "name" : "libvtkIOCellGrid-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4723064832,
+    "size" : 245760,
+    "uuid" : "4b9a2a2a-6cc2-31d9-be5d-f1f569ab3558",
+    "path" : "\/opt\/homebrew\/*\/libvtkIOCore-9.5.9.5.dylib",
+    "name" : "libvtkIOCore-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4728307712,
+    "size" : 622592,
+    "uuid" : "90959ceb-6b7d-3f2c-ad11-f6ae5bd649d8",
+    "path" : "\/opt\/homebrew\/*\/libvtkFiltersCellGrid-9.5.9.5.dylib",
+    "name" : "libvtkFiltersCellGrid-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4729634816,
+    "size" : 868352,
+    "uuid" : "40787f01-e0b1-3bb0-ba46-539053cbd8dc",
+    "path" : "\/opt\/homebrew\/*\/libvtkIOImage-9.5.9.5.dylib",
+    "name" : "libvtkIOImage-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4726980608,
+    "size" : 147456,
+    "uuid" : "06a10574-c213-3145-bd53-a7227cb3a559",
+    "path" : "\/opt\/homebrew\/*\/libvtkRenderingFreeType-9.5.9.5.dylib",
+    "name" : "libvtkRenderingFreeType-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4706893824,
+    "size" : 49152,
+    "uuid" : "cb6b5f1f-8748-3d55-9446-1dad55c3d92b",
+    "path" : "\/opt\/homebrew\/*\/libvtkRenderingHyperTreeGrid-9.5.9.5.dylib",
+    "name" : "libvtkRenderingHyperTreeGrid-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4707942400,
+    "size" : 49152,
+    "uuid" : "9b81faa1-fccc-39cb-af9d-07d862a07a37",
+    "path" : "\/opt\/homebrew\/*\/libvtkRenderingUI-9.5.9.5.dylib",
+    "name" : "libvtkRenderingUI-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4732829696,
+    "size" : 983040,
+    "uuid" : "ff8ef679-bbe3-313f-9961-0a67b98daf53",
+    "path" : "\/opt\/homebrew\/*\/libvtkRenderingCore-9.5.9.5.dylib",
+    "name" : "libvtkRenderingCore-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4730880000,
+    "size" : 360448,
+    "uuid" : "4d06160e-1b5b-3b7b-8d36-60d21bd081bb",
+    "path" : "\/opt\/homebrew\/*\/libvtkFiltersSources-9.5.9.5.dylib",
+    "name" : "libvtkFiltersSources-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5099667456,
+    "size" : 2818048,
+    "uuid" : "9ebba3ca-68eb-33d4-a915-248e8531dc68",
+    "path" : "\/opt\/homebrew\/*\/libvtkFiltersGeneral-9.5.9.5.dylib",
+    "name" : "libvtkFiltersGeneral-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5117214720,
+    "size" : 5177344,
+    "uuid" : "3add70e5-7f44-39a4-b57a-3df5285a7336",
+    "path" : "\/opt\/homebrew\/*\/libvtkFiltersCore-9.5.9.5.dylib",
+    "name" : "libvtkFiltersCore-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4727701504,
+    "size" : 278528,
+    "uuid" : "a5757705-bfc1-3e2b-bef6-6f2c6b3aae1f",
+    "path" : "\/opt\/homebrew\/*\/libvtkglad-9.5.9.5.dylib",
+    "name" : "libvtkglad-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4736335872,
+    "size" : 1081344,
+    "uuid" : "f05f6b46-3894-397a-8d71-7572b22ac5b5",
+    "path" : "\/opt\/homebrew\/*\/libvtkImagingCore-9.5.9.5.dylib",
+    "name" : "libvtkImagingCore-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4734779392,
+    "size" : 442368,
+    "uuid" : "833f1c4e-9367-3a78-ab9f-2ad4618b6a1a",
+    "path" : "\/opt\/homebrew\/*\/libvtkCommonExecutionModel-9.5.9.5.dylib",
+    "name" : "libvtkCommonExecutionModel-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5105909760,
+    "size" : 2588672,
+    "uuid" : "b8e311ae-0715-3e18-bf8d-e40e9884c522",
+    "path" : "\/opt\/homebrew\/*\/libvtkCommonDataModel-9.5.9.5.dylib",
+    "name" : "libvtkCommonDataModel-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5111267328,
+    "size" : 1736704,
+    "uuid" : "6d26f251-e5b7-3442-bf4c-e0ac0a121e90",
+    "path" : "\/opt\/homebrew\/*\/libvtkCommonMisc-9.5.9.5.dylib",
+    "name" : "libvtkCommonMisc-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4719968256,
+    "size" : 114688,
+    "uuid" : "8d0d54f9-9b09-3a0c-9d28-54c9f5ff0120",
+    "path" : "\/opt\/homebrew\/*\/libvtkCommonTransforms-9.5.9.5.dylib",
+    "name" : "libvtkCommonTransforms-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4708089856,
+    "size" : 65536,
+    "uuid" : "79e5ab4e-8499-3c64-941d-03dcfdbe61f9",
+    "path" : "\/opt\/homebrew\/*\/libvtkCommonMath-9.5.9.5.dylib",
+    "name" : "libvtkCommonMath-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4564467712,
+    "size" : 16384,
+    "uuid" : "b76df5de-3dd5-395b-8902-31c008ad9cfa",
+    "path" : "\/opt\/homebrew\/*\/libvtkkissfft-9.5.9.5.dylib",
+    "name" : "libvtkkissfft-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5166792704,
+    "size" : 12697600,
+    "uuid" : "58f9158a-8461-3bc2-a5a7-ca2dd1ff1fb9",
+    "path" : "\/opt\/homebrew\/*\/libvtkCommonCore-9.5.9.5.dylib",
+    "name" : "libvtkCommonCore-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4710711296,
+    "size" : 65536,
+    "uuid" : "e7b1d61f-afbd-3e0a-9188-8163f6c5badc",
+    "path" : "\/opt\/homebrew\/*\/libvtktoken-9.5.9.5.dylib",
+    "name" : "libvtktoken-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4723572736,
+    "size" : 163840,
+    "uuid" : "416c862c-80df-35b7-936c-94b25a962a38",
+    "path" : "\/opt\/homebrew\/*\/libvtksys-9.5.9.5.dylib",
+    "name" : "libvtksys-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4723900416,
+    "size" : 65536,
+    "uuid" : "cadbc578-c9c7-33f5-b9f9-cdac8703f61d",
+    "path" : "\/opt\/homebrew\/*\/libvtkCommonComputationalGeometry-9.5.9.5.dylib",
+    "name" : "libvtkCommonComputationalGeometry-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4724113408,
+    "size" : 131072,
+    "uuid" : "3381fe05-b9fb-3015-8518-b32bef860b51",
+    "path" : "\/opt\/homebrew\/*\/libvtkFiltersVerdict-9.5.9.5.dylib",
+    "name" : "libvtkFiltersVerdict-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4731600896,
+    "size" : 81920,
+    "uuid" : "0626ce35-4eaa-3275-b38f-bd5fe5a20bc9",
+    "path" : "\/opt\/homebrew\/*\/libvtkfmt-9.5.9.5.dylib",
+    "name" : "libvtkfmt-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4739514368,
+    "size" : 688128,
+    "uuid" : "ce4b105d-5185-3bda-8bbe-334636f6ccdf",
+    "path" : "\/opt\/homebrew\/*\/libvtkFiltersGeometry-9.5.9.5.dylib",
+    "name" : "libvtkFiltersGeometry-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4731781120,
+    "size" : 65536,
+    "uuid" : "d13d5bcd-4964-3373-8417-f2501f06507c",
+    "path" : "\/opt\/homebrew\/*\/libvtkCommonSystem-9.5.9.5.dylib",
+    "name" : "libvtkCommonSystem-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4707024896,
+    "size" : 32768,
+    "uuid" : "a4509578-4939-3d56-b937-500a7f240a66",
+    "path" : "\/opt\/homebrew\/*\/libvtkloguru-9.5.9.5.dylib",
+    "name" : "libvtkloguru-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4731944960,
+    "size" : 98304,
+    "uuid" : "fd3057d7-7345-3615-8532-63714afbba23",
+    "path" : "\/opt\/homebrew\/*\/libvtkverdict-9.5.9.5.dylib",
+    "name" : "libvtkverdict-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5128601600,
+    "size" : 851968,
+    "uuid" : "85160550-be15-3012-b32c-9c8735bae7cf",
+    "path" : "\/opt\/homebrew\/*\/libvtkFiltersReduction-9.5.9.5.dylib",
+    "name" : "libvtkFiltersReduction-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4732125184,
+    "size" : 131072,
+    "uuid" : "99360b65-1af8-308d-b5a6-1700c17737a1",
+    "path" : "\/opt\/homebrew\/*\/libvtkDomainsChemistry-9.5.9.5.dylib",
+    "name" : "libvtkDomainsChemistry-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4732420096,
+    "size" : 131072,
+    "uuid" : "c3d46d2e-7535-352f-887c-49eca396fb23",
+    "path" : "\/opt\/homebrew\/*\/liblz4.1.10.0.dylib",
+    "name" : "liblz4.1.10.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4732600320,
+    "size" : 65536,
+    "uuid" : "c2ad5a43-1b54-34fc-9daa-21b6a169f1c7",
+    "path" : "\/opt\/homebrew\/*\/libvtkCommonColor-9.5.9.5.dylib",
+    "name" : "libvtkCommonColor-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4741152768,
+    "size" : 524288,
+    "uuid" : "efa10d3c-7597-353c-bee1-2f2943e654c8",
+    "path" : "\/opt\/homebrew\/*\/libvtkFiltersHybrid-9.5.9.5.dylib",
+    "name" : "libvtkFiltersHybrid-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4735942656,
+    "size" : 114688,
+    "uuid" : "f00e8d36-6429-3278-80ea-0905794513d3",
+    "path" : "\/opt\/homebrew\/*\/libvtkImagingSources-9.5.9.5.dylib",
+    "name" : "libvtkImagingSources-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4736172032,
+    "size" : 65536,
+    "uuid" : "f714f601-a182-3f11-b90d-4732064c978d",
+    "path" : "\/opt\/homebrew\/*\/libvtkDICOMParser-9.5.9.5.dylib",
+    "name" : "libvtkDICOMParser-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4738514944,
+    "size" : 409600,
+    "uuid" : "2428c8fb-c087-39a4-afa1-7b7b123086f2",
+    "path" : "\/opt\/homebrew\/*\/libvtkmetaio-9.5.9.5.dylib",
+    "name" : "libvtkmetaio-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4742004736,
+    "size" : 245760,
+    "uuid" : "185b47bd-3a9b-3e3d-90a3-779b9c9d1ef0",
+    "path" : "\/opt\/homebrew\/*\/libvtkFiltersHyperTree-9.5.9.5.dylib",
+    "name" : "libvtkFiltersHyperTree-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4743512064,
+    "size" : 491520,
+    "uuid" : "2a95857a-44cd-3619-9382-13d9e330f175",
+    "path" : "\/opt\/homebrew\/*\/libvtkFiltersStatistics-9.5.9.5.dylib",
+    "name" : "libvtkFiltersStatistics-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5131911168,
+    "size" : 638976,
+    "uuid" : "90c706fb-2ba5-3784-babd-279fc2d5bc4f",
+    "path" : "\/opt\/homebrew\/*\/libvtkParallelDIY-9.5.9.5.dylib",
+    "name" : "libvtkParallelDIY-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4739137536,
+    "size" : 180224,
+    "uuid" : "2235801c-605b-3224-b763-67d358f9f319",
+    "path" : "\/opt\/homebrew\/*\/libvtkParallelCore-9.5.9.5.dylib",
+    "name" : "libvtkParallelCore-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5133320192,
+    "size" : 458752,
+    "uuid" : "c04a7472-4f76-38a6-8fbc-2105f180d75e",
+    "path" : "\/opt\/homebrew\/*\/libvtkFiltersModeling-9.5.9.5.dylib",
+    "name" : "libvtkFiltersModeling-9.5.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4737892352,
+    "size" : 81920,
+    "uuid" : "223aa0d9-6df7-36c9-9b84-bdb57bbf945b",
+    "path" : "\/opt\/homebrew\/*\/libgflags.2.3.0.dylib",
+    "name" : "libgflags.2.3.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5141921792,
+    "size" : 3391488,
+    "uuid" : "3b240b35-e729-3c2d-8388-07da37954647",
+    "path" : "\/opt\/homebrew\/*\/libceres.2.2.0.dylib",
+    "name" : "libceres.2.2.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4738072576,
+    "size" : 81920,
+    "uuid" : "6853d5a4-6079-30b2-8e5c-c3cc43bc9d84",
+    "path" : "\/opt\/homebrew\/*\/libglog.0.6.0.dylib",
+    "name" : "libglog.0.6.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5136400384,
+    "size" : 1949696,
+    "uuid" : "0558b564-c3c3-34c3-b05a-536ee29c758c",
+    "path" : "\/opt\/homebrew\/*\/libcholmod.5.3.4.dylib",
+    "name" : "libcholmod.5.3.4.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4742905856,
+    "size" : 212992,
+    "uuid" : "48e80222-f8d9-373f-90d3-54e9b92dbd1a",
+    "path" : "\/opt\/homebrew\/*\/libspqr.4.3.6.dylib",
+    "name" : "libspqr.4.3.6.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5130502144,
+    "size" : 278528,
+    "uuid" : "5726570f-22cf-33a1-a9f3-dc849d331b71",
+    "path" : "\/opt\/homebrew\/*\/libmetis.dylib",
+    "name" : "libmetis.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4708270080,
+    "size" : 49152,
+    "uuid" : "a1b91c93-6144-39c8-9e4b-6201c04b36c9",
+    "path" : "\/opt\/homebrew\/*\/libamd.3.3.4.dylib",
+    "name" : "libamd.3.3.4.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4708368384,
+    "size" : 49152,
+    "uuid" : "203f37c3-d446-37ae-98eb-c81d28966a6f",
+    "path" : "\/opt\/homebrew\/*\/libcamd.3.3.5.dylib",
+    "name" : "libcamd.3.3.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4708466688,
+    "size" : 49152,
+    "uuid" : "848e87a1-7c0f-3de5-b814-e543133363a9",
+    "path" : "\/opt\/homebrew\/*\/libccolamd.3.3.5.dylib",
+    "name" : "libccolamd.3.3.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4564533248,
+    "size" : 32768,
+    "uuid" : "570fffd6-4d3c-3e8b-941a-332db000a34c",
+    "path" : "\/opt\/homebrew\/*\/libcolamd.3.3.5.dylib",
+    "name" : "libcolamd.3.3.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4709842944,
+    "size" : 16384,
+    "uuid" : "adae3d5a-d249-3fe1-8c0b-3635bd13b6d0",
+    "path" : "\/opt\/homebrew\/*\/libsuitesparseconfig.7.12.1.dylib",
+    "name" : "libsuitesparseconfig.7.12.1.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5149556736,
+    "size" : 1900544,
+    "uuid" : "4e3fc79d-2139-3724-88a1-70c6f6a2c072",
+    "path" : "\/opt\/homebrew\/*\/libtesseract.5.dylib",
+    "name" : "libtesseract.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5134286848,
+    "size" : 557056,
+    "uuid" : "f756f814-778d-34c7-bed6-266c093b65d6",
+    "path" : "\/opt\/homebrew\/*\/libarchive.13.dylib",
+    "name" : "libarchive.13.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5152391168,
+    "size" : 1949696,
+    "uuid" : "4724b79a-118b-32ce-979c-61eb352fa963",
+    "path" : "\/opt\/homebrew\/*\/libleptonica.6.dylib",
+    "name" : "libleptonica.6.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4724424704,
+    "size" : 32768,
+    "uuid" : "b3fe47f3-406c-3916-bdd0-cf7f7ae8d9fa",
+    "path" : "\/opt\/homebrew\/*\/libgif.7.2.0.dylib",
+    "name" : "libgif.7.2.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5158764544,
+    "size" : 2342912,
+    "uuid" : "0b8c2cc5-492b-371a-aae0-f5de7994975c",
+    "path" : "\/opt\/homebrew\/*\/libonnx.dylib",
+    "name" : "libonnx.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5116526592,
+    "size" : 180224,
+    "uuid" : "251d8d98-8835-3217-86e6-e555ddefcd90",
+    "path" : "\/opt\/homebrew\/*\/libonnx_proto.dylib",
+    "name" : "libonnx_proto.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5135007744,
+    "size" : 327680,
+    "uuid" : "4f96c606-2279-37e7-8744-441763e09fc7",
+    "path" : "\/opt\/homebrew\/*\/libre2.11.0.0.dylib",
+    "name" : "libre2.11.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4732764160,
+    "size" : 16384,
+    "uuid" : "44c1733b-efca-39f0-abe9-38270ab8b069",
+    "path" : "\/opt\/homebrew\/*\/libutf8_range.33.2.0.dylib",
+    "name" : "libutf8_range.33.2.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5138513920,
+    "size" : 704512,
+    "uuid" : "b2f54276-36e7-3a78-9193-3e8f73289c54",
+    "path" : "\/Users\/USER\/Documents\/*\/libggml-cpu.0.9.5.dylib",
+    "name" : "libggml-cpu.0.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 4738351104,
+    "size" : 16384,
+    "uuid" : "d1e1cfbd-342b-3543-9a3c-b1c7ed2f99be",
+    "path" : "\/Users\/USER\/Documents\/*\/libggml-blas.0.9.5.dylib",
+    "name" : "libggml-blas.0.9.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5135548416,
+    "size" : 491520,
+    "uuid" : "0e12d2f4-7408-39bd-b6e9-d56a3dba63b3",
+    "path" : "\/opt\/homebrew\/*\/libomp.dylib",
+    "name" : "libomp.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5116854272,
+    "size" : 212992,
+    "uuid" : "694e1ae2-d944-3184-9906-16735062c5e6",
+    "path" : "\/opt\/homebrew\/*\/libjasper.7.0.0.dylib",
+    "name" : "libjasper.7.0.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5131354112,
+    "size" : 262144,
+    "uuid" : "bd4150e7-6c90-3dc5-bd33-f3e9e0ad1f3a",
+    "path" : "\/opt\/homebrew\/*\/libde265.0.dylib",
+    "name" : "libde265.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64e",
+    "base" : 5140299776,
+    "CFBundleShortVersionString" : "3.0",
+    "CFBundleIdentifier" : "com.apple.security.csparser",
+    "size" : 131072,
+    "uuid" : "3a905673-ada9-3c57-992e-b83f555baa61",
+    "path" : "\/System\/Library\/Frameworks\/Security.framework\/Versions\/A\/PlugIns\/csparser.bundle\/Contents\/MacOS\/csparser",
+    "name" : "csparser",
+    "CFBundleVersion" : "61439.140.12"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5139857408,
+    "size" : 49152,
+    "uuid" : "0638c8e5-8b0c-3fb3-96dc-b03fe6ce9a4c",
+    "path" : "\/opt\/homebrew\/*\/libtbbmalloc.2.17.dylib",
+    "name" : "libtbbmalloc.2.17.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5156716544,
+    "size" : 688128,
+    "uuid" : "3efac96a-deb5-3b80-9dfa-44a8104a8ca3",
+    "path" : "\/opt\/homebrew\/*\/libqcocoa.dylib",
+    "name" : "libqcocoa.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64e",
+    "base" : 5156323328,
+    "size" : 49152,
+    "uuid" : "a3faee04-0f8b-3428-9497-560c97eca6fb",
+    "path" : "\/usr\/lib\/libobjc-trampolines.dylib",
+    "name" : "libobjc-trampolines.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5165006848,
+    "size" : 147456,
+    "uuid" : "cde3e59c-eef8-33c0-8c90-a9bbe4b4fa39",
+    "path" : "\/opt\/homebrew\/*\/libqmacstyle.dylib",
+    "name" : "libqmacstyle.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5158518784,
+    "size" : 49152,
+    "uuid" : "db345a69-6812-37ab-a14e-ec2253a42036",
+    "path" : "\/opt\/homebrew\/*\/libqsvgicon.dylib",
+    "name" : "libqsvgicon.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5883838464,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "org.qt-project.QtSvg",
+    "size" : 360448,
+    "uuid" : "057445e7-05a8-3eba-824b-954d5e04f2d3",
+    "path" : "\/opt\/homebrew\/*\/QtSvg.framework\/Versions\/A\/QtSvg",
+    "name" : "QtSvg",
+    "CFBundleVersion" : "6.9.3"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64e",
+    "base" : 13141131264,
+    "CFBundleShortVersionString" : "329.2",
+    "CFBundleIdentifier" : "com.apple.AGXMetalG16G-B0",
+    "size" : 7553024,
+    "uuid" : "508cbb0b-cb8e-3d12-a0bb-b687aa5dd372",
+    "path" : "\/System\/Library\/Extensions\/AGXMetalG16G_B0.bundle\/Contents\/MacOS\/AGXMetalG16G_B0",
+    "name" : "AGXMetalG16G_B0",
+    "CFBundleVersion" : "329.2"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5866684416,
+    "size" : 32768,
+    "uuid" : "8390af84-7e68-3d19-bef4-8340600d9367",
+    "path" : "\/opt\/homebrew\/*\/libqgif.dylib",
+    "name" : "libqgif.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5905416192,
+    "size" : 32768,
+    "uuid" : "f81d1b97-d276-3366-a7ef-c042552fcf96",
+    "path" : "\/opt\/homebrew\/*\/libqwbmp.dylib",
+    "name" : "libqwbmp.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 6063652864,
+    "size" : 32768,
+    "uuid" : "4ab6f71b-8898-37c4-bb18-0d1dbd9ead93",
+    "path" : "\/opt\/homebrew\/*\/libqwebp.dylib",
+    "name" : "libqwebp.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 5884444672,
+    "size" : 32768,
+    "uuid" : "950fd123-d8ba-3715-bac3-74e33dbe1131",
+    "path" : "\/opt\/homebrew\/*\/libqico.dylib",
+    "name" : "libqico.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 14099038208,
+    "size" : 32768,
+    "uuid" : "d89acc27-deeb-32b9-a4a5-955019c9fd68",
+    "path" : "\/opt\/homebrew\/*\/libqmacheif.dylib",
+    "name" : "libqmacheif.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 14099267584,
+    "size" : 49152,
+    "uuid" : "9b26022e-165b-3724-840d-a081c98eaf19",
+    "path" : "\/opt\/homebrew\/*\/libqjpeg.dylib",
+    "name" : "libqjpeg.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 14099398656,
+    "size" : 49152,
+    "uuid" : "9c62b2a4-9879-30c1-83ef-ffdccda276c7",
+    "path" : "\/opt\/homebrew\/*\/libqtiff.dylib",
+    "name" : "libqtiff.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 14099136512,
+    "size" : 32768,
+    "uuid" : "1ca6b8df-9a5d-37c5-a4c7-cc2d4857d69f",
+    "path" : "\/opt\/homebrew\/*\/libqsvg.dylib",
+    "name" : "libqsvg.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 14099529728,
+    "size" : 32768,
+    "uuid" : "9148794c-5214-367d-957a-2494568e9c8d",
+    "path" : "\/opt\/homebrew\/*\/libqmng.dylib",
+    "name" : "libqmng.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 14100004864,
+    "size" : 262144,
+    "uuid" : "16a7907b-604d-3105-8f58-183f69b5f19b",
+    "path" : "\/opt\/homebrew\/*\/libmng.2.dylib",
+    "name" : "libmng.2.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 14099628032,
+    "size" : 32768,
+    "uuid" : "95173e97-f3c5-39cf-90be-514e0fb09c0a",
+    "path" : "\/opt\/homebrew\/*\/libqjp2.dylib",
+    "name" : "libqjp2.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 14099726336,
+    "size" : 32768,
+    "uuid" : "50d31d7d-9e60-3b3d-b45b-d4711c0826f7",
+    "path" : "\/opt\/homebrew\/*\/libqpdf.dylib",
+    "name" : "libqpdf.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 14110605312,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "org.qt-project.QtPdf",
+    "size" : 7045120,
+    "uuid" : "36af8e02-dd9c-3ec3-a30b-f128051f8aa4",
+    "path" : "\/opt\/homebrew\/*\/QtPdf.framework\/Versions\/A\/QtPdf",
+    "name" : "QtPdf",
+    "CFBundleVersion" : "6.9.3"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 14099824640,
+    "size" : 32768,
+    "uuid" : "8cec44d3-c533-392b-9d77-cd3fe8ba7d02",
+    "path" : "\/opt\/homebrew\/*\/libqicns.dylib",
+    "name" : "libqicns.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64",
+    "base" : 14100381696,
+    "size" : 32768,
+    "uuid" : "eb285dbc-6070-3696-a306-3ddd50271ab1",
+    "path" : "\/opt\/homebrew\/*\/libqtga.dylib",
+    "name" : "libqtga.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64e",
+    "base" : 6583357440,
+    "size" : 243284,
+    "uuid" : "6e4a96ad-04b8-3e8a-b91d-087e62306246",
+    "path" : "\/usr\/lib\/system\/libsystem_kernel.dylib",
+    "name" : "libsystem_kernel.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64e",
+    "base" : 6582124544,
+    "size" : 528964,
+    "uuid" : "dfea8794-80ce-37c3-8f6a-108aa1d0b1b0",
+    "path" : "\/usr\/lib\/system\/libsystem_c.dylib",
+    "name" : "libsystem_c.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64e",
+    "base" : 6583234560,
+    "size" : 122880,
+    "uuid" : "776a4afb-71ee-32ab-b2ee-e6ff80818654",
+    "path" : "\/usr\/lib\/libc++abi.dylib",
+    "name" : "libc++abi.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64e",
+    "base" : 6579453952,
+    "size" : 342164,
+    "uuid" : "8ca52e4d-f699-3d14-8061-eea9d4366538",
+    "path" : "\/usr\/lib\/libobjc.A.dylib",
+    "name" : "libobjc.A.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64e",
+    "base" : 6583656448,
+    "size" : 195492,
+    "uuid" : "01bcb3f7-ab89-30bd-87ee-91b291eadae8",
+    "path" : "\/usr\/lib\/system\/libdyld.dylib",
+    "name" : "libdyld.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64e",
+    "base" : 6579798016,
+    "size" : 636280,
+    "uuid" : "3247e185-ced2-36ff-9e29-47a77c23e004",
+    "path" : "\/usr\/lib\/dyld",
+    "name" : "dyld"
+  },
+  {
+    "size" : 0,
+    "source" : "A",
+    "base" : 0,
+    "uuid" : "00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64e",
+    "base" : 6583603200,
+    "size" : 51784,
+    "uuid" : "d6494ba9-171e-39fc-b1aa-28ecf87975d1",
+    "path" : "\/usr\/lib\/system\/libsystem_pthread.dylib",
+    "name" : "libsystem_pthread.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64e",
+    "base" : 6584082432,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "com.apple.CoreFoundation",
+    "size" : 5500928,
+    "uuid" : "8d45baee-6cc0-3b89-93fd-ea1c8e15c6d7",
+    "path" : "\/System\/Library\/Frameworks\/CoreFoundation.framework\/Versions\/A\/CoreFoundation",
+    "name" : "CoreFoundation",
+    "CFBundleVersion" : "3603"
+  },
+  {
+    "source" : "P",
+    "arch" : "arm64e",
+    "base" : 6650556416,
+    "CFBundleShortVersionString" : "6.9",
+    "CFBundleIdentifier" : "com.apple.AppKit",
+    "size" : 21564992,
+    "uuid" : "860c164c-d04c-30ff-8c6f-e672b74caf11",
+    "path" : "\/System\/Library\/Frameworks\/AppKit.framework\/Versions\/C\/AppKit",
+    "name" : "AppKit",
+    "CFBundleVersion" : "2575.70.52"
+  }
+],
+  "sharedCache" : {
+  "base" : 6578962432,
+  "size" : 5040898048,
+  "uuid" : "4c1223e5-cace-3982-a003-6110a7a8a25c"
+},
+  "legacyInfo" : {
+  "threadTriggered" : {
+
+  }
+},
+  "logWritingSignature" : "83b1d01f4091f59861bd8045e07ba927f3452892",
+  "trialInfo" : {
+  "rollouts" : [
+    {
+      "rolloutId" : "67181b10c68c361a728c7cfa",
+      "factorPackIds" : {
+
+      },
+      "deploymentId" : 240000005
+    },
+    {
+      "rolloutId" : "64b21a7351cbb02ce3442e4e",
+      "factorPackIds" : {
+        "REMINDERS_GROCERY" : "6647f0f7b6a75d3dc32993e7"
+      },
+      "deploymentId" : 240000042
+    }
+  ],
+  "experiments" : [
+
+  ]
+}
+}
+
+Model: Mac16,12, BootROM 11881.140.96, proc 10:4:6 processors, 16 GB, SMC 
+Graphics: Apple M4, Apple M4, Built-In
+Display: Color LCD, 2560 x 1664 Retina, Main, MirrorOff, Online
+Memory Module: LPDDR5, Micron
+AirPort: spairport_wireless_card_type_wifi (0x14E4, 0x4388), wl0: Jun 24 2025 04:56:40 version 23.40.31.0.41.51.179 FWID 01-435c4c4d
+IO80211_driverkit-1485.7 "IO80211_driverkit-1485.7" Jul 15 2025 20:46:41
+AirPort: 
+Bluetooth: Version (null), 0 services, 0 devices, 0 incoming serial ports
+Network Service: Wi-Fi, AirPort, en0
+USB Device: USB31Bus
+USB Device: USB31Bus
+Thunderbolt Bus: MacBook Air, Apple Inc.
+Thunderbolt Bus: MacBook Air, Apple Inc.

@@ -12,6 +12,11 @@
 #include "PhotoMetadata.h"
 #include "ImageLoader.h"
 #include "NotificationManager.h"
+#include "core/GoogleTakeoutParser.h"
+#include "core/GoogleTakeoutImporter.h"
+#include "core/Logger.h"
+#include "core/ExifToolDaemon.h"
+#include "ml/ONNXInference.h"
 
 #include <QMenuBar>
 #include <QMenu>
@@ -32,6 +37,7 @@
 #include <QUrl>
 #include <QProcess>
 #include <QProgressDialog>
+#include <QTimer>
 
 namespace PhotoGuru {
 
@@ -48,12 +54,40 @@ MainWindow::MainWindow(QWidget* parent)
     setupUI();
     loadSettings();
     
+    // Force Metadata tab to be active (using QTimer to ensure event loop processed everything)
+    QTimer::singleShot(0, this, [this]() {
+        if (m_metadataDock) {
+            m_metadataDock->raise();
+        }
+    });
+    
     // Initialize with welcome state
     statusBar()->showMessage("Ready - Open a directory or drop images here");
 }
 
 MainWindow::~MainWindow() {
+    qDebug() << "[MainWindow] Starting cleanup...";
+    
+    // Ensure all panels are properly disconnected before destruction
+    if (m_analysisPanel) {
+        disconnect(m_analysisPanel, nullptr, this, nullptr);
+    }
+    if (m_metadataPanel) {
+        disconnect(m_metadataPanel, nullptr, this, nullptr);
+    }
+    
     saveSettings();
+    
+    // CRITICAL: Shutdown ML backends before exit to prevent crash
+    // ONNX Runtime has static globals that must be cleaned up explicitly
+    qDebug() << "[MainWindow] Shutting down ML backends...";
+    ONNXInference::shutdownEnvironment();
+    
+    // Stop ExifTool daemon to prevent zombie process
+    qDebug() << "[MainWindow] Stopping ExifTool daemon...";
+    ExifToolDaemon::instance().stop();
+    
+    qDebug() << "[MainWindow] Cleanup complete";
 }
 
 void MainWindow::setupUI() {
@@ -199,6 +233,12 @@ void MainWindow::createMenuBar() {
             m_metadataPanel->setEditable(true);
         }
     });
+    
+    metadataMenu->addSeparator();
+    
+    QAction* importTakeoutAction = metadataMenu->addAction("Import &Google Takeout...");
+    importTakeoutAction->setShortcut(QKeySequence("Ctrl+Shift+G"));
+    connect(importTakeoutAction, &QAction::triggered, this, &MainWindow::onImportGoogleTakeout);
     
     metadataMenu->addSeparator();
     
@@ -378,34 +418,7 @@ void MainWindow::createDockPanels() {
                    QMainWindow::AllowTabbedDocks | 
                    QMainWindow::GroupedDragging);
     
-    // Metadata panel (right - full height)
-    m_metadataDock = new QDockWidget("Metadata", this);
-    m_metadataDock->setAllowedAreas(Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea);
-    m_metadataDock->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetFloatable);
-    m_metadataPanel = new MetadataPanel(this);
-    m_metadataDock->setWidget(m_metadataPanel);
-    m_metadataDock->setMinimumWidth(280);
-    addDockWidget(Qt::RightDockWidgetArea, m_metadataDock);
-    
-    // SKP Browser (right, tabbed with metadata)
-    m_skpDock = new QDockWidget("Semantic Keys", this);
-    m_skpDock->setAllowedAreas(Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea);
-    m_skpDock->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetFloatable);
-    m_skpBrowser = new SKPBrowser(this);
-    m_skpDock->setWidget(m_skpBrowser);
-    m_skpDock->setMinimumWidth(280);
-    addDockWidget(Qt::RightDockWidgetArea, m_skpDock);
-    
-    // Analysis Panel (right, tabbed with metadata and SKP)
-    m_analysisDock = new QDockWidget("AI Analysis", this);
-    m_analysisDock->setAllowedAreas(Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea);
-    m_analysisDock->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetFloatable);
-    m_analysisPanel = new AnalysisPanel(this);
-    m_analysisDock->setWidget(m_analysisPanel);
-    m_analysisDock->setMinimumWidth(280);
-    addDockWidget(Qt::RightDockWidgetArea, m_analysisDock);
-    
-    // Filter Panel (left side)
+    // Filter Panel (left side) - create first to avoid interference
     m_filterDock = new QDockWidget("Filters", this);
     m_filterDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     m_filterDock->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetFloatable);
@@ -414,10 +427,44 @@ void MainWindow::createDockPanels() {
     m_filterDock->setMinimumWidth(220);
     addDockWidget(Qt::LeftDockWidgetArea, m_filterDock);
     
-    // Tab the right panels together (Lightroom style)
-    tabifyDockWidget(m_metadataDock, m_skpDock);
-    tabifyDockWidget(m_skpDock, m_analysisDock);
-    m_metadataDock->raise();  // Show metadata by default
+    // RIGHT SIDE PANELS - create in order we want tabs to appear: Metadata, Analysis, SKP
+    
+    // Metadata panel (right - FIRST TAB)
+    m_metadataDock = new QDockWidget("Metadata", this);
+    m_metadataDock->setAllowedAreas(Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea);
+    m_metadataDock->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetFloatable);
+    m_metadataPanel = new MetadataPanel(this);
+    m_metadataDock->setWidget(m_metadataPanel);
+    m_metadataDock->setMinimumWidth(280);
+    addDockWidget(Qt::RightDockWidgetArea, m_metadataDock);
+    
+    // Analysis Panel (right - SECOND TAB)
+    m_analysisDock = new QDockWidget("AI Analysis", this);
+    m_analysisDock->setAllowedAreas(Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea);
+    m_analysisDock->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetFloatable);
+    m_analysisPanel = new AnalysisPanel(this);
+    m_analysisDock->setWidget(m_analysisPanel);
+    m_analysisDock->setMinimumWidth(280);
+    addDockWidget(Qt::RightDockWidgetArea, m_analysisDock);
+    
+    // SKP Browser (right - THIRD/LAST TAB)
+    m_skpDock = new QDockWidget("Semantic Keys", this);
+    m_skpDock->setAllowedAreas(Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea);
+    m_skpDock->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetFloatable);
+    m_skpBrowser = new SKPBrowser(this);
+    m_skpDock->setWidget(m_skpBrowser);
+    m_skpDock->setMinimumWidth(280);
+    addDockWidget(Qt::RightDockWidgetArea, m_skpDock);
+    
+    // Tabify all right panels together
+    // First tab Analysis to Metadata (creates tab group with Metadata first, Analysis second)
+    tabifyDockWidget(m_metadataDock, m_analysisDock);
+    // Then tab SKP to Analysis (adds SKP as third tab)
+    tabifyDockWidget(m_analysisDock, m_skpDock);
+    
+    // Ensure Metadata tab is visible by default
+    m_metadataDock->show();
+    m_metadataDock->raise();
     
     // Connect analysis panel signals
     connect(m_analysisPanel, &AnalysisPanel::metadataUpdated, 
@@ -481,6 +528,9 @@ void MainWindow::onOpenFiles() {
 void MainWindow::loadDirectory(const QString& path) {
     m_currentDirectory = path;
     
+    // Check if this is a Google Takeout directory
+    checkAndOfferGoogleTakeoutImport(path);
+    
     // Find all supported images
     QDir dir(path);
     QStringList filters = ImageLoader::instance().supportedExtensions();
@@ -505,6 +555,11 @@ void MainWindow::loadDirectory(const QString& path) {
     
     // Update analysis panel with directory
     m_analysisPanel->setCurrentDirectory(path);
+    
+    // Ensure Metadata panel remains visible after loading
+    if (m_metadataDock) {
+        m_metadataDock->raise();
+    }
     
     statusBar()->showMessage(
         QString("Loaded %1 images from %2")
@@ -657,8 +712,9 @@ void MainWindow::dropEvent(QDropEvent* event) {
 void MainWindow::loadSettings() {
     QSettings settings("PhotoGuru", "Viewer");
     
+    // Only restore geometry, NOT window state (dock positions/tabs)
+    // This ensures tab order remains as defined in code
     restoreGeometry(settings.value("geometry").toByteArray());
-    restoreState(settings.value("windowState").toByteArray());
     
     m_currentDirectory = settings.value("lastDirectory", QDir::homePath()).toString();
 }
@@ -666,8 +722,9 @@ void MainWindow::loadSettings() {
 void MainWindow::saveSettings() {
     QSettings settings("PhotoGuru", "Viewer");
     
+    // Only save geometry, NOT window state (dock positions/tabs)
+    // This ensures tab order remains consistent across sessions
     settings.setValue("geometry", saveGeometry());
-    settings.setValue("windowState", saveState());
     settings.setValue("lastDirectory", m_currentDirectory);
 }
 
@@ -1153,6 +1210,94 @@ void MainWindow::setImageRating(const QString& filepath, int stars) {
         }
     } else {
         qWarning() << "Failed to set rating for" << filepath;
+    }
+}
+
+void MainWindow::checkAndOfferGoogleTakeoutImport(const QString& directoryPath) {
+    // Check if this directory looks like Google Takeout
+    if (!GoogleTakeoutParser::isGoogleTakeoutDirectory(directoryPath)) {
+        return;
+    }
+    
+    LOG_INFO("MainWindow", "Google Takeout directory detected: " + directoryPath);
+    
+    // Show notification offering to import metadata
+    NotificationManager::instance().showInfo(
+        "Google Takeout folder detected! Would you like to import metadata from JSON files?",
+        10000  // 10 second timeout
+    );
+    
+    // Note: For now, user can manually trigger import via menu
+    // Future enhancement: Add action buttons to notification
+}
+
+void MainWindow::onImportGoogleTakeout() {
+    if (m_currentDirectory.isEmpty()) {
+        NotificationManager::instance().showWarning("Please open a directory first.");
+        return;
+    }
+    
+    LOG_INFO("MainWindow", "=== Starting Google Takeout import ===");
+    
+    // Create progress dialog
+    QProgressDialog progress("Importing Google Takeout metadata...", "Cancel", 0, 0, this);
+    progress.setWindowModality(Qt::WindowModal);
+    progress.setMinimumDuration(0);
+    progress.setValue(0);
+    progress.show();
+    
+    // Configure import options (all enabled by default)
+    GoogleTakeoutImporter::ImportOptions options;
+    options.applyDescription = true;
+    options.applyPeopleAsKeywords = true;
+    options.applyAlbumsAsKeywords = true;
+    options.applyLocation = true;
+    options.applyDateTime = true;
+    options.overwriteExisting = true;  // Overwrite existing metadata
+    options.createBackup = false;  // Don't create backups (exiftool does this)
+    
+    // Run import
+    GoogleTakeoutImporter importer;
+    auto result = importer.importDirectory(m_currentDirectory, options);
+    
+    progress.close();
+    
+    // Show results
+    QString message = QString(
+        "Google Takeout import complete!\n\n"
+        "Images processed: %1\n"
+        "With JSON metadata: %2\n"
+        "Metadata applied: %3\n"
+        "Errors: %4"
+    ).arg(result.totalImages)
+     .arg(result.withJson)
+     .arg(result.metadataApplied)
+     .arg(result.errors);
+    
+    if (result.errors > 0 && !result.errorMessages.isEmpty()) {
+        message += "\n\nFirst few errors:\n";
+        int maxErrors = qMin(5, result.errorMessages.size());
+        for (int i = 0; i < maxErrors; i++) {
+            message += "• " + result.errorMessages[i] + "\n";
+        }
+    }
+    
+    LOG_INFO("MainWindow", result.summary());
+    
+    if (result.metadataApplied > 0) {
+        NotificationManager::instance().showSuccess(message);
+        
+        // Refresh current image to show updated metadata
+        if (m_currentIndex >= 0 && m_currentIndex < m_imageFiles.size()) {
+            m_metadataPanel->loadMetadata(m_imageFiles[m_currentIndex]);
+        }
+    } else if (result.withJson == 0) {
+        NotificationManager::instance().showWarning(
+            "No Google Takeout JSON files found in this directory.\n\n"
+            "Expected format: IMG_001.jpg + IMG_001.jpg.json"
+        );
+    } else {
+        NotificationManager::instance().showError(message);
     }
 }
 

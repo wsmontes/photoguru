@@ -54,6 +54,8 @@ set(SOURCES
     src/core/ThumbnailCache.cpp
     src/core/PhotoDatabase.cpp
     src/core/Logger.cpp
+    src/core/GoogleTakeoutParser.cpp
+    src/core/GoogleTakeoutImporter.cpp
     src/ui/MainWindow.cpp
     src/ui/ImageViewer.cpp
     src/ui/ThumbnailGrid.cpp
@@ -78,6 +80,8 @@ set(HEADERS
     src/core/ThumbnailCache.h
     src/core/PhotoDatabase.h
     src/core/PhotoMetadata.h
+    src/core/GoogleTakeoutParser.h
+    src/core/GoogleTakeoutImporter.h
     src/ui/MainWindow.h
     src/ui/ImageViewer.h
     src/ui/ThumbnailGrid.h
@@ -194,6 +198,9 @@ if(BUILD_TESTS)
         tests/test_thumbnail_cache.cpp
         tests/test_filter_criteria.cpp
         tests/test_analysis_panel.cpp
+        tests/test_analysis_panel_buttons.cpp
+        tests/test_analysis_panel_checkboxes.cpp
+        tests/test_analysis_panel_actions.cpp
         tests/test_semantic_search.cpp
         tests/test_skp_browser.cpp
         tests/test_metadata_panel.cpp
@@ -206,6 +213,9 @@ if(BUILD_TESTS)
         tests/test_main_window.cpp
         tests/test_map_view.cpp
         tests/test_timeline_view.cpp
+        # Integration tests (use real AI models)
+        tests/integration/test_clip_integration.cpp
+        tests/integration/test_vlm_integration.cpp
     )
     
     # Core sources needed for tests (not the full app)
@@ -215,6 +225,8 @@ if(BUILD_TESTS)
         src/core/MetadataWriter.cpp
         src/core/ExifToolDaemon.cpp
         src/core/Logger.cpp
+        src/core/GoogleTakeoutParser.cpp
+        src/core/GoogleTakeoutImporter.cpp
         src/ui/MainWindow.cpp
         src/ui/MapView.cpp
         src/ui/TimelineView.cpp

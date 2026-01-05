@@ -22,7 +22,7 @@
 
 namespace PhotoGuru {
 
-AnalysisPanel::AnalysisPanel(QWidget* parent)
+AnalysisPanel::AnalysisPanel(QWidget* parent, bool shouldInitializeAI)
     : QWidget(parent)
     , m_isAnalyzing(false)
     , m_aiInitialized(false)
@@ -32,7 +32,9 @@ AnalysisPanel::AnalysisPanel(QWidget* parent)
     setMinimumWidth(260);
     setupUI();
     updateButtonStates(false);
-    initializeAI();
+    if (shouldInitializeAI) {
+        initializeAI();
+    }
 }
 
 AnalysisPanel::~AnalysisPanel() = default;
@@ -346,7 +348,6 @@ void AnalysisPanel::onAnalyzeCurrentImage() {
     
     if (m_currentImage.isEmpty()) {
         LOG_WARNING("AnalysisPanel", "No image selected");
-        QMessageBox::warning(this, "No Image", "Please select an image first.");
         return;
     }
     
@@ -354,7 +355,6 @@ void AnalysisPanel::onAnalyzeCurrentImage() {
     
     if (!m_aiInitialized || !m_clipAnalyzer) {
         LOG_ERROR("AnalysisPanel", "AI not initialized");
-        QMessageBox::warning(this, "AI Not Ready", "AI components not initialized. Check models in /models/");
         return;
     }
     
@@ -463,7 +463,6 @@ void AnalysisPanel::onAnalyzeDirectory() {
     
     if (m_currentDirectory.isEmpty()) {
         LOG_WARNING("AnalysisPanel", "No directory selected");
-        QMessageBox::warning(this, "No Directory", "Please select a directory first.");
         return;
     }
     
@@ -471,7 +470,6 @@ void AnalysisPanel::onAnalyzeDirectory() {
     
     if (!m_aiInitialized || !m_clipAnalyzer) {
         LOG_ERROR("AnalysisPanel", "AI not initialized");
-        QMessageBox::warning(this, "AI Not Ready", "AI components not initialized.");
         return;
     }
     
@@ -572,7 +570,6 @@ void AnalysisPanel::onFindDuplicates() {
     
     if (m_currentDirectory.isEmpty()) {
         LOG_WARNING("AnalysisPanel", "No directory selected");
-        QMessageBox::warning(this, "No Directory", "Please select a directory first.");
         return;
     }
     
@@ -580,7 +577,6 @@ void AnalysisPanel::onFindDuplicates() {
     
     if (!m_aiInitialized || !m_clipAnalyzer) {
         LOG_ERROR("AnalysisPanel", "CLIP not initialized");
-        QMessageBox::warning(this, "AI Not Ready", "CLIP analyzer not initialized.");
         return;
     }
     
@@ -663,7 +659,6 @@ void AnalysisPanel::onDetectBursts() {
     
     if (m_currentDirectory.isEmpty()) {
         LOG_WARNING("AnalysisPanel", "No directory selected");
-        QMessageBox::warning(this, "No Directory", "Please select a directory first.");
         return;
     }
     
@@ -750,7 +745,6 @@ void AnalysisPanel::onGenerateReport() {
     
     if (m_currentDirectory.isEmpty()) {
         LOG_WARNING("AnalysisPanel", "No directory selected");
-        QMessageBox::warning(this, "No Directory", "Please select a directory first.");
         return;
     }
     

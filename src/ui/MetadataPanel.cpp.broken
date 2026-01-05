@@ -10,6 +10,7 @@
 #include <QJsonArray>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QToolButton>
 #include <QFrame>
 
 namespace PhotoGuru {
@@ -47,16 +48,6 @@ CollapsibleGroupBox::CollapsibleGroupBox(const QString& title, QWidget* parent)
 }
 
 void CollapsibleGroupBox::setContentLayout(QLayout* layout) {
-    // Remove old layout if exists
-    if (m_contentWidget->layout()) {
-        QLayout* oldLayout = m_contentWidget->layout();
-        QLayoutItem* item;
-        while ((item = oldLayout->takeAt(0)) != nullptr) {
-            delete item->widget();
-            delete item;
-        }
-        delete oldLayout;
-    }
     m_contentWidget->setLayout(layout);
 }
 
@@ -198,9 +189,18 @@ void MetadataPanel::setupUI() {
     topLayout->addStretch();
     mainLayout->addLayout(topLayout);
     
-    // Setup metadata content directly (no tabs)
+    // Create tab widget
+    m_tabWidget = new QTabWidget(this);
+    mainLayout->addWidget(m_tabWidget);
+    
+    // Create tabs
     setupMetadataTab();
-    mainLayout->addWidget(m_metadataScrollArea);
+    setupSemanticKeysTab();
+    
+    // Add tabs in order: Metadata first, Semantic Keys last
+    m_tabWidget->addTab(m_metadataTab, "Metadata");
+    m_tabWidget->addTab(m_semanticKeysTab, "Semantic Keys");
+    m_tabWidget->setCurrentIndex(0);  // Metadata tab active by default
     
     // Save/Cancel buttons
     QHBoxLayout* buttonLayout = new QHBoxLayout();
@@ -256,7 +256,11 @@ void MetadataPanel::setupUI() {
 }
 
 void MetadataPanel::setupMetadataTab() {
-    // Create scroll area for content
+    m_metadataTab = new QWidget();
+    QVBoxLayout* tabLayout = new QVBoxLayout(m_metadataTab);
+    tabLayout->setContentsMargins(0, 0, 0, 0);
+    
+    // Scroll area for content
     m_metadataScrollArea = new QScrollArea();
     m_metadataScrollArea->setWidgetResizable(true);
     m_metadataScrollArea->setFrameShape(QFrame::NoFrame);
@@ -354,14 +358,28 @@ void MetadataPanel::setupMetadataTab() {
     m_metadataLayout->addStretch();
     
     m_metadataScrollArea->setWidget(m_metadataContent);
+    tabLayout->addWidget(m_metadataScrollArea);
+}
+
+void MetadataPanel::setupSemanticKeysTab() {
+    m_semanticKeysTab = new QWidget();
+    QVBoxLayout* tabLayout = new QVBoxLayout(m_semanticKeysTab);
+    
+    m_semanticKeysLabel = new QLabel("No semantic keys data available.\nRun AI analysis to generate semantic keys.");
+    m_semanticKeysLabel->setWordWrap(true);
+    m_semanticKeysLabel->setStyleSheet("color: #aaa; padding: 20px;");
+    m_semanticKeysLabel->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+    
+    tabLayout->addWidget(m_semanticKeysLabel);
+    tabLayout->addStretch();
 }
 
 void MetadataPanel::loadMetadata(const QString& filepath) {
     qDebug() << "[MetadataPanel] loadMetadata called for:" << filepath;
+    qDebug() << "[MetadataPanel] Current filepath:" << m_currentFilepath;
     
     m_currentFilepath = filepath;
     
-    // Read structured metadata
     auto metaOpt = MetadataReader::instance().read(filepath);
     
     if (!metaOpt) {
@@ -372,31 +390,9 @@ void MetadataPanel::loadMetadata(const QString& filepath) {
     }
     
     m_currentMetadata = *metaOpt;
-    
-    // Read all metadata (including all EXIF/IPTC/XMP fields)
-    m_allMetadata = readAllMetadata(filepath);
-    
+    qDebug() << "[MetadataPanel] Loaded llm_description:" << m_currentMetadata.llm_description;
     displayMetadata(m_currentMetadata);
-    displayAllMetadata(m_allMetadata);
-    
     m_editButton->setEnabled(true);
-}
-
-QJsonObject MetadataPanel::readAllMetadata(const QString& filepath) {
-    // Use ExifTool to get ALL metadata fields
-    QStringList args = {"-json", "-a", "-G", filepath};
-    QString output = ExifToolDaemon::instance().executeCommand(args);
-    
-    if (output.isEmpty()) {
-        return QJsonObject();
-    }
-    
-    QJsonDocument doc = QJsonDocument::fromJson(output.toUtf8());
-    if (!doc.isArray() || doc.array().isEmpty()) {
-        return QJsonObject();
-    }
-    
-    return doc.array()[0].toObject();
 }
 
 void MetadataPanel::displayMetadata(const PhotoMetadata& metadata) {
@@ -406,112 +402,22 @@ void MetadataPanel::displayMetadata(const PhotoMetadata& metadata) {
         .arg(info.fileName())
         .arg(info.path()));
     
-    // Quick edit fields
+    // Rating
     m_ratingSlider->setValue(metadata.rating);
     updateRatingDisplay(metadata.rating);
     
+    // Editable fields
     m_titleEdit->setText(metadata.llm_title);
     m_descriptionEdit->setText(metadata.llm_description);
     m_keywordsEdit->setText(metadata.llm_keywords.join(", "));
     m_categoryEdit->setText(metadata.llm_category);
     m_locationEdit->setText(metadata.location_name);
     
-    // Update technical analysis section
-    QVBoxLayout* techLayout = new QVBoxLayout();
-    QString techInfo = formatTechnicalInfo(metadata.technical);
-    QLabel* techLabel = new QLabel(techInfo);
-    techLabel->setWordWrap(true);
-    techLabel->setStyleSheet("color: #aaa; padding: 8px;");
-    techLayout->addWidget(techLabel);
-    m_technicalSection->setContentLayout(techLayout);
-}
-
-void MetadataPanel::displayAllMetadata(const QJsonObject& allMetadata) {
-    // Clear existing field widgets
-    m_fieldWidgets.clear();
+    // EXIF (read-only)
+    m_exifLabel->setText(formatExifInfo(metadata));
     
-    // Separate metadata by group
-    QStringList exifKeys, iptcKeys, xmpKeys, fileKeys;
-    
-    for (auto it = allMetadata.begin(); it != allMetadata.end(); ++it) {
-        QString key = it.key();
-        if (key.startsWith("EXIF:")) {
-            exifKeys << key;
-        } else if (key.startsWith("IPTC:")) {
-            iptcKeys << key;
-        } else if (key.startsWith("XMP") || key.startsWith("XMP-")) {
-            xmpKeys << key;
-        } else if (key.startsWith("File:")) {
-            fileKeys << key;
-        }
-    }
-    
-    // Sort keys alphabetically
-    exifKeys.sort();
-    iptcKeys.sort();
-    xmpKeys.sort();
-    fileKeys.sort();
-    
-    // Populate sections
-    populateMetadataSection(m_exifSection, exifKeys, allMetadata, false);
-    populateMetadataSection(m_iptcSection, iptcKeys, allMetadata, false);
-    populateMetadataSection(m_xmpSection, xmpKeys, allMetadata, false);
-    populateMetadataSection(m_fileSection, fileKeys, allMetadata, false);
-    
-    // Populate custom fields section
-    QVBoxLayout* customLayout = new QVBoxLayout();
-    if (m_customFields.isEmpty()) {
-        QLabel* emptyLabel = new QLabel("No custom fields. Click 'Add Field' to create one.");
-        emptyLabel->setStyleSheet("color: #888; font-style: italic; padding: 8px;");
-        customLayout->addWidget(emptyLabel);
-    } else {
-        for (auto it = m_customFields.begin(); it != m_customFields.end(); ++it) {
-            MetadataFieldWidget* widget = new MetadataFieldWidget(it.key(), it.value(), m_isEditing, this);
-            connect(widget, &MetadataFieldWidget::removeRequested, this, &MetadataPanel::removeField);
-            m_fieldWidgets[it.key()] = widget;
-            customLayout->addWidget(widget);
-        }
-    }
-    customLayout->addStretch();
-    m_customSection->setContentLayout(customLayout);
-}
-
-void MetadataPanel::populateMetadataSection(CollapsibleGroupBox* section, 
-                                            const QStringList& keys, 
-                                            const QJsonObject& metadata,
-                                            bool editable) {
-    QVBoxLayout* layout = new QVBoxLayout();
-    
-    if (keys.isEmpty()) {
-        QLabel* emptyLabel = new QLabel("No data available");
-        emptyLabel->setStyleSheet("color: #888; font-style: italic; padding: 8px;");
-        layout->addWidget(emptyLabel);
-    } else {
-        for (const QString& key : keys) {
-            QJsonValue value = metadata[key];
-            QString valueStr;
-            
-            if (value.isArray()) {
-                QJsonArray arr = value.toArray();
-                QStringList items;
-                for (const QJsonValue& v : arr) {
-                    items << v.toString();
-                }
-                valueStr = items.join(", ");
-            } else {
-                valueStr = value.toString();
-            }
-            
-            if (!valueStr.isEmpty()) {
-                MetadataFieldWidget* widget = new MetadataFieldWidget(key, valueStr, editable, this);
-                m_fieldWidgets[key] = widget;
-                layout->addWidget(widget);
-            }
-        }
-    }
-    
-    layout->addStretch();
-    section->setContentLayout(layout);
+    // Technical (read-only)
+    m_technicalLabel->setText(formatTechnicalInfo(metadata.technical));
 }
 
 QString MetadataPanel::formatExifInfo(const PhotoMetadata& meta) {
@@ -580,10 +486,28 @@ QString MetadataPanel::formatTechnicalInfo(const TechnicalMetadata& tech) {
     return parts.isEmpty() ? "No analysis data" : parts.join("<br/>");
 }
 
+QString MetadataPanel::formatAIAnalysis(const PhotoMetadata& meta) {
+    QStringList parts;
+    
+    if (!meta.llm_title.isEmpty()) {
+        parts << QString("<b>Title:</b> %1").arg(meta.llm_title);
+    }
+    
+    if (!meta.llm_description.isEmpty()) {
+        parts << QString("<b>Description:</b> %1").arg(meta.llm_description);
+    }
+    
+    if (!meta.llm_keywords.isEmpty()) {
+        parts << QString("<b>Keywords:</b> %1").arg(meta.llm_keywords.join(", "));
+    }
+    
+    return parts.isEmpty() ? "Not analyzed yet" : parts.join("<br/>");
+}
+
 void MetadataPanel::setEditable(bool editable) {
     m_isEditing = editable;
     
-    // Toggle edit mode for quick edit fields
+    // Toggle edit mode for fields
     m_ratingSlider->setEnabled(editable);
     m_titleEdit->setReadOnly(!editable);
     m_descriptionEdit->setReadOnly(!editable);
@@ -595,7 +519,6 @@ void MetadataPanel::setEditable(bool editable) {
     m_editButton->setVisible(!editable);
     m_saveButton->setVisible(editable);
     m_cancelButton->setVisible(editable);
-    m_addFieldButton->setVisible(editable);
     
     // Change background color to indicate edit mode
     QString editStyle = editable 
@@ -608,53 +531,7 @@ void MetadataPanel::setEditable(bool editable) {
     m_categoryEdit->setStyleSheet(editStyle);
     m_locationEdit->setStyleSheet(editStyle);
     
-    // Toggle editable state for all field widgets
-    for (auto widget : m_fieldWidgets) {
-        widget->setEditable(editable);
-    }
-    
     emit editModeChanged(editable);
-}
-
-void MetadataPanel::addNewField() {
-    bool ok;
-    QString fieldName = QInputDialog::getText(this, "Add Custom Field",
-                                              "Enter field name (e.g., 'Event', 'Project', 'Copyright'):",
-                                              QLineEdit::Normal, "", &ok);
-    
-    if (ok && !fieldName.isEmpty()) {
-        // Sanitize field name
-        fieldName = fieldName.trimmed();
-        QString key = "Custom:" + fieldName;
-        
-        // Check if already exists
-        if (m_customFields.contains(key)) {
-            QMessageBox::warning(this, "Field Exists", 
-                               QString("A custom field named '%1' already exists.").arg(fieldName));
-            return;
-        }
-        
-        QString value = QInputDialog::getText(this, "Field Value",
-                                              QString("Enter value for '%1':").arg(fieldName),
-                                              QLineEdit::Normal, "", &ok);
-        
-        if (ok) {
-            m_customFields[key] = value;
-            
-            // Refresh display
-            displayAllMetadata(m_allMetadata);
-            
-            NotificationManager::instance().showInfo(QString("Added custom field '%1'").arg(fieldName));
-        }
-    }
-}
-
-void MetadataPanel::removeField(const QString& key) {
-    if (m_customFields.contains(key)) {
-        m_customFields.remove(key);
-        displayAllMetadata(m_allMetadata);
-        NotificationManager::instance().showInfo("Custom field removed");
-    }
 }
 
 void MetadataPanel::saveMetadata() {
@@ -662,10 +539,14 @@ void MetadataPanel::saveMetadata() {
         return;
     }
     
+    qDebug() << "[MetadataPanel] BEFORE SAVE - Description:" << m_descriptionEdit->toPlainText().trimmed();
+    
     // Update current metadata with edited values
     m_currentMetadata.rating = m_ratingSlider->value();
     m_currentMetadata.llm_title = m_titleEdit->text().trimmed();
     m_currentMetadata.llm_description = m_descriptionEdit->toPlainText().trimmed();
+    
+    qDebug() << "[MetadataPanel] m_currentMetadata.llm_description:" << m_currentMetadata.llm_description;
     
     QString keywordsText = m_keywordsEdit->text().trimmed();
     if (!keywordsText.isEmpty()) {
@@ -683,26 +564,15 @@ void MetadataPanel::saveMetadata() {
     // Save using MetadataWriter
     bool success = MetadataWriter::instance().write(m_currentFilepath, m_currentMetadata);
     
-    // Also save custom fields using ExifTool directly
-    if (success && !m_customFields.isEmpty()) {
-        QStringList args;
-        args << "-overwrite_original";
-        
-        for (auto it = m_customFields.begin(); it != m_customFields.end(); ++it) {
-            QString fieldName = it.key().mid(7);  // Remove "Custom:" prefix
-            QString value = it.value();
-            // Write to XMP custom namespace
-            args << QString("-XMP-photoguru:%1=%2").arg(fieldName).arg(value);
-        }
-        
-        args << m_currentFilepath;
-        ExifToolDaemon::instance().executeCommand(args);
-    }
+    qDebug() << "[MetadataPanel] Write result:" << success;
     
     if (success) {
         setEditable(false);
+        qDebug() << "[MetadataPanel] AFTER SAVE - m_currentMetadata.llm_description:" << m_currentMetadata.llm_description;
+        // Don't reload - keep the values we just saved in m_currentMetadata
+        // Just emit the signal so other components can update
         emit metadataChanged(m_currentFilepath);
-        NotificationManager::instance().showSuccess("Metadata saved successfully! Changes written to file.");
+        NotificationManager::instance().showSuccess("Metadata saved successfully! Changes written to XMP/IPTC fields.");
     } else {
         NotificationManager::instance().showError("Failed to save metadata. Make sure the file is writable and ExifTool is installed.");
     }
@@ -711,7 +581,6 @@ void MetadataPanel::saveMetadata() {
 void MetadataPanel::cancelEdit() {
     // Reload original metadata
     displayMetadata(m_currentMetadata);
-    displayAllMetadata(m_allMetadata);
     setEditable(false);
 }
 
@@ -728,10 +597,6 @@ void MetadataPanel::updateRatingDisplay(int rating) {
 
 void MetadataPanel::clear() {
     m_currentFilepath.clear();
-    m_allMetadata = QJsonObject();
-    m_fieldWidgets.clear();
-    m_customFields.clear();
-    
     m_filenameLabel->setText("No image loaded");
     m_ratingSlider->setValue(0);
     m_titleEdit->clear();
@@ -739,10 +604,10 @@ void MetadataPanel::clear() {
     m_keywordsEdit->clear();
     m_categoryEdit->clear();
     m_locationEdit->clear();
-    
+    m_exifLabel->setText("-");
+    m_technicalLabel->setText("-");
     m_editButton->setEnabled(false);
     setEditable(false);
 }
 
 } // namespace PhotoGuru
-

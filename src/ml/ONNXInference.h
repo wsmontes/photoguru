@@ -37,6 +37,12 @@ public:
     ONNXInference& operator=(ONNXInference&&) noexcept;
     
     /**
+     * @brief Shutdown ONNX Runtime environment (call before program exit)
+     * This should be called from MainWindow destructor to prevent crash
+     */
+    static void shutdownEnvironment();
+    
+    /**
      * @brief Load ONNX model from file
      * @param modelPath Absolute path to .onnx file
      * @param useGPU Try to use GPU acceleration (CoreML on Mac, CUDA on others)

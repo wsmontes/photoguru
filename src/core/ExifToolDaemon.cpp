@@ -77,13 +77,23 @@ void ExifToolDaemon::stop() {
         return;
     }
     
+    qDebug() << "Stopping ExifTool daemon...";
+    
     // Send exit command
     m_process->write("-stay_open\nFalse\n");
-    m_process->waitForFinished(3000);
+    m_process->closeWriteChannel();
     
-    if (m_process->state() != QProcess::NotRunning) {
-        m_process->kill();
-        m_process->waitForFinished(1000);
+    // Wait for graceful exit
+    if (!m_process->waitForFinished(2000)) {
+        qWarning() << "ExifTool did not exit gracefully, terminating...";
+        m_process->terminate();
+        
+        // Force kill if terminate doesn't work
+        if (!m_process->waitForFinished(1000)) {
+            qWarning() << "Force killing ExifTool process";
+            m_process->kill();
+            m_process->waitForFinished(500);
+        }
     }
     
     delete m_process;

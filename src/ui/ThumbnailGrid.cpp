@@ -45,11 +45,22 @@ ThumbnailGrid::ThumbnailGrid(QWidget* parent)
 }
 
 ThumbnailGrid::~ThumbnailGrid() {
-    // Wait for all thumbnail loading tasks to complete
-    while (m_loadingTasks.loadAcquire() > 0) {
+    // Cancel pending tasks and wait with timeout
+    if (m_threadPool) {
+        m_threadPool->clear();  // Cancel pending tasks
+    }
+    
+    // Wait for active tasks with timeout (max 2 seconds)
+    int timeout = 200;  // 2 seconds total (200 * 10ms)
+    while (m_loadingTasks.loadAcquire() > 0 && timeout-- > 0) {
         QApplication::processEvents();
         QThread::msleep(10);
     }
+    
+    if (m_loadingTasks.loadAcquire() > 0) {
+        qWarning() << "ThumbnailGrid destroyed with" << m_loadingTasks.loadAcquire() << "tasks still running";
+    }
+    
     m_thumbnailCache.clear();
 }
 

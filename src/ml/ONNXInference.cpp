@@ -31,6 +31,14 @@ void ONNXInference::initializeEnvironment() {
     }
 }
 
+void ONNXInference::shutdownEnvironment() {
+    std::lock_guard<std::mutex> lock(g_env_mutex);
+    if (g_ort_env) {
+        qDebug() << "[ONNX] Shutting down runtime environment";
+        g_ort_env.reset();  // Explicit cleanup before program exit
+    }
+}
+
 bool ONNXInference::loadModel(const QString& modelPath, bool useGPU) {
     if (!g_ort_env) {
         m_lastError = "ONNX Runtime environment not initialized";

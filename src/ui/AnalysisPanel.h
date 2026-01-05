@@ -22,7 +22,7 @@ class AnalysisPanel : public QWidget {
     Q_OBJECT
 
 public:
-    explicit AnalysisPanel(QWidget* parent = nullptr);
+    explicit AnalysisPanel(QWidget* parent = nullptr, bool initializeAI = true);
     ~AnalysisPanel();
     
     void setCurrentImage(const QString& filepath);
