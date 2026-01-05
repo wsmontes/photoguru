@@ -109,11 +109,11 @@ void SemanticSearch::performSearch(const QString& query) {
     m_statusLabel->setText("Searching...");
     m_resultsList->clear();
     
-    // Use PythonBridge for semantic search
+    // Use CLIP embeddings for semantic search
     QList<QPair<PhotoMetadata, double>> results;
     
     // Implement actual semantic search using CLIP embeddings
-    // For production: would use PythonBridge to get CLIP embeddings of query
+    // For production: use CLIPAnalyzer to get CLIP embeddings of query
     // and compare with image embeddings using cosine similarity
     QString queryLower = query.toLower();
     

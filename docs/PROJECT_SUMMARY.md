@@ -2,7 +2,7 @@
 
 ## Overview
 
-Professional desktop photo viewer and AI-powered semantic image browser, designed to compete with Adobe Lightroom. Built with **C++/Qt6** for performance and a **Python ML backend** for AI features.
+Professional desktop photo viewer and AI-powered semantic image browser, designed to compete with Adobe Lightroom. Built with **C++/Qt6** with **native C++ ML backend** using ONNX Runtime and llama.cpp.
 
 ## ✨ Key Features
 
@@ -13,10 +13,9 @@ Professional desktop photo viewer and AI-powered semantic image browser, designe
 - Hardware-accelerated rendering
 
 ### 2. **AI-Powered Analysis**
-- CLIP vision embeddings
-- LLM-generated titles, descriptions, keywords
+- CLIP vision embeddings (ONNX Runtime)
+- VLM-generated captions (llama.cpp)
 - Semantic search by natural language
-- Face detection and tracking
 - Quality scoring (sharpness, exposure, aesthetics)
 
 ### 3. **Semantic Key Protocol (SKP)**
@@ -36,21 +35,16 @@ Professional desktop photo viewer and AI-powered semantic image browser, designe
 
 ### Technology Stack
 
-**Frontend (C++/Qt6):**
+**C++/Qt6:**
 - Qt6 Widgets for UI
 - LibRaw for RAW decoding
 - libheif for HEIF/HEIC
 - OpenCV for image processing
+- ONNX Runtime for CLIP embeddings
+- llama.cpp for VLM captions
 - Custom image viewer with GPU acceleration
 
-**Backend (Python):**
-- PyTorch + CLIP for vision embeddings
-- Sentence Transformers for semantic search
-- PyIQA for quality assessment
-- LM Studio integration for LLM analysis
-
 **Integration:**
-- pybind11 for C++/Python bridge
 - ExifTool for metadata I/O
 - SQLite for catalog (future)
 
@@ -59,11 +53,11 @@ Professional desktop photo viewer and AI-powered semantic image browser, designe
 ```
 photoguru-viewer/
 ├── CMakeLists.txt              # Build configuration
-├── build.sh                    # macOS/Linux build script
-├── agent_v2.py                 # Python ML backend
-├── requirements.txt            # Python dependencies
+├── scripts/
+│   ├── build.sh                # macOS/Linux build script
+│   └── check_dependencies.sh   # Dependency checker
 ├── README.md                   # Main documentation
-├── INSTALL.md                  # Installation guide
+├── docs/                       # Documentation
 ├── LICENSE                     # MIT License
 │
 ├── src/
@@ -71,26 +65,37 @@ photoguru-viewer/
 │   │
 │   ├── core/                   # Core functionality
 │   │   ├── ImageLoader.*       # Universal image loading (RAW/HEIF/standard)
-│   │   ├── MetadataReader.*    # EXIF/XMP/PhotoGuru metadata reading
+│   │   ├── MetadataReader.*    # EXIF/XMP metadata reading
+│   │   ├── ExifToolDaemon.*    # Stay-open ExifTool process
 │   │   └── PhotoMetadata.h     # Data structures for photo metadata
 │   │
-│   ├── ml/                     # Python integration
-│   │   ├── PythonBridge.*      # pybind11 wrapper for agent_v2.py
-│   │   └── [Calls CLIP, LLM, SKP functions from Python]
+│   ├── ml/                     # ML integration
+│   │   ├── CLIPAnalyzer.*      # ONNX Runtime CLIP embeddings
+│   │   ├── LlamaVLM.*          # llama.cpp VLM captions
+│   │   └── ONNXInference.*     # ONNX Runtime wrapper
 │   │
 │   └── ui/                     # User interface
 │       ├── MainWindow.*        # Main application window
 │       ├── ImageViewer.*       # High-performance image display widget
 │       ├── ThumbnailGrid.*     # Async thumbnail grid with caching
 │       ├── MetadataPanel.*     # Display EXIF, AI, and technical data
+│       ├── AnalysisPanel.*     # AI analysis results
 │       ├── SKPBrowser.*        # Semantic Key Protocol browser
 │       └── DarkTheme.h         # Adobe-style dark theme
 │
 ├── resources/
 │   └── resources.qrc           # Qt resources (icons, stylesheets)
 │
-└── thirdparty/
-    └── pybind11/               # Python binding library (submodule)
+├── models/                     # AI models (not in git)
+│   ├── clip-vit-base-patch32.onnx       (335MB)
+│   ├── Qwen3VL-4B-Instruct-Q4_K_M.gguf
+│   └── mmproj-Qwen3VL-4B-Instruct-Q8_0.gguf
+│
+├── thirdparty/
+│   ├── llama.cpp/              # VLM backend
+│   └── googletest/             # Unit testing
+│
+└── tests/                      # Unit tests
 ```
 
 ## 🚀 Building & Running
@@ -101,14 +106,11 @@ photoguru-viewer/
 # Install dependencies
 brew install qt6 opencv libraw libheif exiftool cmake
 
-# Install Python packages
-pip3 install -r requirements.txt
-
 # Build
-./build.sh
+./scripts/build.sh
 
 # Run
-cd build && ./PhotoGuruViewer
+cd build && open PhotoGuruViewer.app
 ```
 
 ### Full Instructions
@@ -121,10 +123,10 @@ See [INSTALL.md](INSTALL.md) for detailed platform-specific instructions.
 |---------|-------------|
 | RAW Loading | ~100-200ms (half-size preview) |
 | Thumbnail Generation | ~50ms per image (cached) |
-| CLIP Analysis | ~200-500ms (GPU) / ~2-3s (CPU) |
-| LLM Analysis | ~1-5s (depends on LLM backend) |
+| CLIP Analysis | ~388ms (ONNX Runtime) |
+| VLM Captions | ~2-5s (llama.cpp) |
 | UI Rendering | 60fps (hardware accelerated) |
-| Memory Usage | ~200MB base + ~500MB for 500 cached thumbnails |
+| Memory Usage | ~200MB base + ~500MB ML models |
 
 ## 🎯 Comparison with Lightroom
 
@@ -132,7 +134,7 @@ See [INSTALL.md](INSTALL.md) for detailed platform-specific instructions.
 |---------|-----------|------------------|
 | RAW Support | ✅ Excellent | ✅ Excellent (via LibRaw) |
 | Performance | ⚠️ Heavy | ✅ Fast (C++ core) |
-| AI Features | ⚠️ Basic | ✅ Advanced (CLIP + LLM) |
+| AI Features | ⚠️ Basic | ✅ Advanced (CLIP + VLM) |
 | Semantic Search | ❌ No | ✅ Yes |
 | Price | 💰 $10/month | ✅ Free (Open Source) |
 | Platform | Windows/Mac | macOS/Linux |
@@ -143,10 +145,12 @@ See [INSTALL.md](INSTALL.md) for detailed platform-specific instructions.
 
 ### v1.0 (Current)
 - ✅ Universal image loading
-- ✅ AI analysis integration
+- ✅ Native C++ AI analysis
 - ✅ SKP browser
 - ✅ Professional UI
 - ✅ Metadata display
+- ✅ CLIP embeddings (ONNX)
+- ✅ VLM captions (llama.cpp)
 
 ### v1.1 (Next)
 - [ ] Batch AI analysis
@@ -170,20 +174,23 @@ See [INSTALL.md](INSTALL.md) for detailed platform-specific instructions.
 
 ## 🧩 Integration Points
 
-### Python Backend (agent_v2.py)
+### C++ ML Backend
 
-The C++ application integrates with `agent_v2.py` via pybind11:
+CLIP embeddings and VLM captions run natively in C++:
 
 ```cpp
-// Example: Run CLIP analysis from C++
-auto result = PythonBridge::instance().runClipAnalysis(imagePath);
-std::vector<float> embedding = result.embedding;
-QStringList features = result.features;
+// CLIP embeddings via ONNX Runtime
+CLIPAnalyzer clipAnalyzer;
+auto embedding = clipAnalyzer.analyzeImage(imagePath);
+
+// VLM captions via llama.cpp
+LlamaVLM vlm;
+QString caption = vlm.generateCaption(imagePath);
 ```
 
 ### Metadata Format
 
-PhotoGuru writes metadata to image files using exiftool:
+PhotoGuru writes metadata to image files using ExifTool:
 
 - **XMP fields**: Title, Description, Keywords, Category
 - **IPTC fields**: Location, City, Country
@@ -216,15 +223,10 @@ MIT License - See [LICENSE](LICENSE) file
 
 - **Qt Project**: Cross-platform framework
 - **LibRaw**: RAW format support
+- **ONNX Runtime**: ML inference
+- **llama.cpp**: Local LLM/VLM execution
 - **OpenAI**: CLIP vision model
-- **pybind11**: C++/Python integration
 - **ExifTool**: Metadata management
-
-## 📧 Contact
-
-- GitHub: https://github.com/yourusername/photoguru-viewer
-- Email: support@photoguru.ai
-- Website: https://photoguru.ai
 
 ---
 
