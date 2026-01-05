@@ -60,3 +60,5 @@ thirdparty/pybind11/
 models/*.gguf
 models/*.onnx
 Test_10/
+dev_experiments/
+thirdparty/llama.cpp/
