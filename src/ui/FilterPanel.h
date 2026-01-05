@@ -76,10 +76,12 @@ signals:
 private:
     void setupUI();
     void onFilterChanged();
+    void onSearchTextChanged();  // New: handles debounced search
     
     // Search
     QLineEdit* m_searchEdit;
     QCheckBox* m_caseSensitiveCheckbox;
+    QTimer* m_searchTimer;  // New: debounce timer
     
     // Quality sliders
     QSlider* m_qualitySlider;

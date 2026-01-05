@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QScrollArea>
 #include <QFrame>
+#include <QTimer>
 
 namespace PhotoGuru {
 
@@ -129,7 +130,13 @@ bool FilterCriteria::matches(const PhotoMetadata& photo) const {
 
 FilterPanel::FilterPanel(QWidget* parent)
     : QWidget(parent)
-{
+{// Create debounce timer for search (300ms delay)
+    m_searchTimer = new QTimer(this);
+    m_searchTimer->setSingleShot(true);
+    m_searchTimer->setInterval(300);  // 300ms debounce
+    connect(m_searchTimer, &QTimer::timeout, this, &FilterPanel::onFilterChanged);
+    
+    
     setupUI();
 }
 
@@ -166,7 +173,11 @@ void FilterPanel::setupUI() {
             border-radius: 4px;
             background: #2b2b2b;
             color: #e0e0e0;
-            font-size: 13px;
+            font-size: 13px;SearchTextChanged);
+    connect(m_searchEdit, &QLineEdit::returnPressed, this, [this]() {
+        m_searchTimer->stop();  // Cancel debounce
+        onFilterChanged();       // Search immediately on Enter
+    }
         }
         QLineEdit:focus {
             border-color: #51cf66;
@@ -521,6 +532,12 @@ void FilterPanel::reset() {
     m_keywordsEdit->clear();
     
     onFilterChanged();
+}
+
+void FilterPanel::onSearchTextChanged() {
+    // Restart debounce timer - only searches after 300ms of no typing
+    m_searchTimer->stop();
+    m_searchTimer->start();
 }
 
 void FilterPanel::onFilterChanged() {
