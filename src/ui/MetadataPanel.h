@@ -67,6 +67,7 @@ public:
     explicit MetadataPanel(QWidget* parent = nullptr);
     
     void loadMetadata(const QString& filepath);
+    void loadMetadata(const QString& filepath, const PhotoMetadata& metadata);  // From cache
     void clear();
     void setEditable(bool editable);
     

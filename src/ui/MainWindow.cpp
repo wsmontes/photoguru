@@ -657,8 +657,16 @@ void MainWindow::onImageSelected(const QString& filepath) {
     m_imageViewer->loadImage(filepath);
     m_imageViewer->update();
     
-    // Update metadata panel
-    m_metadataPanel->loadMetadata(filepath);
+    // Update metadata panel - use cache if available to avoid blocking
+    auto it = m_metadataCache.find(filepath);
+    if (it != m_metadataCache.end()) {
+        // Fast path: use cached metadata (no I/O, no deadlock risk)
+        m_metadataPanel->loadMetadata(filepath, it.value());
+    } else {
+        // Slow path: load from disk (may block briefly if cache not ready)
+        // This happens when user clicks before background loading finishes
+        m_metadataPanel->loadMetadata(filepath);
+    }
     
     // Update SKP browser
     m_skpBrowser->loadImageKeys(filepath);

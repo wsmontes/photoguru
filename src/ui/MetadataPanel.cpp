@@ -361,7 +361,7 @@ void MetadataPanel::loadMetadata(const QString& filepath) {
     
     m_currentFilepath = filepath;
     
-    // Read structured metadata
+    // Read structured metadata (may block if ExifToolDaemon is busy)
     auto metaOpt = MetadataReader::instance().read(filepath);
     
     if (!metaOpt) {
@@ -374,6 +374,22 @@ void MetadataPanel::loadMetadata(const QString& filepath) {
     m_currentMetadata = *metaOpt;
     
     // Read all metadata (including all EXIF/IPTC/XMP fields)
+    m_allMetadata = readAllMetadata(filepath);
+    
+    displayMetadata(m_currentMetadata);
+    displayAllMetadata(m_allMetadata);
+    
+    m_editButton->setEnabled(true);
+}
+
+void MetadataPanel::loadMetadata(const QString& filepath, const PhotoMetadata& metadata) {
+    qDebug() << "[MetadataPanel] loadMetadata from cache for:" << filepath;
+    
+    m_currentFilepath = filepath;
+    m_currentMetadata = metadata;
+    
+    // Read all metadata (including all EXIF/IPTC/XMP fields) 
+    // This is still needed for the "All Metadata" tab
     m_allMetadata = readAllMetadata(filepath);
     
     displayMetadata(m_currentMetadata);
