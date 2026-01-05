@@ -127,6 +127,8 @@ private:
     
     // Metadata cache (filepath -> metadata)
     QMap<QString, PhotoMetadata> m_metadataCache;
+    QAtomicInt m_cacheLoadedCount;  // Tracks how many files loaded
+    bool m_cacheLoadingComplete = false;
     
     // Current state
     QString m_currentDirectory;

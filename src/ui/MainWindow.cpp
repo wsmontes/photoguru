@@ -641,14 +641,30 @@ void MainWindow::loadDirectory(const QString& path) {
     // Using single worker thread instead of thread pool to prevent deadlock
     QStringList filesCopy = m_imageFiles;
     QMap<QString, PhotoMetadata>* cachePtr = &m_metadataCache;
+    QAtomicInt* progressPtr = &m_cacheLoadedCount;
+    m_cacheLoadedCount.storeRelaxed(0);
+    m_cacheLoadingComplete = false;
     
-    QFuture<void> future = QtConcurrent::run([filesCopy, cachePtr]() {
+    QFuture<void> future = QtConcurrent::run([this, filesCopy, cachePtr, progressPtr]() {
         // Process files SEQUENTIALLY in this single worker thread
         // No parallel access to ExifToolDaemon = no contention, no deadlock
+        int count = 0;
         for (const QString& filepath : filesCopy) {
             auto metaOpt = MetadataReader::instance().read(filepath);
             if (metaOpt) {
                 cachePtr->insert(filepath, metaOpt.value());
+            }
+            
+            count++;
+            progressPtr->storeRelaxed(count);
+            
+            // Update UI progress every 10 files
+            if (count % 10 == 0 || count == filesCopy.size()) {
+                QMetaObject::invokeMethod(this, [this, count, total = filesCopy.size()]() {
+                    statusBar()->showMessage(
+                        QString("Loading metadata... %1/%2 files").arg(count).arg(total)
+                    );
+                }, Qt::QueuedConnection);
             }
         }
     });
@@ -940,22 +956,33 @@ void MainWindow::onFilterFinished() {
     
     QStringList filteredFiles = m_filterWatcher->result();
     int totalCount = m_imageFiles.size();
+    int loadedCount = m_cacheLoadedCount.loadRelaxed();
     
     // Update display with filtered results
     m_thumbnailGrid->setImages(filteredFiles);
     
     // Update status bar with filter stats
+    QString statusMsg;
     if (filteredFiles.count() == totalCount) {
-        statusBar()->showMessage(QString("%1 images (no filters active)").arg(totalCount));
+        statusMsg = QString("%1 images (no filters active)").arg(totalCount);
     } else {
-        statusBar()->showMessage(QString("%1 of %2 images match filters").arg(filteredFiles.count()).arg(totalCount));
+        statusMsg = QString("%1 of %2 images match filters").arg(filteredFiles.count()).arg(totalCount);
     }
+    
+    // Add warning if cache not complete
+    if (!m_cacheLoadingComplete && loadedCount < totalCount) {
+        statusMsg += QString(" (Loading metadata: %1/%2 - results incomplete)").arg(loadedCount).arg(totalCount);
+    }
+    
+    statusBar()->showMessage(statusMsg);
 }
 
 void MainWindow::onMetadataLoadFinished() {
     if (m_metadataLoader->isCanceled()) {
         return;
     }
+    
+    m_cacheLoadingComplete = true;
     
     int loadedCount = m_metadataCache.size();
     int totalCount = m_imageFiles.size();
@@ -965,6 +992,11 @@ void MainWindow::onMetadataLoadFinished() {
             .arg(totalCount)
             .arg(loadedCount)
     );
+    
+    // Re-apply current filter with complete data
+    if (m_filterPanel) {
+        m_filterPanel->triggerFilterUpdate();
+    }
 }
 
 void MainWindow::onViewModeChanged(int index) {
