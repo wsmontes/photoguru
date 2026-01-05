@@ -35,15 +35,6 @@ echo "========================================="
 command -v cmake >/dev/null 2>&1 || { echo "❌ CMake not found. Install with: brew install cmake"; exit 1; }
 command -v exiftool >/dev/null 2>&1 || { echo "⚠️  Warning: exiftool not found. Install with: brew install exiftool"; }
 
-# Setup pybind11 if not present
-if [ ! -d "thirdparty/pybind11/.git" ]; then
-    echo "📦 Setting up pybind11..."
-    if [ -d "thirdparty/pybind11" ]; then
-        rm -rf thirdparty/pybind11
-    fi
-    git clone --depth 1 --branch v2.11.1 https://github.com/pybind/pybind11.git thirdparty/pybind11
-fi
-
 # Clean if requested
 if [ "$CLEAN" = true ]; then
     echo "🧹 Cleaning build directory..."

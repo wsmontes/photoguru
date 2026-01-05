@@ -92,17 +92,6 @@ else
 fi
 
 echo ""
-echo "📋 Checking pybind11..."
-if [ -d "thirdparty/pybind11" ]; then
-    echo "✅ pybind11: found in thirdparty/"
-else
-    echo "⚠️  pybind11: NOT FOUND"
-    echo "   Will be downloaded automatically during build"
-    echo "   Or run: git clone https://github.com/pybind/pybind11.git thirdparty/pybind11"
-    ((WARNINGS++))
-fi
-
-echo ""
 echo "========================================="
 if [ $ERRORS -eq 0 ] && [ $WARNINGS -eq 0 ]; then
     echo "✅ All dependencies satisfied!"

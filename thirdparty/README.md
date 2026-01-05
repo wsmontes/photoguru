@@ -1,36 +1,34 @@
-# pybind11 Submodule
+# Third-party Libraries
 
-This directory should contain the pybind11 library as a git submodule or direct copy.
+This directory contains third-party dependencies used by PhotoGuru:
 
-## Setup via Git Submodule (Recommended)
+## llama.cpp
 
+Vision Language Model backend for image captioning.
+
+**Setup:**
 ```bash
-cd /path/to/photoguru-viewer
-git submodule add https://github.com/pybind/pybind11.git thirdparty/pybind11
-git submodule update --init --recursive
+git clone https://github.com/ggerganov/llama.cpp thirdparty/llama.cpp
+cd thirdparty/llama.cpp
+mkdir build && cd build
+cmake .. -DGGML_METAL=ON
+make -j4
 ```
 
-## Alternative: Direct Download
+## googletest
 
-If you don't want to use git submodules:
+Unit testing framework (automatically downloaded during build).
 
+No manual setup required - CMake handles this automatically.
+
+## Models
+
+AI models are stored in the `models/` directory at the project root:
+- `clip-vit-base-patch32.onnx` - CLIP vision embeddings (335MB)
+- `Qwen3VL-4B-Instruct-Q4_K_M.gguf` - VLM for image captioning
+- `mmproj-Qwen3VL-4B-Instruct-Q8_0.gguf` - Multimodal projector
+
+Download using:
 ```bash
-cd thirdparty
-git clone https://github.com/pybind/pybind11.git
-cd pybind11
-git checkout v2.11.1  # or latest stable version
-```
-
-## System Installation
-
-Alternatively, use system-installed pybind11 and modify CMakeLists.txt to use:
-
-```cmake
-find_package(pybind11 REQUIRED)
-```
-
-instead of:
-
-```cmake
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/pybind11)
+./scripts/download_models.sh
 ```

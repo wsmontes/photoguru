@@ -666,7 +666,7 @@ void MainWindow::onRunAnalysis() {
 
 void MainWindow::onPreferences() {
     NotificationManager::instance().showInfo(
-        "Settings: Auto-fit images, smooth zoom (1.25x), Python agent_v2.py integration", 4000);
+        "Settings: Auto-fit images, smooth zoom (1.25x), C++ ML integration", 4000);
 }
 
 void MainWindow::onAbout() {

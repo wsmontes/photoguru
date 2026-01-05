@@ -173,11 +173,6 @@ install(TARGETS ${PROJECT_NAME}
     RUNTIME DESTINATION bin
 )
 
-# Copy Python agent alongside executable
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/agent_v2.py
-    DESTINATION bin
-)
-
 # Configure exiftool requirement
 message(STATUS "Note: ExifTool is required at runtime. Install with:")
 message(STATUS "  macOS: brew install exiftool")

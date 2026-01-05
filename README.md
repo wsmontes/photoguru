@@ -428,8 +428,7 @@ photoguru/
 │   ├── build.sh               # Main build script
 │   ├── download_models.sh     # Model download utility
 │   ├── check_dependencies.sh  # Dependency checker
-│   ├── run_tests.sh           # Test runner
-│   └── benchmark_*.py         # Performance benchmarks
+│   └── run_tests.sh           # Test runner
 │
 ├── models/                     # AI models (not in git)
 │   ├── clip-vit-base-patch32.onnx  (335MB)
