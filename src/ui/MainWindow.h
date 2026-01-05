@@ -6,8 +6,10 @@
 #include <QDockWidget>
 #include <QSplitter>
 #include <QTabWidget>
+#include <QFutureWatcher>
 #include <memory>
 #include "core/PhotoMetadata.h"
+#include "FilterPanel.h"  // For FilterCriteria
 
 namespace PhotoGuru {
 
@@ -20,7 +22,6 @@ class TimelineView;
 class SemanticSearch;
 class FilterPanel;
 class AnalysisPanel;
-struct FilterCriteria;
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -119,12 +120,24 @@ private:
     QDockWidget* m_analysisDock;
     AnalysisPanel* m_analysisPanel;
     
+    // Async filtering
+    QFutureWatcher<QStringList>* m_filterWatcher;
+    QFutureWatcher<void>* m_metadataLoader;
+    FilterCriteria m_currentFilterCriteria;
+    
+    // Metadata cache (filepath -> metadata)
+    QMap<QString, PhotoMetadata> m_metadataCache;
+    
     // Current state
     QString m_currentDirectory;
     QStringList m_imageFiles;
     QList<PhotoMetadata> m_allPhotos;
     QList<PhotoMetadata> m_filteredPhotos;
     int m_currentIndex = -1;
+    
+private slots:
+    void onFilterFinished();
+    void onMetadataLoadFinished();
 };
 
 } // namespace PhotoGuru

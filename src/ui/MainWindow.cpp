@@ -38,11 +38,14 @@
 #include <QProcess>
 #include <QProgressDialog>
 #include <QTimer>
+#include <QtConcurrent>
 
 namespace PhotoGuru {
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
+    , m_filterWatcher(new QFutureWatcher<QStringList>(this))
+    , m_metadataLoader(new QFutureWatcher<void>(this))
 {
     setWindowTitle("PhotoGuru Viewer");
     resize(1600, 1000);
@@ -53,6 +56,14 @@ MainWindow::MainWindow(QWidget* parent)
     
     setupUI();
     loadSettings();
+    
+    // Connect filter watcher
+    connect(m_filterWatcher, &QFutureWatcher<QStringList>::finished, 
+            this, &MainWindow::onFilterFinished);
+    
+    // Connect metadata loader
+    connect(m_metadataLoader, &QFutureWatcher<void>::finished,
+            this, &MainWindow::onMetadataLoadFinished);
     
     // Force Metadata tab to be active (using QTimer to ensure event loop processed everything)
     QTimer::singleShot(0, this, [this]() {
@@ -67,6 +78,18 @@ MainWindow::MainWindow(QWidget* parent)
 
 MainWindow::~MainWindow() {
     qDebug() << "[MainWindow] Starting cleanup...";
+    
+    // Cancel any ongoing filter operations
+    if (m_filterWatcher->isRunning()) {
+        m_filterWatcher->cancel();
+        m_filterWatcher->waitForFinished();
+    }
+    
+    // Cancel metadata loading
+    if (m_metadataLoader->isRunning()) {
+        m_metadataLoader->cancel();
+        m_metadataLoader->waitForFinished();
+    }
     
     // Ensure all panels are properly disconnected before destruction
     if (m_analysisPanel) {
@@ -470,6 +493,12 @@ void MainWindow::createDockPanels() {
     // Connect analysis panel signals
     connect(m_analysisPanel, &AnalysisPanel::metadataUpdated, 
             this, [this](const QString& filepath) {
+                // Update cache with fresh metadata
+                auto metaOpt = MetadataReader::instance().read(filepath);
+                if (metaOpt) {
+                    m_metadataCache[filepath] = metaOpt.value();
+                }
+                
                 // Reload metadata for updated image
                 if (m_currentIndex >= 0 && filepath == m_imageFiles[m_currentIndex]) {
                     m_metadataPanel->loadMetadata(filepath);
@@ -480,6 +509,12 @@ void MainWindow::createDockPanels() {
     // Connect metadata panel signals
     connect(m_metadataPanel, &MetadataPanel::metadataChanged,
             this, [this](const QString& filepath) {
+                // Update cache with fresh metadata
+                auto metaOpt = MetadataReader::instance().read(filepath);
+                if (metaOpt) {
+                    m_metadataCache[filepath] = metaOpt.value();
+                }
+                
                 // Don't reload - panel already has the saved data in memory
                 // Reloading would cause a race condition with ExifTool write
                 // Update status bar
@@ -551,6 +586,9 @@ void MainWindow::loadDirectory(const QString& path) {
         return;
     }
     
+    // Clear metadata cache
+    m_metadataCache.clear();
+    
     // Load into thumbnail grid
     m_thumbnailGrid->setImages(m_imageFiles);
     
@@ -567,10 +605,26 @@ void MainWindow::loadDirectory(const QString& path) {
     }
     
     statusBar()->showMessage(
-        QString("Loaded %1 images from %2")
+        QString("Loaded %1 images from %2 - Loading metadata...")
             .arg(m_imageFiles.count())
             .arg(QFileInfo(path).fileName())
     );
+    
+    // Pre-load metadata in background
+    QStringList filesCopy = m_imageFiles;
+    QMap<QString, PhotoMetadata>* cachePtr = &m_metadataCache;
+    
+    QFuture<void> future = QtConcurrent::run([filesCopy, cachePtr]() {
+        for (const QString& filepath : filesCopy) {
+            auto metaOpt = MetadataReader::instance().read(filepath);
+            if (metaOpt) {
+                // Thread-safe: each thread writes to different keys
+                cachePtr->insert(filepath, metaOpt.value());
+            }
+        }
+    });
+    
+    m_metadataLoader->setFuture(future);
 }
 
 void MainWindow::onImageSelected(const QString& filepath) {
@@ -770,6 +824,12 @@ void MainWindow::updateStatusBar() {
 }
 
 void MainWindow::onMetadataUpdated(const QString& filepath) {
+    // Update cache with fresh metadata
+    auto metaOpt = MetadataReader::instance().read(filepath);
+    if (metaOpt) {
+        m_metadataCache[filepath] = metaOpt.value();
+    }
+    
     // Handle metadata update signal
     // Don't reload the metadata panel - it already has the updated data
     // Just update other components like SKP browser
@@ -780,21 +840,60 @@ void MainWindow::onMetadataUpdated(const QString& filepath) {
 }
 
 void MainWindow::onFilterChanged(const FilterCriteria& criteria) {
-    // Apply filters to photos using the comprehensive FilterCriteria::matches() method
-    QStringList filteredFiles;
-    int totalCount = m_imageFiles.size();
-    
-    for (const QString& filepath : m_imageFiles) {
-        auto metaOpt = MetadataReader::instance().read(filepath);
-        if (!metaOpt) continue;  // Skip if metadata can't be read
-        
-        PhotoMetadata meta = metaOpt.value();
-        
-        // Use the comprehensive matching function from FilterCriteria
-        if (criteria.matches(meta)) {
-            filteredFiles << filepath;
-        }
+    // Cancel any previous filtering operation
+    if (m_filterWatcher->isRunning()) {
+        m_filterWatcher->cancel();
+        m_filterWatcher->waitForFinished();
     }
+    
+    // Store criteria for async execution
+    m_currentFilterCriteria = criteria;
+    
+    int totalCount = m_imageFiles.size();
+    if (totalCount == 0) {
+        statusBar()->showMessage("No images loaded");
+        return;
+    }
+    
+    // Show filtering status
+    statusBar()->showMessage(QString("Filtering %1 images...").arg(totalCount));
+    
+    // Create a copy of image files list for thread safety
+    QStringList imageFilesCopy = m_imageFiles;
+    
+    // Use metadata cache (no I/O!)
+    const QMap<QString, PhotoMetadata>* cachePtr = &m_metadataCache;
+    
+    // Run filtering in background thread
+    QFuture<QStringList> future = QtConcurrent::run([imageFilesCopy, criteria, cachePtr]() -> QStringList {
+        QStringList filteredFiles;
+        
+        for (const QString& filepath : imageFilesCopy) {
+            // Fast: lookup in memory cache, no disk I/O
+            auto it = cachePtr->find(filepath);
+            if (it == cachePtr->end()) continue;
+            
+            const PhotoMetadata& meta = it.value();
+            
+            // Use the comprehensive matching function from FilterCriteria
+            if (criteria.matches(meta)) {
+                filteredFiles << filepath;
+            }
+        }
+        
+        return filteredFiles;
+    });
+    
+    m_filterWatcher->setFuture(future);
+}
+
+void MainWindow::onFilterFinished() {
+    if (m_filterWatcher->isCanceled()) {
+        return;  // Filter was cancelled, don't update UI
+    }
+    
+    QStringList filteredFiles = m_filterWatcher->result();
+    int totalCount = m_imageFiles.size();
     
     // Update display with filtered results
     m_thumbnailGrid->setImages(filteredFiles);
@@ -805,6 +904,21 @@ void MainWindow::onFilterChanged(const FilterCriteria& criteria) {
     } else {
         statusBar()->showMessage(QString("%1 of %2 images match filters").arg(filteredFiles.count()).arg(totalCount));
     }
+}
+
+void MainWindow::onMetadataLoadFinished() {
+    if (m_metadataLoader->isCanceled()) {
+        return;
+    }
+    
+    int loadedCount = m_metadataCache.size();
+    int totalCount = m_imageFiles.size();
+    
+    statusBar()->showMessage(
+        QString("Ready - %1 images (%2 with metadata)")
+            .arg(totalCount)
+            .arg(loadedCount)
+    );
 }
 
 void MainWindow::onViewModeChanged(int index) {
