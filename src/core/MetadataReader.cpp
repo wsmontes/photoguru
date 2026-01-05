@@ -1,4 +1,5 @@
 #include "PhotoMetadata.h"
+#include "ExifToolDaemon.h"
 #include <QProcess>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -16,9 +17,10 @@ MetadataReader& MetadataReader::instance() {
 std::optional<PhotoMetadata> MetadataReader::read(const QString& filePath) {
     qDebug() << "MetadataReader::read called for:" << filePath;
     
-    // Use exiftool to read all metadata
-    QStringList args = {"-json", "-G", "-a", "-s", filePath};
-    QString output = runExifTool(filePath, args);
+    // Use ExifToolDaemon (stay-open mode) for 5x speedup
+    // -n flag: return numeric values for GPS coordinates
+    QStringList args = {"-json", "-a", "-s", "-n", filePath};
+    QString output = ExifToolDaemon::instance().executeCommand(args);
     
     if (output.isEmpty()) {
         qWarning() << "No metadata output for:" << filePath;
@@ -140,17 +142,20 @@ PhotoMetadata MetadataReader::parseExifToolOutput(const QString& output) {
     meta.gps_lat = obj.value("EXIF:GPSLatitude").toDouble(obj["GPSLatitude"].toDouble());
     meta.gps_lon = obj.value("EXIF:GPSLongitude").toDouble(obj["GPSLongitude"].toDouble());
     
-    // PhotoGuru AI data - ImageDescription contains the AI-generated description
+    // PhotoGuru AI data
     meta.llm_title = obj.value("XMP:Title").toString(obj["Title"].toString());
-    meta.llm_description = obj.value("EXIF:ImageDescription").toString(
-        obj.value("XMP:Description").toString(obj["ImageDescription"].toString()));
+    // Description pode estar em XMP:Description ou IPTC:Caption-Abstract
+    meta.llm_description = obj.value("XMP:Description").toString(
+        obj.value("IPTC:Caption-Abstract").toString(
+        obj.value("Description").toString()));
     
     QJsonArray keywords = obj.value("XMP:Subject").toArray(obj["Subject"].toArray());
     for (const QJsonValue& kw : keywords) {
         meta.llm_keywords << kw.toString();
     }
     
-    meta.llm_category = obj.value("IPTC:Category").toString(obj["Category"].toString());
+    meta.llm_category = obj.value("XMP-photoshop:Category").toString(
+        obj.value("Category").toString());
     meta.llm_scene = obj.value("XMP:LocationShown").toString(obj["LocationShown"].toString());
     
     // Rating

@@ -10,14 +10,20 @@
 #include <QCheckBox>
 #include <QString>
 #include <QVBoxLayout>
+#include <memory>
 
 namespace PhotoGuru {
+
+class CLIPAnalyzer;
+class LlamaVLM;
+class MetadataWriter;
 
 class AnalysisPanel : public QWidget {
     Q_OBJECT
 
 public:
     explicit AnalysisPanel(QWidget* parent = nullptr);
+    ~AnalysisPanel();
     
     void setCurrentImage(const QString& filepath);
     void setCurrentDirectory(const QString& dirpath);
@@ -44,16 +50,30 @@ private slots:
 private:
     void setupUI();
     void updateButtonStates(bool analyzing);
+    void initializeAI();
+    void showGeneratedCaption(const QString& caption);
     
     // Current context
     QString m_currentImage;
     QString m_currentDirectory;
     bool m_isAnalyzing;
+    QString m_lastGeneratedCaption;  // Store last caption for reuse
+    
+    // AI Components
+    std::unique_ptr<CLIPAnalyzer> m_clipAnalyzer;
+    std::unique_ptr<LlamaVLM> m_llamaVLM;
+    bool m_aiInitialized;
     
     // UI Components - Single Image Analysis
     QGroupBox* m_singleImageGroup;
     QPushButton* m_analyzeImageBtn;
     QLabel* m_currentImageLabel;
+    
+    // Generated Caption Display
+    QGroupBox* m_captionGroup;
+    QTextEdit* m_captionDisplay;
+    QPushButton* m_copyCaptionBtn;
+    QPushButton* m_applyToOthersBtn;
     
     // UI Components - Batch Analysis
     QGroupBox* m_batchGroup;

@@ -39,7 +39,11 @@ class QtCleanupListener : public ::testing::EmptyTestEventListener {
 };
 
 int main(int argc, char **argv) {
-    // Initialize Qt Application for tests (needed for QWidget/QPixmap/QImage)
+    // Set environment variable to indicate we're in test mode
+    qputenv("PHOTOGURU_TESTING", "1");
+    
+    // Initialize Qt Application for tests (needed for QPixmap/QImage in some tests)
+    // Tests should NOT show windows - use setAttribute(Qt::WA_DontShowOnScreen)
     QApplication app(argc, argv);
     
     // Install custom message handler to suppress expected test warnings

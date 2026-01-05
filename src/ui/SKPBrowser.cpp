@@ -1,9 +1,9 @@
 #include "SKPBrowser.h"
 #include "PhotoMetadata.h"
+#include "NotificationManager.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QHeaderView>
-#include <QMessageBox>
 
 namespace PhotoGuru {
 
@@ -161,27 +161,9 @@ void SKPBrowser::onSearchClicked() {
     
     emit searchByKey(m_selectedKeyId);
     
-    // Show info dialog with next steps
-    QMessageBox info(this);
-    info.setWindowTitle("Semantic Search");
-    info.setIcon(QMessageBox::Information);
-    info.setText(QString("Searching for images similar to key: %1").arg(m_selectedKeyId));
-    info.setInformativeText(
-        "This will use vector similarity (cosine distance) to find images \n"
-        "with semantic keys close to this reference.\n\n"
-        "Implementation: The viewer will scan all images with SKP metadata,\n"
-        "extract their semantic key vectors, and rank by similarity.\n\n"
-        "For production: This would integrate with the agent_v2.py\n"
-        "semantic search capabilities."
-    );
-    info.setDetailedText(
-        "Technical Details:\n"
-        "- Uses CLIP embeddings stored in SKP metadata\n"
-        "- Cosine similarity threshold: 0.8+\n"
-        "- Results sorted by alignment score\n"
-        "- Can filter by key role (anchor/variant/reference)"
-    );
-    info.exec();
+    // Show toast notification about semantic search
+    NotificationManager::instance().showInfo(
+        QString("Searching for images similar to semantic key: %1").arg(m_selectedKeyId), 4000);
 }
 
 void SKPBrowser::clear() {

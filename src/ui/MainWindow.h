@@ -69,6 +69,11 @@ private slots:
     void onThumbnailSizeChanged(int value);
     void onSortOrderChanged(int index);
     
+    // Rating
+    void onSetRating(int stars);
+    void onIncreaseRating();
+    void onDecreaseRating();
+    
 private:
     void setupUI();
     void createMenuBar();
@@ -80,6 +85,7 @@ private:
     void applyFilters();
     void refreshViews();
     void updateStatusBar();
+    void setImageRating(const QString& filepath, int stars);
     
     // UI Components
     QToolBar* m_toolbar;

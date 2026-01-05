@@ -57,10 +57,10 @@ struct PhotoMetadata {
     QString llm_mood;
     
     // Technical Analysis
-    TechnicalMetadata technical;
+    TechnicalMetadata technical;    
     
-    // Rating (from aesthetic score)
-    int rating = 0;  // 1-5 stars
+    // User rating (0-5 stars, 0 = unrated)
+    int rating = 0;
     
     // Face detection
     int face_count = 0;

@@ -55,8 +55,10 @@ private:
     void centerImage();
     void drawLoadingIndicator(QPainter& painter);
     void onImageLoadComplete();
+    void updatePixmapCache();
     
     QImage m_image;
+    QPixmap m_pixmapCache;  // PERFORMANCE: Cached pixmap for fast rendering
     QString m_filepath;
     
     // Transform
@@ -74,6 +76,10 @@ private:
     bool m_isLoading = false;
     QFutureWatcher<std::optional<QImage>>* m_imageWatcher = nullptr;
     QString m_pendingFilepath;
+    
+    // PERFORMANCE: Debouncing for resize
+    QTimer* m_resizeTimer = nullptr;
+    bool m_pixmapCacheDirty = true;
 };
 
 } // namespace PhotoGuru

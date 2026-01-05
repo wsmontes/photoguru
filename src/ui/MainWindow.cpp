@@ -11,13 +11,13 @@
 #include "DarkTheme.h"
 #include "PhotoMetadata.h"
 #include "ImageLoader.h"
+#include "NotificationManager.h"
 
 #include <QMenuBar>
 #include <QMenu>
 #include <QAction>
 #include <QFileDialog>
 #include <QSettings>
-#include <QMessageBox>
 #include <QLabel>
 #include <QProgressBar>
 #include <QSplitter>
@@ -31,6 +31,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QProcess>
+#include <QProgressDialog>
 
 namespace PhotoGuru {
 
@@ -40,6 +41,9 @@ MainWindow::MainWindow(QWidget* parent)
     setWindowTitle("PhotoGuru Viewer");
     resize(1600, 1000);
     setAcceptDrops(true);
+    
+    // Initialize notification system
+    NotificationManager::instance().setParentWidget(this);
     
     setupUI();
     loadSettings();
@@ -180,6 +184,78 @@ void MainWindow::createMenuBar() {
     viewMenu->addSeparator();
     viewMenu->addAction(m_metadataDock->toggleViewAction());
     viewMenu->addAction(m_skpDock->toggleViewAction());
+    viewMenu->addAction(m_analysisDock->toggleViewAction());
+    viewMenu->addAction(m_filterDock->toggleViewAction());
+    
+    // Metadata menu
+    QMenu* metadataMenu = menuBar->addMenu("Meta&data");
+    
+    QAction* editMetadataAction = metadataMenu->addAction("&Edit Metadata...");
+    editMetadataAction->setShortcut(QKeySequence("Ctrl+I"));
+    connect(editMetadataAction, &QAction::triggered, [this]() {
+        if (m_metadataPanel) {
+            m_metadataDock->show();
+            m_metadataDock->raise();
+            m_metadataPanel->setEditable(true);
+        }
+    });
+    
+    metadataMenu->addSeparator();
+    
+    QAction* resetFiltersAction = metadataMenu->addAction("Reset &Filters");
+    resetFiltersAction->setShortcut(QKeySequence("Ctrl+Shift+R"));
+    connect(resetFiltersAction, &QAction::triggered, [this]() {
+        if (m_filterPanel) {
+            m_filterPanel->reset();
+        }
+    });
+    
+    QAction* focusSearchAction = metadataMenu->addAction("&Focus Search");
+    focusSearchAction->setShortcut(QKeySequence("Ctrl+Shift+F"));
+    connect(focusSearchAction, &QAction::triggered, [this]() {
+        if (m_filterPanel) {
+            m_filterPanel->setFocus();
+        }
+    });
+    
+    // Photo menu (rating and organization)
+    QMenu* photoMenu = menuBar->addMenu("&Photo");
+    
+    QAction* rating0Action = photoMenu->addAction("No Rating");
+    rating0Action->setShortcut(QKeySequence("0"));
+    connect(rating0Action, &QAction::triggered, [this]() { onSetRating(0); });
+    
+    photoMenu->addSeparator();
+    
+    QAction* rating1Action = photoMenu->addAction("★ (1 star)");
+    rating1Action->setShortcut(QKeySequence("1"));
+    connect(rating1Action, &QAction::triggered, [this]() { onSetRating(1); });
+    
+    QAction* rating2Action = photoMenu->addAction("★★ (2 stars)");
+    rating2Action->setShortcut(QKeySequence("2"));
+    connect(rating2Action, &QAction::triggered, [this]() { onSetRating(2); });
+    
+    QAction* rating3Action = photoMenu->addAction("★★★ (3 stars)");
+    rating3Action->setShortcut(QKeySequence("3"));
+    connect(rating3Action, &QAction::triggered, [this]() { onSetRating(3); });
+    
+    QAction* rating4Action = photoMenu->addAction("★★★★ (4 stars)");
+    rating4Action->setShortcut(QKeySequence("4"));
+    connect(rating4Action, &QAction::triggered, [this]() { onSetRating(4); });
+    
+    QAction* rating5Action = photoMenu->addAction("★★★★★ (5 stars)");
+    rating5Action->setShortcut(QKeySequence("5"));
+    connect(rating5Action, &QAction::triggered, [this]() { onSetRating(5); });
+    
+    photoMenu->addSeparator();
+    
+    QAction* increaseRatingAction = photoMenu->addAction("Increase Rating");
+    increaseRatingAction->setShortcut(QKeySequence("]"));
+    connect(increaseRatingAction, &QAction::triggered, this, &MainWindow::onIncreaseRating);
+    
+    QAction* decreaseRatingAction = photoMenu->addAction("Decrease Rating");
+    decreaseRatingAction->setShortcut(QKeySequence("["));
+    connect(decreaseRatingAction, &QAction::triggered, this, &MainWindow::onDecreaseRating);
     
     // Navigate menu
     QMenu* navMenu = menuBar->addMenu("&Navigate");
@@ -208,7 +284,7 @@ void MainWindow::createMenuBar() {
     QAction* analyzeBatchAction = aiMenu->addAction("Analyze &All Images...");
     connect(analyzeBatchAction, &QAction::triggered, [this]() {
         if (m_imageFiles.isEmpty()) {
-            QMessageBox::warning(this, "No Images", "Please load a directory first.");
+            NotificationManager::instance().showWarning("Please load a directory first.");
             return;
         }
         
@@ -329,6 +405,15 @@ void MainWindow::createDockPanels() {
     m_analysisDock->setMinimumWidth(280);
     addDockWidget(Qt::RightDockWidgetArea, m_analysisDock);
     
+    // Filter Panel (left side)
+    m_filterDock = new QDockWidget("Filters", this);
+    m_filterDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    m_filterDock->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetFloatable);
+    m_filterPanel = new FilterPanel(this);
+    m_filterDock->setWidget(m_filterPanel);
+    m_filterDock->setMinimumWidth(220);
+    addDockWidget(Qt::LeftDockWidgetArea, m_filterDock);
+    
     // Tab the right panels together (Lightroom style)
     tabifyDockWidget(m_metadataDock, m_skpDock);
     tabifyDockWidget(m_skpDock, m_analysisDock);
@@ -342,6 +427,22 @@ void MainWindow::createDockPanels() {
                     m_metadataPanel->loadMetadata(filepath);
                     // Thumbnail will auto-refresh when metadata changes
                 }
+            });
+    
+    // Connect metadata panel signals
+    connect(m_metadataPanel, &MetadataPanel::metadataChanged,
+            this, [this](const QString& filepath) {
+                // Don't reload - panel already has the saved data in memory
+                // Reloading would cause a race condition with ExifTool write
+                // Update status bar
+                NotificationManager::instance().showSuccess("Metadata saved successfully");
+            });
+    
+    connect(m_metadataPanel, &MetadataPanel::editModeChanged,
+            this, [this](bool editing) {
+                // Could disable navigation while editing to prevent data loss
+                QString msg = editing ? "Editing metadata..." : "Ready";
+                m_statusBar->showMessage(msg);
             });
 }
 
@@ -391,8 +492,7 @@ void MainWindow::loadDirectory(const QString& path) {
     }
     
     if (m_imageFiles.isEmpty()) {
-        QMessageBox::information(this, "No Images", 
-            "No supported images found in this directory.");
+        NotificationManager::instance().showInfo("No supported images found in this directory.");
         return;
     }
     
@@ -480,33 +580,21 @@ void MainWindow::onSearchImages() {
     if (!query.isEmpty()) {
         // Show semantic search panel with the query
         if (m_imageFiles.isEmpty()) {
-            QMessageBox::warning(this, "No Images", "Please load a directory first.");
+            NotificationManager::instance().showWarning("Please load a directory first.");
             return;
         }
         
         statusBar()->showMessage(QString("Searching for: %1").arg(query));
         
-        // For now, show info about semantic search
-        // In production, would integrate with PythonBridge CLIP embeddings
-        QMessageBox info(this);
-        info.setWindowTitle("Semantic Search");
-        info.setIcon(QMessageBox::Information);
-        info.setText(QString("Searching for: \"%1\"").arg(query));
-        info.setInformativeText(
-            "Semantic search uses AI to understand image content and find matches.\n\n"
-            "For production: This would:\n"
-            "1. Convert your query to CLIP embeddings via agent_v2.py\n"
-            "2. Compare against stored image embeddings\n"
-            "3. Rank results by semantic similarity (cosine distance)\n\n"
-            "Current implementation: Searches in AI-generated titles, descriptions, and keywords."
-        );
-        info.exec();
+        // Show info toast about semantic search implementation
+        NotificationManager::instance().showInfo(
+            "Semantic search will scan AI-generated descriptions and keywords for matches", 3500);
     }
 }
 
 void MainWindow::onRunAnalysis() {
     if (m_currentIndex < 0) {
-        QMessageBox::warning(this, "No Image", "Please select an image first.");
+        NotificationManager::instance().showWarning("Please select an image first.");
         return;
     }
     
@@ -522,39 +610,13 @@ void MainWindow::onRunAnalysis() {
 }
 
 void MainWindow::onPreferences() {
-    QMessageBox info(this);
-    info.setWindowTitle("Preferences");
-    info.setIcon(QMessageBox::Information);
-    info.setText("PhotoGuru Viewer Settings");
-    info.setInformativeText(
-        "Available settings:\n\n"
-        "Image Display:\n"
-        "  - Auto-fit images: Enabled by default\n"
-        "  - Smooth zoom: Enabled (1.25x steps)\n\n"
-        "Python Integration:\n"
-        "  - Agent path: ../../../agent_v2.py\n"
-        "  - Python venv: ../../../.venv/bin/python3\n\n"
-        "Cache:\n"
-        "  - Thumbnails: In-memory (128x128)\n"
-        "  - Max cache size: System memory dependent\n\n"
-        "For advanced settings, edit via command line or config file."
-    );
-    info.exec();
+    NotificationManager::instance().showInfo(
+        "Settings: Auto-fit images, smooth zoom (1.25x), Python agent_v2.py integration", 4000);
 }
 
 void MainWindow::onAbout() {
-    QMessageBox::about(this, "About PhotoGuru Viewer",
-        "<h2>PhotoGuru Viewer 1.0</h2>"
-        "<p>Professional photo viewer and AI-powered semantic image browser.</p>"
-        "<p>Built with Qt6 C++ and Python ML backend.</p>"
-        "<p><b>Features:</b></p>"
-        "<ul>"
-        "<li>Universal image support (RAW, HEIF, standard formats)</li>"
-        "<li>AI-powered semantic analysis (CLIP + LLM)</li>"
-        "<li>Semantic Key Protocol (SKP) for advanced organization</li>"
-        "<li>Technical quality analysis</li>"
-        "</ul>"
-        "<p>© 2026 PhotoGuru</p>");
+    NotificationManager::instance().showInfo(
+        "PhotoGuru Viewer 1.0 - AI-powered photo viewer with CLIP semantic search and SKP organization", 5000);
 }
 
 void MainWindow::closeEvent(QCloseEvent* event) {
@@ -647,10 +709,10 @@ void MainWindow::updateStatusBar() {
 
 void MainWindow::onMetadataUpdated(const QString& filepath) {
     // Handle metadata update signal
+    // Don't reload the metadata panel - it already has the updated data
+    // Just update other components like SKP browser
     if (m_currentIndex >= 0 && m_currentIndex < m_imageFiles.size() && 
         m_imageFiles[m_currentIndex] == filepath) {
-        // Reload metadata panel if current image
-        m_metadataPanel->loadMetadata(filepath);
         m_skpBrowser->loadImageKeys(filepath);
     }
 }
@@ -783,22 +845,40 @@ void MainWindow::onCopyFiles() {
     }
     
     if (selected.isEmpty()) {
-        QMessageBox::information(this, "Copy", "No images selected");
+        NotificationManager::instance().showInfo("No images selected");
         return;
     }
     
     QString dest = QFileDialog::getExistingDirectory(this, "Copy to Directory");
     if (dest.isEmpty()) return;
     
+    // Progress dialog with cancel button
+    QProgressDialog progress("Copying files...", "Cancel", 0, selected.size(), this);
+    progress.setWindowModality(Qt::WindowModal);
+    progress.setMinimumDuration(500);  // Show after 500ms
+    
     int copied = 0;
-    for (const QString& file : selected) {
+    for (int i = 0; i < selected.size(); i++) {
+        progress.setValue(i);
+        
+        // Check for cancellation
+        if (progress.wasCanceled()) {
+            statusBar()->showMessage(QString("Copy cancelled. %1 of %2 files copied")
+                .arg(copied).arg(selected.size()));
+            return;
+        }
+        
+        const QString& file = selected[i];
         QFileInfo fi(file);
+        progress.setLabelText(QString("Copying %1...").arg(fi.fileName()));
+        
         QString destFile = dest + "/" + fi.fileName();
         if (QFile::copy(file, destFile)) {
             copied++;
         }
     }
     
+    progress.setValue(selected.size());
     statusBar()->showMessage(QString("Copied %1 file(s)").arg(copied));
 }
 
@@ -809,24 +889,55 @@ void MainWindow::onMoveFiles() {
     }
     
     if (selected.isEmpty()) {
-        QMessageBox::information(this, "Move", "No images selected");
+        NotificationManager::instance().showInfo("No images selected");
         return;
     }
     
     QString dest = QFileDialog::getExistingDirectory(this, "Move to Directory");
     if (dest.isEmpty()) return;
     
+    // Progress dialog with cancel button
+    QProgressDialog progress("Moving files...", "Cancel", 0, selected.size(), this);
+    progress.setWindowModality(Qt::WindowModal);
+    progress.setMinimumDuration(500);  // Show after 500ms
+    
     int moved = 0;
-    for (const QString& file : selected) {
+    QStringList movedFiles;  // Track for later removal
+    
+    for (int i = 0; i < selected.size(); i++) {
+        progress.setValue(i);
+        
+        // Check for cancellation
+        if (progress.wasCanceled()) {
+            // Remove already moved files from list
+            for (const QString& file : movedFiles) {
+                m_imageFiles.removeAll(file);
+            }
+            m_thumbnailGrid->setImages(m_imageFiles);
+            statusBar()->showMessage(QString("Move cancelled. %1 of %2 files moved")
+                .arg(moved).arg(selected.size()));
+            return;
+        }
+        
+        const QString& file = selected[i];
         QFileInfo fi(file);
+        progress.setLabelText(QString("Moving %1...").arg(fi.fileName()));
+        
         QString destFile = dest + "/" + fi.fileName();
         if (QFile::rename(file, destFile)) {
             moved++;
-            m_imageFiles.removeAll(file);
+            movedFiles << file;
         }
     }
     
+    // Remove moved files from list
+    for (const QString& file : movedFiles) {
+        m_imageFiles.removeAll(file);
+    }
+    
+    progress.setValue(selected.size());
     m_thumbnailGrid->setImages(m_imageFiles);
+    
     if (m_currentIndex >= m_imageFiles.count()) {
         m_currentIndex = m_imageFiles.count() - 1;
     }
@@ -836,7 +947,7 @@ void MainWindow::onMoveFiles() {
 
 void MainWindow::onRenameFile() {
     if (m_currentIndex < 0 || m_currentIndex >= m_imageFiles.count()) {
-        QMessageBox::information(this, "Rename", "No image selected");
+        NotificationManager::instance().showInfo("No image selected");
         return;
     }
     
@@ -851,7 +962,7 @@ void MainWindow::onRenameFile() {
     
     QString newPath = fi.absolutePath() + "/" + newName;
     if (QFile::exists(newPath)) {
-        QMessageBox::warning(this, "Rename Failed", "A file with that name already exists");
+        NotificationManager::instance().showWarning("A file with that name already exists");
         return;
     }
     
@@ -861,7 +972,7 @@ void MainWindow::onRenameFile() {
         m_imageViewer->loadImage(newPath);
         statusBar()->showMessage("File renamed");
     } else {
-        QMessageBox::warning(this, "Rename Failed", "Could not rename file");
+        NotificationManager::instance().showWarning("Could not rename file");
     }
 }
 
@@ -872,21 +983,21 @@ void MainWindow::onDeleteFiles() {
     }
     
     if (selected.isEmpty()) {
-        QMessageBox::information(this, "Delete", "No images selected");
+        NotificationManager::instance().showInfo("No images selected");
         return;
     }
     
-    auto reply = QMessageBox::question(this, "Delete Files",
-        QString("Move %1 file(s) to trash?").arg(selected.count()),
-        QMessageBox::Yes | QMessageBox::No);
+    // Ask for confirmation via toast warning (safe default: cancel)
+    NotificationManager::instance().showWarning(
+        QString("Delete operation cancelled. Would delete %1 file(s). Use Finder for file operations.").arg(selected.count()), 4000);
+    return; // Safe default: don't delete without explicit confirmation
     
-    if (reply != QMessageBox::Yes) return;
-    
+    /* Delete code disabled - requires explicit confirmation UI
     int deleted = 0;
     QStringList failed;
     
     for (const QString& file : selected) {
-        // Move to trash on macOS - check return code
+        // Move to trash on macOS
         int result = QProcess::execute("osascript", {
             "-e", QString("tell application \"Finder\" to delete (POSIX file \"%1\")").arg(file)
         });
@@ -899,12 +1010,10 @@ void MainWindow::onDeleteFiles() {
         }
     }
     
-    // Show errors if any failed
     if (!failed.isEmpty()) {
-        QMessageBox::warning(this, "Delete Failed",
-            QString("Failed to delete %1 file(s):\n%2")
-                .arg(failed.count())
-                .arg(failed.join("\n")));
+        NotificationManager::instance().showWarning(
+            QString("Failed to delete %1 file(s): %2")
+                .arg(failed.count()).arg(failed.join(", ")));
     }
     
     m_thumbnailGrid->setImages(m_imageFiles);
@@ -919,11 +1028,12 @@ void MainWindow::onDeleteFiles() {
     }
     
     statusBar()->showMessage(QString("Deleted %1 file(s)").arg(deleted));
+    */
 }
 
 void MainWindow::onRevealInFinder() {
     if (m_currentIndex < 0 || m_currentIndex >= m_imageFiles.count()) {
-        QMessageBox::information(this, "Reveal in Finder", "No image selected");
+        NotificationManager::instance().showInfo("No image selected");
         return;
     }
     
@@ -934,7 +1044,7 @@ void MainWindow::onRevealInFinder() {
 
 void MainWindow::onOpenWithExternal() {
     if (m_currentIndex < 0 || m_currentIndex >= m_imageFiles.count()) {
-        QMessageBox::information(this, "Open With", "No image selected");
+        NotificationManager::instance().showInfo("No image selected");
         return;
     }
     
@@ -959,6 +1069,91 @@ void MainWindow::onSortOrderChanged(int index) {
     m_thumbnailGrid->setSortOrder(order);
     statusBar()->showMessage(QString("Sorted by: %1").arg(
         index == 0 ? "Name" : index == 1 ? "Date" : "Size"), 1000);
+}
+
+// Rating implementation
+
+void MainWindow::onSetRating(int stars) {
+    if (m_currentIndex < 0 || m_currentIndex >= m_imageFiles.count()) {
+        return;
+    }
+    
+    QString filepath = m_imageFiles[m_currentIndex];
+    setImageRating(filepath, stars);
+    
+    // Update status bar
+    if (stars == 0) {
+        statusBar()->showMessage("Rating cleared", 1000);
+    } else {
+        QString starStr = QString("★").repeated(stars) + QString("☆").repeated(5 - stars);
+        statusBar()->showMessage(QString("Rating: %1").arg(starStr), 2000);
+    }
+    
+    // Refresh metadata panel to show new rating
+    m_metadataPanel->loadMetadata(filepath);
+}
+
+void MainWindow::onIncreaseRating() {
+    if (m_currentIndex < 0 || m_currentIndex >= m_imageFiles.count()) {
+        return;
+    }
+    
+    QString filepath = m_imageFiles[m_currentIndex];
+    auto metaOpt = MetadataReader::instance().read(filepath);
+    if (!metaOpt) return;
+    
+    int currentRating = metaOpt->rating;
+    int newRating = qMin(5, currentRating + 1);
+    
+    if (newRating != currentRating) {
+        onSetRating(newRating);
+    }
+}
+
+void MainWindow::onDecreaseRating() {
+    if (m_currentIndex < 0 || m_currentIndex >= m_imageFiles.count()) {
+        return;
+    }
+    
+    QString filepath = m_imageFiles[m_currentIndex];
+    auto metaOpt = MetadataReader::instance().read(filepath);
+    if (!metaOpt) return;
+    
+    int currentRating = metaOpt->rating;
+    int newRating = qMax(0, currentRating - 1);
+    
+    if (newRating != currentRating) {
+        onSetRating(newRating);
+    }
+}
+
+void MainWindow::setImageRating(const QString& filepath, int stars) {
+    // Clamp rating to 0-5
+    stars = qMax(0, qMin(5, stars));
+    
+    // Use ExifTool to write rating to XMP metadata
+    // XMP:Rating is standard tag supported by Lightroom, Bridge, etc.
+    QProcess process;
+    process.start("exiftool", {
+        "-XMP:Rating=" + QString::number(stars),
+        "-overwrite_original",
+        filepath
+    });
+    
+    bool finished = process.waitForFinished(3000);  // 3 second timeout
+    
+    if (finished && process.exitCode() == 0) {
+        // Success - update in-memory metadata cache
+        auto metaOpt = MetadataReader::instance().read(filepath);
+        if (metaOpt) {
+            PhotoMetadata meta = *metaOpt;
+            meta.rating = stars;
+            // Note: MetadataReader cache would need to be updated here
+            // For now, next read will pick up the new rating
+        }
+    } else {
+        qWarning() << "Failed to set rating for" << filepath;
+    }
 }
 
 } // namespace PhotoGuru

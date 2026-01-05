@@ -57,3 +57,6 @@ PhotoGuruViewer.app/
 # Third-party (handled separately)
 thirdparty/googletest/
 thirdparty/pybind11/
+models/*.gguf
+models/*.onnx
+Test_10/

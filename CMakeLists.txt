@@ -7,9 +7,6 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-# Find Python for pybind11
-find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
-
 # Find Qt6
 find_package(Qt6 REQUIRED COMPONENTS
     Core
@@ -25,9 +22,6 @@ find_package(Qt6 REQUIRED COMPONENTS
 # Find OpenCV (for image processing fallback)
 find_package(OpenCV REQUIRED)
 
-# pybind11 for Python integration
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/pybind11)
-
 # Google Test for unit testing
 option(BUILD_TESTS "Build unit tests" ON)
 if(BUILD_TESTS)
@@ -42,7 +36,12 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ml
     ${OpenCV_INCLUDE_DIRS}
-    ${Python3_INCLUDE_DIRS}
+    /opt/homebrew/Cellar/onnxruntime/1.22.2_7/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/llama.cpp/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/llama.cpp/common
+    ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/llama.cpp/tools/mtmd
+    ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/llama.cpp/examples
+    ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/llama.cpp/ggml/include
 )
 
 # Source files
@@ -50,8 +49,11 @@ set(SOURCES
     src/main.cpp
     src/core/ImageLoader.cpp
     src/core/MetadataReader.cpp
+    src/core/MetadataWriter.cpp
+    src/core/ExifToolDaemon.cpp
     src/core/ThumbnailCache.cpp
     src/core/PhotoDatabase.cpp
+    src/core/Logger.cpp
     src/ui/MainWindow.cpp
     src/ui/ImageViewer.cpp
     src/ui/ThumbnailGrid.cpp
@@ -62,13 +64,17 @@ set(SOURCES
     src/ui/SemanticSearch.cpp
     src/ui/FilterPanel.cpp
     src/ui/AnalysisPanel.cpp
-    src/ml/PythonBridge.cpp
-    src/ml/PythonAnalysisWorker.cpp
+    src/ui/NotificationToast.cpp
+    src/ui/NotificationManager.cpp
+    src/ml/ONNXInference.cpp
+    src/ml/CLIPAnalyzer.cpp
+    src/ml/LlamaVLM.cpp
 )
 
 set(HEADERS
     src/core/ImageLoader.h
     src/core/MetadataReader.h
+    src/core/MetadataWriter.h
     src/core/ThumbnailCache.h
     src/core/PhotoDatabase.h
     src/core/PhotoMetadata.h
@@ -82,9 +88,12 @@ set(HEADERS
     src/ui/FilterPanel.h
     src/ui/AnalysisPanel.h
     src/ui/SKPBrowser.h
+    src/ui/NotificationToast.h
+    src/ui/NotificationManager.h
     src/ui/DarkTheme.h
-    src/ml/PythonBridge.h
-    src/ml/PythonAnalysisWorker.h
+    src/ml/ONNXInference.h
+    src/ml/CLIPAnalyzer.h
+    src/ml/LlamaVLM.h
 )
 
 # Resources (icons, stylesheets)
@@ -106,8 +115,13 @@ target_link_libraries(${PROJECT_NAME}
     Qt6::Network
     Qt6::Sql
     ${OpenCV_LIBS}
-    pybind11::embed
-    Python3::Python
+    /opt/homebrew/Cellar/onnxruntime/1.22.2_7/lib/libonnxruntime.dylib
+    ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/llama.cpp/build/bin/libllama.dylib
+    ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/llama.cpp/build/bin/libggml.dylib
+    ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/llama.cpp/build/bin/libggml-base.dylib
+    ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/llama.cpp/build/bin/libggml-metal.dylib
+    ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/llama.cpp/build/bin/libmtmd.dylib
+    ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/llama.cpp/build/common/libcommon.a
 )
 
 # Platform-specific settings
@@ -173,32 +187,51 @@ if(BUILD_TESTS)
     set(TEST_SOURCES
         tests/main.cpp
         tests/test_metadata_reader.cpp
+        tests/test_metadata_writer.cpp
+        tests/test_exiftool_daemon.cpp
+        tests/test_photo_database.cpp
         tests/test_image_loader.cpp
         tests/test_thumbnail_cache.cpp
         tests/test_filter_criteria.cpp
-        tests/test_python_analysis_worker.cpp
         tests/test_analysis_panel.cpp
         tests/test_semantic_search.cpp
         tests/test_skp_browser.cpp
         tests/test_metadata_panel.cpp
         tests/test_filter_panel.cpp
+        tests/test_onnx_basic.cpp
+        tests/test_clip_analyzer.cpp
+        tests/test_llama_vlm.cpp
         tests/test_image_viewer.cpp
         tests/test_thumbnail_grid.cpp
+        tests/test_main_window.cpp
+        tests/test_map_view.cpp
+        tests/test_timeline_view.cpp
     )
     
     # Core sources needed for tests (not the full app)
     set(TEST_CORE_SOURCES
         src/core/ImageLoader.cpp
         src/core/MetadataReader.cpp
+        src/core/MetadataWriter.cpp
+        src/core/ExifToolDaemon.cpp
+        src/core/Logger.cpp
+        src/ui/MainWindow.cpp
+        src/ui/MapView.cpp
+        src/ui/TimelineView.cpp
+        src/core/PhotoDatabase.cpp
         src/core/ThumbnailCache.cpp
         src/ui/FilterPanel.cpp
-        src/ml/PythonAnalysisWorker.cpp
         src/ui/AnalysisPanel.cpp
         src/ui/SemanticSearch.cpp
         src/ui/SKPBrowser.cpp
         src/ui/MetadataPanel.cpp
         src/ui/ImageViewer.cpp
         src/ui/ThumbnailGrid.cpp
+        src/ui/NotificationToast.cpp
+        src/ui/NotificationManager.cpp
+        src/ml/ONNXInference.cpp
+        src/ml/CLIPAnalyzer.cpp
+        src/ml/LlamaVLM.cpp
     )
     
     # Create test executable
@@ -209,9 +242,19 @@ if(BUILD_TESTS)
         gtest
         gtest_main
         Qt6::Core
-        Qt6::Gui
-        Qt6::Widgets
+        Qt6::Network
+        Qt6::WebEngineWidgets
+        Qt6::Test
+        ${OpenCV_LIBS}
         Qt6::Concurrent
+        Qt6::Sql
+        /opt/homebrew/Cellar/onnxruntime/1.22.2_7/lib/libonnxruntime.dylib
+        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/llama.cpp/build/bin/libllama.dylib
+        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/llama.cpp/build/bin/libggml.dylib
+        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/llama.cpp/build/bin/libggml-base.dylib
+        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/llama.cpp/build/bin/libggml-metal.dylib
+        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/llama.cpp/build/bin/libmtmd.dylib
+        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/llama.cpp/build/common/libcommon.a
         Qt6::Test
         ${OpenCV_LIBS}
     )

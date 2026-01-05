@@ -1,15 +1,52 @@
 #include "FilterPanel.h"
 #include <QVBoxLayout>
 #include <QFormLayout>
+#include <QHBoxLayout>
 #include <QPushButton>
 
 namespace PhotoGuru {
 
+bool FilterCriteria::matchesSearch(const PhotoMetadata& photo) const {
+    if (searchText.isEmpty()) return true;
+    
+    QString search = searchCaseSensitive ? searchText : searchText.toLower();
+    
+    auto matchString = [&](const QString& str) {
+        QString target = searchCaseSensitive ? str : str.toLower();
+        return target.contains(search);
+    };
+    
+    // Search in title, description, keywords
+    if (matchString(photo.llm_title)) return true;
+    if (matchString(photo.llm_description)) return true;
+    for (const QString& kw : photo.llm_keywords) {
+        if (matchString(kw)) return true;
+    }
+    
+    // Search in location
+    if (matchString(photo.location_name)) return true;
+    
+    // Search in camera info
+    if (matchString(photo.camera_make)) return true;
+    if (matchString(photo.camera_model)) return true;
+    
+    // Search in filename
+    if (matchString(photo.filename)) return true;
+    
+    return false;
+}
+
 bool FilterCriteria::matches(const PhotoMetadata& photo) const {
+    // Text search first
+    if (!matchesSearch(photo)) return false;
+    
     // Quality filters
     if (photo.technical.overall_quality < minQuality) return false;
     if (photo.technical.sharpness_score < minSharpness) return false;
     if (photo.technical.aesthetic_score < minAesthetic) return false;
+    
+    // Rating filter
+    if (photo.rating < minRating || photo.rating > maxRating) return false;
     
     // Content filters
     if (onlyWithFaces && photo.face_count == 0) return false;
@@ -19,6 +56,43 @@ bool FilterCriteria::matches(const PhotoMetadata& photo) const {
     
     // GPS filter
     if (onlyWithGPS && (photo.gps_lat == 0.0 || photo.gps_lon == 0.0)) return false;
+    
+    // Camera filter
+    if (!cameras.isEmpty()) {
+        QString fullCamera = photo.camera_make + " " + photo.camera_model;
+        bool found = false;
+        for (const QString& cam : cameras) {
+            if (fullCamera.contains(cam, Qt::CaseInsensitive)) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) return false;
+    }
+    
+    // ISO filter
+    if (photo.iso > 0 && (photo.iso < minISO || photo.iso > maxISO)) return false;
+    
+    // Aperture filter
+    if (photo.aperture > 0.0 && (photo.aperture < minAperture || photo.aperture > maxAperture)) return false;
+    
+    // Focal length filter
+    if (photo.focal_length > 0.0 && (photo.focal_length < minFocalLength || photo.focal_length > maxFocalLength)) return false;
+    
+    // Keywords filter
+    if (!keywords.isEmpty()) {
+        bool found = false;
+        for (const QString& filterKw : keywords) {
+            for (const QString& photoKw : photo.llm_keywords) {
+                if (photoKw.contains(filterKw, Qt::CaseInsensitive)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) break;
+        }
+        if (!found) return false;
+    }
     
     // Category filter
     if (!categories.isEmpty() && !categories.contains(photo.llm_category)) return false;
@@ -39,7 +113,68 @@ FilterPanel::FilterPanel(QWidget* parent)
 
 void FilterPanel::setupUI() {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
-    mainLayout->setSpacing(16);
+    mainLayout->setSpacing(12);
+    mainLayout->setContentsMargins(8, 8, 8, 8);
+    
+    // Search bar at the top
+    QGroupBox* searchGroup = new QGroupBox("Search", this);
+    QVBoxLayout* searchLayout = new QVBoxLayout(searchGroup);
+    
+    m_searchEdit = new QLineEdit(this);
+    m_searchEdit->setPlaceholderText("Search in title, description, keywords, location, camera...");
+    m_searchEdit->setClearButtonEnabled(true);
+    connect(m_searchEdit, &QLineEdit::textChanged, this, &FilterPanel::onFilterChanged);
+    searchLayout->addWidget(m_searchEdit);
+    
+    m_caseSensitiveCheckbox = new QCheckBox("Case sensitive", this);
+    connect(m_caseSensitiveCheckbox, &QCheckBox::stateChanged, this, &FilterPanel::onFilterChanged);
+    searchLayout->addWidget(m_caseSensitiveCheckbox);
+    
+    mainLayout->addWidget(searchGroup);
+    
+    // Rating filter
+    QGroupBox* ratingGroup = new QGroupBox("Rating", this);
+    QFormLayout* ratingLayout = new QFormLayout(ratingGroup);
+    
+    m_minRatingLabel = new QLabel("0 ☆", this);
+    m_minRatingSlider = new QSlider(Qt::Horizontal, this);
+    m_minRatingSlider->setRange(0, 5);
+    m_minRatingSlider->setValue(0);
+    connect(m_minRatingSlider, &QSlider::valueChanged, this, [this](int value) {
+        QString stars;
+        for (int i = 0; i < value; ++i) stars += "★";
+        for (int i = value; i < 5; ++i) stars += "☆";
+        m_minRatingLabel->setText(QString::number(value) + " " + stars);
+        if (value > m_maxRatingSlider->value()) {
+            m_maxRatingSlider->setValue(value);
+        }
+        onFilterChanged();
+    });
+    QHBoxLayout* minRatingH = new QHBoxLayout();
+    minRatingH->addWidget(m_minRatingSlider);
+    minRatingH->addWidget(m_minRatingLabel);
+    ratingLayout->addRow("Min Rating:", minRatingH);
+    
+    m_maxRatingLabel = new QLabel("5 ★", this);
+    m_maxRatingSlider = new QSlider(Qt::Horizontal, this);
+    m_maxRatingSlider->setRange(0, 5);
+    m_maxRatingSlider->setValue(5);
+    connect(m_maxRatingSlider, &QSlider::valueChanged, this, [this](int value) {
+        QString stars;
+        for (int i = 0; i < value; ++i) stars += "★";
+        for (int i = value; i < 5; ++i) stars += "☆";
+        m_maxRatingLabel->setText(QString::number(value) + " " + stars);
+        if (value < m_minRatingSlider->value()) {
+            m_minRatingSlider->setValue(value);
+        }
+        onFilterChanged();
+    });
+    QHBoxLayout* maxRatingH = new QHBoxLayout();
+    maxRatingH->addWidget(m_maxRatingSlider);
+    maxRatingH->addWidget(m_maxRatingLabel);
+    ratingLayout->addRow("Max Rating:", maxRatingH);
+    
+    mainLayout->addWidget(ratingGroup);
     
     // Quality filters group
     QGroupBox* qualityGroup = new QGroupBox("Quality Filters", this);
@@ -85,6 +220,66 @@ void FilterPanel::setupUI() {
     qualityLayout->addRow("Min Aesthetic:", aestheticH);
     
     mainLayout->addWidget(qualityGroup);
+    
+    // Camera/Technical filters
+    QGroupBox* technicalGroup = new QGroupBox("Camera & Technical", this);
+    QFormLayout* technicalLayout = new QFormLayout(technicalGroup);
+    
+    m_cameraCombo = new QComboBox(this);
+    m_cameraCombo->addItem("All Cameras", "");
+    m_cameraCombo->addItem("Canon", "Canon");
+    m_cameraCombo->addItem("Nikon", "Nikon");
+    m_cameraCombo->addItem("Sony", "Sony");
+    m_cameraCombo->addItem("Fujifilm", "Fuji");
+    m_cameraCombo->addItem("Olympus", "Olympus");
+    m_cameraCombo->addItem("Apple iPhone", "iPhone");
+    connect(m_cameraCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &FilterPanel::onFilterChanged);
+    technicalLayout->addRow("Camera:", m_cameraCombo);
+    
+    QHBoxLayout* isoLayout = new QHBoxLayout();
+    m_minISOEdit = new QLineEdit("0", this);
+    m_minISOEdit->setMaximumWidth(80);
+    connect(m_minISOEdit, &QLineEdit::textChanged, this, &FilterPanel::onFilterChanged);
+    isoLayout->addWidget(new QLabel("Min:", this));
+    isoLayout->addWidget(m_minISOEdit);
+    m_maxISOEdit = new QLineEdit("102400", this);
+    m_maxISOEdit->setMaximumWidth(80);
+    connect(m_maxISOEdit, &QLineEdit::textChanged, this, &FilterPanel::onFilterChanged);
+    isoLayout->addWidget(new QLabel("Max:", this));
+    isoLayout->addWidget(m_maxISOEdit);
+    isoLayout->addStretch();
+    technicalLayout->addRow("ISO:", isoLayout);
+    
+    QHBoxLayout* apertureLayout = new QHBoxLayout();
+    m_minApertureEdit = new QLineEdit("0", this);
+    m_minApertureEdit->setMaximumWidth(60);
+    connect(m_minApertureEdit, &QLineEdit::textChanged, this, &FilterPanel::onFilterChanged);
+    apertureLayout->addWidget(new QLabel("f/", this));
+    apertureLayout->addWidget(m_minApertureEdit);
+    m_maxApertureEdit = new QLineEdit("32", this);
+    m_maxApertureEdit->setMaximumWidth(60);
+    connect(m_maxApertureEdit, &QLineEdit::textChanged, this, &FilterPanel::onFilterChanged);
+    apertureLayout->addWidget(new QLabel("- f/", this));
+    apertureLayout->addWidget(m_maxApertureEdit);
+    apertureLayout->addStretch();
+    technicalLayout->addRow("Aperture:", apertureLayout);
+    
+    QHBoxLayout* focalLayout = new QHBoxLayout();
+    m_minFocalLengthEdit = new QLineEdit("0", this);
+    m_minFocalLengthEdit->setMaximumWidth(60);
+    connect(m_minFocalLengthEdit, &QLineEdit::textChanged, this, &FilterPanel::onFilterChanged);
+    focalLayout->addWidget(m_minFocalLengthEdit);
+    focalLayout->addWidget(new QLabel("mm -", this));
+    m_maxFocalLengthEdit = new QLineEdit("1000", this);
+    m_maxFocalLengthEdit->setMaximumWidth(60);
+    connect(m_maxFocalLengthEdit, &QLineEdit::textChanged, this, &FilterPanel::onFilterChanged);
+    focalLayout->addWidget(m_maxFocalLengthEdit);
+    focalLayout->addWidget(new QLabel("mm", this));
+    focalLayout->addStretch();
+    technicalLayout->addRow("Focal Length:", focalLayout);
+    
+    mainLayout->addWidget(technicalGroup);
     
     // Content filters group
     QGroupBox* contentGroup = new QGroupBox("Content Filters", this);
@@ -139,10 +334,16 @@ void FilterPanel::setupUI() {
             this, &FilterPanel::onFilterChanged);
     categoryLayout->addRow("Scene:", m_sceneCombo);
     
+    m_keywordsEdit = new QLineEdit(this);
+    m_keywordsEdit->setPlaceholderText("Comma-separated keywords");
+    m_keywordsEdit->setClearButtonEnabled(true);
+    connect(m_keywordsEdit, &QLineEdit::textChanged, this, &FilterPanel::onFilterChanged);
+    categoryLayout->addRow("Keywords:", m_keywordsEdit);
+    
     mainLayout->addWidget(categoryGroup);
     
     // Reset button
-    QPushButton* resetBtn = new QPushButton("Reset Filters", this);
+    QPushButton* resetBtn = new QPushButton("Reset All Filters", this);
     resetBtn->setStyleSheet(R"(
         QPushButton {
             padding: 8px;
@@ -161,16 +362,41 @@ void FilterPanel::setupUI() {
 FilterCriteria FilterPanel::getCriteria() const {
     FilterCriteria criteria;
     
+    // Search
+    criteria.searchText = m_searchEdit->text().trimmed();
+    criteria.searchCaseSensitive = m_caseSensitiveCheckbox->isChecked();
+    
+    // Quality
     criteria.minQuality = m_qualitySlider->value() / 100.0;
     criteria.minSharpness = m_sharpnessSlider->value() / 100.0;
     criteria.minAesthetic = m_aestheticSlider->value() / 100.0;
     
+    // Rating
+    criteria.minRating = m_minRatingSlider->value();
+    criteria.maxRating = m_maxRatingSlider->value();
+    
+    // Content
     criteria.onlyWithFaces = m_facesCheckbox->isChecked();
     criteria.onlyBestInBurst = m_bestBurstCheckbox->isChecked();
     criteria.excludeDuplicates = m_noDuplicatesCheckbox->isChecked();
     criteria.excludeBlurry = m_noBlurCheckbox->isChecked();
     criteria.onlyWithGPS = m_gpsCheckbox->isChecked();
     
+    // Camera
+    QString camera = m_cameraCombo->currentData().toString();
+    if (!camera.isEmpty()) {
+        criteria.cameras << camera;
+    }
+    
+    // Technical
+    criteria.minISO = m_minISOEdit->text().toInt();
+    criteria.maxISO = m_maxISOEdit->text().toInt();
+    criteria.minAperture = m_minApertureEdit->text().toDouble();
+    criteria.maxAperture = m_maxApertureEdit->text().toDouble();
+    criteria.minFocalLength = m_minFocalLengthEdit->text().toDouble();
+    criteria.maxFocalLength = m_maxFocalLengthEdit->text().toDouble();
+    
+    // Categories
     QString category = m_categoryCombo->currentData().toString();
     if (!category.isEmpty()) {
         criteria.categories << category;
@@ -181,10 +407,25 @@ FilterCriteria FilterPanel::getCriteria() const {
         criteria.scenes << scene;
     }
     
+    // Keywords
+    QString keywordsText = m_keywordsEdit->text().trimmed();
+    if (!keywordsText.isEmpty()) {
+        criteria.keywords = keywordsText.split(',', Qt::SkipEmptyParts);
+        for (QString& kw : criteria.keywords) {
+            kw = kw.trimmed();
+        }
+    }
+    
     return criteria;
 }
 
 void FilterPanel::reset() {
+    m_searchEdit->clear();
+    m_caseSensitiveCheckbox->setChecked(false);
+    
+    m_minRatingSlider->setValue(0);
+    m_maxRatingSlider->setValue(5);
+    
     m_qualitySlider->setValue(0);
     m_sharpnessSlider->setValue(0);
     m_aestheticSlider->setValue(0);
@@ -195,8 +436,18 @@ void FilterPanel::reset() {
     m_noBlurCheckbox->setChecked(false);
     m_gpsCheckbox->setChecked(false);
     
+    m_cameraCombo->setCurrentIndex(0);
     m_categoryCombo->setCurrentIndex(0);
     m_sceneCombo->setCurrentIndex(0);
+    
+    m_minISOEdit->setText("0");
+    m_maxISOEdit->setText("102400");
+    m_minApertureEdit->setText("0");
+    m_maxApertureEdit->setText("32");
+    m_minFocalLengthEdit->setText("0");
+    m_maxFocalLengthEdit->setText("1000");
+    
+    m_keywordsEdit->clear();
     
     onFilterChanged();
 }

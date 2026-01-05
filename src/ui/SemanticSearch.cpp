@@ -1,5 +1,4 @@
 #include "SemanticSearch.h"
-#include "ml/PythonBridge.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QListWidgetItem>

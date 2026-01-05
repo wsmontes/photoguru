@@ -19,6 +19,18 @@ ImageViewer::ImageViewer(QWidget* parent)
     setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
     setAttribute(Qt::WA_OpaquePaintEvent);
+    
+    // PERFORMANCE: Debounce resize events
+    m_resizeTimer = new QTimer(this);
+    m_resizeTimer->setSingleShot(true);
+    m_resizeTimer->setInterval(100);  // 100ms debounce
+    connect(m_resizeTimer, &QTimer::timeout, this, [this]() {
+        if (m_autoFit) {
+            zoomToFit();
+        }
+        m_pixmapCacheDirty = true;
+        update();
+    });
 }
 
 void ImageViewer::loadImage(const QString& filepath) {
@@ -57,6 +69,7 @@ void ImageViewer::onImageLoadComplete() {
     
     if (!imageOpt) {
         m_image = QImage();
+        m_pixmapCache = QPixmap();
         m_filepath.clear();
         update();
         return;
@@ -68,6 +81,9 @@ void ImageViewer::onImageLoadComplete() {
     // Always fit new images to window
     m_autoFit = true;
     zoomToFit();
+    
+    // PERFORMANCE: Create pixmap cache
+    updatePixmapCache();
     
     update();
     emit imageLoaded(m_filepath);
@@ -110,9 +126,33 @@ void ImageViewer::zoomActual() {
 
 void ImageViewer::setZoom(double factor) {
     m_zoom = std::clamp(factor, 0.01, 20.0);
+    m_pixmapCacheDirty = true;
     updateTransform();
     emit zoomChanged(m_zoom);
     update();
+}
+
+void ImageViewer::updatePixmapCache() {
+    if (m_image.isNull()) {
+        m_pixmapCache = QPixmap();
+        m_pixmapCacheDirty = false;
+        return;
+    }
+    
+    // PERFORMANCE: Create scaled pixmap cache for current zoom level
+    QSize scaledSize = m_image.size() * m_zoom;
+    
+    // Only cache if reasonably sized (avoid huge pixmaps)
+    if (scaledSize.width() <= 4000 && scaledSize.height() <= 4000) {
+        QImage scaled = m_image.scaled(scaledSize, Qt::KeepAspectRatio, 
+            Qt::SmoothTransformation);
+        m_pixmapCache = QPixmap::fromImage(scaled);
+    } else {
+        // For very large zoom, render directly from QImage
+        m_pixmapCache = QPixmap();
+    }
+    
+    m_pixmapCacheDirty = false;
 }
 
 void ImageViewer::updateTransform() {
@@ -133,13 +173,19 @@ void ImageViewer::centerImage() {
 void ImageViewer::resizeEvent(QResizeEvent* event) {
     QWidget::resizeEvent(event);
     
-    if (!m_image.isNull() && m_autoFit) {
-        zoomToFit();
+    // PERFORMANCE: Debounce resize events
+    if (m_resizeTimer) {
+        m_resizeTimer->start();
     }
 }
 
 void ImageViewer::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
+    
+    // PERFORMANCE: Enable antialiasing and smooth pixmap transform
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+    
     painter.fillRect(rect(), QColor(42, 42, 42));
     
     if (m_isLoading) {
@@ -149,8 +195,13 @@ void ImageViewer::paintEvent(QPaintEvent* event) {
     
     if (m_image.isNull()) {
         painter.setPen(QColor(150, 150, 150));
-        painter.drawText(rect(), Qt::AlignCenter, "No image loaded\nPress Ctrl+O to open images");
+        painter.drawText(rect(), Qt::AlignCenter, "No image loaded\\nPress Ctrl+O to open images");
         return;
+    }
+    
+    // PERFORMANCE: Update pixmap cache if needed
+    if (m_pixmapCacheDirty) {
+        updatePixmapCache();
     }
     
     // Draw image
@@ -159,12 +210,13 @@ void ImageViewer::paintEvent(QPaintEvent* event) {
     
     QRect targetRect(m_offset.x(), m_offset.y(), scaledWidth, scaledHeight);
     
-    // Use smooth transform for zoom < 1.0
-    if (m_zoom < 1.0) {
-        painter.setRenderHint(QPainter::SmoothPixmapTransform);
+    // PERFORMANCE: Use cached pixmap if available, otherwise draw from QImage
+    if (!m_pixmapCache.isNull()) {
+        painter.drawPixmap(targetRect, m_pixmapCache);
+    } else {
+        // Fallback for very large images
+        painter.drawImage(targetRect, m_image);
     }
-    
-    painter.drawImage(targetRect, m_image);
 }
 
 void ImageViewer::wheelEvent(QWheelEvent* event) {

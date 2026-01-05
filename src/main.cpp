@@ -1,6 +1,5 @@
 #include "ui/MainWindow.h"
 #include "ui/DarkTheme.h"
-#include "ml/PythonBridge.h"
 #include <QApplication>
 #include <QDebug>
 #include <QFileInfo>
@@ -19,30 +18,6 @@ int main(int argc, char *argv[]) {
     
     // Apply dark theme
     DarkTheme::apply(app);
-    
-    // Initialize Python bridge
-    QString agentPath = QDir::currentPath() + "/python/agent_v2.py";
-    
-    // Check if agent script exists
-    if (!QFileInfo::exists(agentPath)) {
-        // Try parent directory
-        agentPath = QDir::currentPath() + "/../python/agent_v2.py";
-        
-        if (!QFileInfo::exists(agentPath)) {
-            qWarning() << "Warning: agent_v2.py not found. AI features will be disabled.";
-            qWarning() << "Searched in:" << QDir::currentPath();
-        } else {
-            qDebug() << "Found agent_v2.py at:" << agentPath;
-            if (!PythonBridge::instance().initialize(agentPath)) {
-                qWarning() << "Failed to initialize Python bridge";
-            }
-        }
-    } else {
-        qDebug() << "Found agent_v2.py at:" << agentPath;
-        if (!PythonBridge::instance().initialize(agentPath)) {
-            qWarning() << "Failed to initialize Python bridge";
-        }
-    }
     
     // Create and show main window
     MainWindow mainWindow;
@@ -64,10 +39,5 @@ int main(int argc, char *argv[]) {
         }
     }
     
-    int result = app.exec();
-    
-    // Cleanup
-    PythonBridge::instance().shutdown();
-    
-    return result;
+    return app.exec();
 }

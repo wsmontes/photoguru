@@ -26,7 +26,19 @@ ThumbnailGrid::ThumbnailGrid(QWidget* parent)
     // Enable multi-selection
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     
-    m_thumbnailCache.setMaxCost(500);  // Cache up to 500 thumbnails
+    // PERFORMANCE: Larger memory cache
+    m_thumbnailCache.setMaxCost(1000);  // Cache up to 1000 thumbnails
+    
+    // PERFORMANCE: Dedicated thread pool for thumbnails
+    m_threadPool = new QThreadPool(this);
+    m_threadPool->setMaxThreadCount(4);  // 4 parallel thumbnail loads
+    
+    // PERFORMANCE: Setup disk cache directory
+    QString cacheDir = QDir::homePath() + "/.photoguru/thumbnails";
+    m_diskCacheDir = QDir(cacheDir);
+    if (!m_diskCacheDir.exists()) {
+        m_diskCacheDir.mkpath(".");
+    }
     
     connect(this, &QListWidget::itemClicked, this, &ThumbnailGrid::onItemClicked);
     connect(this, &QListWidget::itemSelectionChanged, this, &ThumbnailGrid::onSelectionChanged);
@@ -139,54 +151,100 @@ void ThumbnailGrid::loadThumbnails() {
         item->setData(Qt::UserRole, path);
         item->setText(QFileInfo(path).fileName());
         
-        // Check cache first
-        if (QPixmap* cached = m_thumbnailCache.object(path)) {
+        QString cacheKey = getCacheKey(path, m_thumbnailSize);
+        
+        // Check memory cache first
+        if (QPixmap* cached = m_thumbnailCache.object(cacheKey)) {
             item->setIcon(QIcon(*cached));
+            continue;
+        }
+        
+        // Check disk cache
+        QPixmap diskCached = loadFromDiskCache(cacheKey);
+        if (!diskCached.isNull()) {
+            item->setIcon(QIcon(diskCached));
+            m_thumbnailCache.insert(cacheKey, new QPixmap(diskCached));
+            continue;
+        }
+        
+        // Placeholder icon for loading
+        QPixmap placeholder(m_thumbnailSize, m_thumbnailSize);
+        placeholder.fill(QColor(60, 60, 60));
+        item->setIcon(QIcon(placeholder));
+    }
+    
+    // PERFORMANCE: Load visible items first, then load rest
+    QList<int> visibleIndexes;
+    QList<int> hiddenIndexes;
+    
+    for (int i = 0; i < m_imagePaths.count(); ++i) {
+        QString cacheKey = getCacheKey(m_imagePaths[i], m_thumbnailSize);
+        if (m_thumbnailCache.contains(cacheKey)) continue;
+        
+        QListWidgetItem* item = this->item(i);
+        if (item && visualItemRect(item).intersects(viewport()->rect())) {
+            visibleIndexes.append(i);
         } else {
-            // Placeholder icon
-            QPixmap placeholder(m_thumbnailSize, m_thumbnailSize);
-            placeholder.fill(QColor(60, 60, 60));
-            item->setIcon(QIcon(placeholder));
+            hiddenIndexes.append(i);
         }
     }
     
-    // Load thumbnails asynchronously
-    for (int i = 0; i < m_imagePaths.count(); ++i) {
-        QString path = m_imagePaths[i];
-        
-        // Skip if already cached
-        if (m_thumbnailCache.contains(path)) continue;
-        
-        m_loadingTasks.fetchAndAddOrdered(1);
-        
-        QPointer<ThumbnailGrid> self(this);
-        QtConcurrent::run([self, path, i]() {
-            if (!self) return;
-            
-            QPixmap thumb = self->generateThumbnail(path);
-            
-            // Update UI in main thread - check if widget still exists
-            QMetaObject::invokeMethod(qApp, [self, path, i, thumb]() {
-                if (!self) return;
-                
-                self->m_thumbnailCache.insert(path, new QPixmap(thumb));
-                
-                if (i < self->count()) {
-                    QListWidgetItem* item = self->item(i);
-                    if (item && item->data(Qt::UserRole).toString() == path) {
-                        item->setIcon(QIcon(thumb));
-                    }
-                }
-                
-                self->m_loadingTasks.fetchAndAddOrdered(-1);
-            }, Qt::QueuedConnection);
-        });
+    // Load visible items first with higher priority
+    for (int i : visibleIndexes) {
+        loadThumbnailAsync(i, QThread::HighPriority);
+    }
+    
+    // Load hidden items with normal priority
+    for (int i : hiddenIndexes) {
+        loadThumbnailAsync(i, QThread::NormalPriority);
     }
 }
 
+void ThumbnailGrid::loadThumbnailAsync(int index, QThread::Priority priority) {
+    if (index < 0 || index >= m_imagePaths.count()) return;
+    
+    QString path = m_imagePaths[index];
+    QString cacheKey = getCacheKey(path, m_thumbnailSize);
+    
+    m_loadingTasks.fetchAndAddOrdered(1);
+    
+    QPointer<ThumbnailGrid> self(this);
+    int size = m_thumbnailSize;
+    
+    // PERFORMANCE: Use managed thread pool
+    QRunnable* task = QRunnable::create([self, path, index, cacheKey, size]() {
+        if (!self) return;
+        
+        QPixmap thumb = self->generateThumbnail(path);
+        
+        // Save to disk cache
+        self->saveToDiskCache(cacheKey, thumb);
+        
+        // Update UI in main thread
+        QMetaObject::invokeMethod(self, [self, path, index, thumb, cacheKey]() {
+            if (!self) return;
+            
+            self->m_thumbnailCache.insert(cacheKey, new QPixmap(thumb));
+            
+            if (index < self->count()) {
+                QListWidgetItem* item = self->item(index);
+                if (item && item->data(Qt::UserRole).toString() == path) {
+                    item->setIcon(QIcon(thumb));
+                }
+            }
+            
+            self->m_loadingTasks.fetchAndAddOrdered(-1);
+        }, Qt::QueuedConnection);
+    });
+    
+    m_threadPool->start(task, priority);
+}
+
 QPixmap ThumbnailGrid::generateThumbnail(const QString& filepath) {
+    // PERFORMANCE: Load with exact thumbnail size for faster decoding
+    // Qt and LibRaw can decode at lower resolution directly
     auto imageOpt = ImageLoader::instance().load(filepath, 
-        QSize(m_thumbnailSize * 2, m_thumbnailSize * 2));
+        QSize(m_thumbnailSize * 2, m_thumbnailSize * 2));  // 2x for retina
     
     if (!imageOpt) {
         // Error placeholder
@@ -196,6 +254,13 @@ QPixmap ThumbnailGrid::generateThumbnail(const QString& filepath) {
     }
     
     QImage image = *imageOpt;
+    
+    // PERFORMANCE: Fast scaling with SmoothTransformation only when needed
+    if (image.width() > m_thumbnailSize * 3 || image.height() > m_thumbnailSize * 3) {
+        // For very large images, do a fast scale first
+        image = image.scaled(m_thumbnailSize * 2, m_thumbnailSize * 2, 
+            Qt::KeepAspectRatio, Qt::FastTransformation);
+    }
     
     // Scale to thumbnail size maintaining aspect ratio
     QImage scaled = image.scaled(m_thumbnailSize, m_thumbnailSize,
@@ -222,6 +287,30 @@ void ThumbnailGrid::onSelectionChanged() {
     // Emit signal with selection count
     int count = selectedItems().count();
     emit selectionCountChanged(count);
+}
+
+QString ThumbnailGrid::getCacheKey(const QString& filepath, int size) {
+    QFileInfo fi(filepath);
+    return QString("%1_%2_%3")
+        .arg(fi.fileName())
+        .arg(fi.lastModified().toSecsSinceEpoch())
+        .arg(size);
+}
+
+QPixmap ThumbnailGrid::loadFromDiskCache(const QString& cacheKey) {
+    QString cachePath = m_diskCacheDir.filePath(cacheKey + ".jpg");
+    if (QFile::exists(cachePath)) {
+        QPixmap cached;
+        if (cached.load(cachePath)) {
+            return cached;
+        }
+    }
+    return QPixmap();
+}
+
+void ThumbnailGrid::saveToDiskCache(const QString& cacheKey, const QPixmap& pixmap) {
+    QString cachePath = m_diskCacheDir.filePath(cacheKey + ".jpg");
+    pixmap.save(cachePath, "JPG", 85);  // 85% quality for thumbnails
 }
 
 } // namespace PhotoGuru
