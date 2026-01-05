@@ -497,6 +497,11 @@ void MainWindow::createDockPanels() {
                 auto metaOpt = MetadataReader::instance().read(filepath);
                 if (metaOpt) {
                     m_metadataCache[filepath] = metaOpt.value();
+                    
+                    // Re-apply current filter to update search results
+                    if (m_filterPanel) {
+                        m_filterPanel->triggerFilterUpdate();
+                    }
                 }
                 
                 // Reload metadata for updated image
@@ -509,11 +514,18 @@ void MainWindow::createDockPanels() {
     // Connect metadata panel signals
     connect(m_metadataPanel, &MetadataPanel::metadataChanged,
             this, [this](const QString& filepath) {
-                // Update cache with fresh metadata
-                auto metaOpt = MetadataReader::instance().read(filepath);
-                if (metaOpt) {
-                    m_metadataCache[filepath] = metaOpt.value();
-                }
+                // Update cache with fresh metadata (wait a bit for ExifTool to finish)
+                QTimer::singleShot(100, this, [this, filepath]() {
+                    auto metaOpt = MetadataReader::instance().read(filepath);
+                    if (metaOpt) {
+                        m_metadataCache[filepath] = metaOpt.value();
+                        
+                        // Re-apply current filter to update search results
+                        if (m_filterPanel) {
+                            m_filterPanel->triggerFilterUpdate();
+                        }
+                    }
+                });
                 
                 // Don't reload - panel already has the saved data in memory
                 // Reloading would cause a race condition with ExifTool write
@@ -828,6 +840,11 @@ void MainWindow::onMetadataUpdated(const QString& filepath) {
     auto metaOpt = MetadataReader::instance().read(filepath);
     if (metaOpt) {
         m_metadataCache[filepath] = metaOpt.value();
+        
+        // Re-apply current filter to update search results
+        if (m_filterPanel) {
+            m_filterPanel->triggerFilterUpdate();
+        }
     }
     
     // Handle metadata update signal

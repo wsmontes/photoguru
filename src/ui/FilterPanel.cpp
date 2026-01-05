@@ -544,4 +544,9 @@ void FilterPanel::onFilterChanged() {
     emit filterChanged(getCriteria());
 }
 
+void FilterPanel::triggerFilterUpdate() {
+    // Public method to force re-application of current filter
+    onFilterChanged();
+}
+
 } // namespace PhotoGuru

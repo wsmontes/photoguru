@@ -109,14 +109,18 @@ bool ExifToolDaemon::isRunning() const {
 }
 
 QString ExifToolDaemon::executeCommand(const QStringList& args) {
-    if (!isRunning()) {
+    // Lock ONCE for entire operation
+    QMutexLocker locker(&m_mutex);
+    
+    // Start if needed (already holding lock)
+    if (!m_running) {
+        locker.unlock();  // Temporarily unlock for start()
         if (!const_cast<ExifToolDaemon*>(this)->start()) {
             qWarning() << "[ExifToolDaemon] Failed to start";
             return QString();
         }
+        locker.relock();  // Re-acquire lock
     }
-    
-    QMutexLocker locker(&m_mutex);
     
     if (!m_process) {
         return QString();
@@ -131,20 +135,23 @@ QString ExifToolDaemon::executeCommand(const QStringList& args) {
     m_process->write("-execute\n");
     m_process->waitForBytesWritten(3000);
     
-    // Read response
+    // Read response (mutex still held)
     return readResponse();
 }
 
 QStringList ExifToolDaemon::executeBatch(const QStringList& commands) {
-    // Lazy start
-    if (!isRunning()) {
+    // Lock ONCE for entire batch operation
+    QMutexLocker locker(&m_mutex);
+    
+    // Start if needed (already holding lock)
+    if (!m_running) {
+        locker.unlock();  // Temporarily unlock for start()
         if (!const_cast<ExifToolDaemon*>(this)->start()) {
             qWarning() << "Failed to start ExifTool daemon";
             return QStringList();
         }
+        locker.relock();  // Re-acquire lock
     }
-    
-    QMutexLocker locker(&m_mutex);
     
     if (!m_process) {
         return QStringList();

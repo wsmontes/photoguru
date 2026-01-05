@@ -69,6 +69,7 @@ public:
     
     FilterCriteria getCriteria() const;
     void reset();
+    void triggerFilterUpdate();  // Force re-application of current filter
     
 signals:
     void filterChanged(const FilterCriteria& criteria);
