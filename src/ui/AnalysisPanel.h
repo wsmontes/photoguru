@@ -51,7 +51,6 @@ private:
     void setupUI();
     void updateButtonStates(bool analyzing);
     void initializeAI();
-    void showGeneratedCaption(const QString& caption);
     
     // Current context
     QString m_currentImage;
@@ -68,12 +67,6 @@ private:
     QGroupBox* m_singleImageGroup;
     QPushButton* m_analyzeImageBtn;
     QLabel* m_currentImageLabel;
-    
-    // Generated Caption Display
-    QGroupBox* m_captionGroup;
-    QTextEdit* m_captionDisplay;
-    QPushButton* m_copyCaptionBtn;
-    QPushButton* m_applyToOthersBtn;
     
     // UI Components - Batch Analysis
     QGroupBox* m_batchGroup;

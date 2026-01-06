@@ -69,39 +69,6 @@ void AnalysisPanel::setupUI() {
     
     mainLayout->addWidget(m_singleImageGroup);
     
-    // Generated Caption Display Group
-    m_captionGroup = new QGroupBox("Generated Description");
-    m_captionGroup->setVisible(false);  // Hidden until caption is generated
-    QVBoxLayout* captionLayout = new QVBoxLayout(m_captionGroup);
-    
-    m_captionDisplay = new QTextEdit();
-    m_captionDisplay->setReadOnly(true);
-    m_captionDisplay->setMaximumHeight(100);
-    m_captionDisplay->setStyleSheet("QTextEdit { background-color: #f0f8ff; color: #000; padding: 8px; border: 1px solid #4CAF50; border-radius: 4px; }");
-    captionLayout->addWidget(m_captionDisplay);
-    
-    QHBoxLayout* captionButtonsLayout = new QHBoxLayout();
-    
-    m_copyCaptionBtn = new QPushButton("📋 Copy");
-    m_copyCaptionBtn->setToolTip("Copy description to clipboard");
-    connect(m_copyCaptionBtn, &QPushButton::clicked, this, [this]() {
-        LOG_INFO("AnalysisPanel", "User clicked: Copy Caption button");
-        QClipboard* clipboard = QApplication::clipboard();
-        clipboard->setText(m_lastGeneratedCaption);
-        LOG_INFO("AnalysisPanel", QString("Caption copied to clipboard (%1 chars)").arg(m_lastGeneratedCaption.length()));
-        m_logOutput->append("📋 Caption copied to clipboard");
-    });
-    captionButtonsLayout->addWidget(m_copyCaptionBtn);
-    
-    m_applyToOthersBtn = new QPushButton("📤 Apply to Selection");
-    m_applyToOthersBtn->setToolTip("Apply this description to other selected images");
-    m_applyToOthersBtn->setEnabled(false);  // TODO: implement batch apply
-    captionButtonsLayout->addWidget(m_applyToOthersBtn);
-    
-    captionLayout->addLayout(captionButtonsLayout);
-    
-    mainLayout->addWidget(m_captionGroup);
-    
     // Batch Analysis Group
     m_batchGroup = new QGroupBox("Batch Operations");
     QVBoxLayout* batchLayout = new QVBoxLayout(m_batchGroup);
@@ -416,7 +383,7 @@ void AnalysisPanel::onAnalyzeCurrentImage() {
                 LOG_INFO("AnalysisPanel", QString("Caption generated in %1ms: %2").arg(vlmElapsed).arg(caption));
                 m_logOutput->append(QString("✅ Caption generated in %1ms!").arg(vlmElapsed));
                 m_lastGeneratedCaption = caption;
-                showGeneratedCaption(caption);
+                // Caption will be saved to metadata below
             }
         } else {
             QString error = m_llamaVLM->lastError();
@@ -869,11 +836,6 @@ void AnalysisPanel::onAnalysisLog(const QString& message) {
 void AnalysisPanel::onAnalysisError(const QString& error) {
     m_logOutput->append(QString("<span style='color: #f44336;'>ERROR: %1</span>").arg(error));
     updateButtonStates(false);
-}
-
-void AnalysisPanel::showGeneratedCaption(const QString& caption) {
-    m_captionDisplay->setPlainText(caption);
-    m_captionGroup->setVisible(true);
 }
 
 } // namespace PhotoGuru
