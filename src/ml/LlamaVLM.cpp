@@ -3,8 +3,10 @@
 #include "mtmd.h"
 #include "mtmd-helper.h"
 #include "common.h"
+#include "../core/Logger.h"
 #include <QImage>
 #include <QDebug>
+#include <QFileInfo>
 #include <vector>
 
 namespace PhotoGuru {
@@ -43,22 +45,27 @@ bool LlamaVLM::initialize(const ModelConfig& config) {
     try {
         // Initialize llama backend
         llama_backend_init();
-        qDebug() << "[LlamaVLM] Backend initialized";
+        LOG_DEBUG("LlamaVLM", "Backend initialized");
         
         // Load main model
         llama_model_params model_params = llama_model_default_params();
         model_params.n_gpu_layers = config.nGPULayers; // Optimized for Mac M4: 5 layers
         
         std::string modelPath = config.modelPath.toStdString();
-        m_model = llama_load_model_from_file(modelPath.c_str(), model_params);
+        LOG_DEBUG("LlamaVLM", QString("Loading model from: %1").arg(config.modelPath));
+        LOG_DEBUG("LlamaVLM", QString("File exists: %1").arg(QFileInfo::exists(config.modelPath) ? "YES" : "NO"));
+        LOG_DEBUG("LlamaVLM", QString("File size: %1 MB").arg(QFileInfo(config.modelPath).size() / (1024*1024)));
+        LOG_DEBUG("LlamaVLM", QString("GPU layers: %1").arg(config.nGPULayers));
+        
+        m_model = llama_model_load_from_file(modelPath.c_str(), model_params);
         
         if (!m_model) {
-            m_lastError = QString("Failed to load model: %1").arg(config.modelPath);
-            qWarning() << "[LlamaVLM]" << m_lastError;
+            m_lastError = QString("Failed to load model: %1 (llama.cpp returned NULL - check console for llama.cpp errors)").arg(config.modelPath);
+            LOG_ERROR("LlamaVLM", m_lastError);
             return false;
         }
         
-        qDebug() << "[LlamaVLM] Model loaded:" << config.modelPath;
+        LOG_INFO("LlamaVLM", QString("Model loaded: %1").arg(config.modelPath));
         
         // Create context
         llama_context_params ctx_params = llama_context_default_params();

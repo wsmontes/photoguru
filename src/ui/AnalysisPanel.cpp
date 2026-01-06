@@ -318,8 +318,9 @@ void AnalysisPanel::initializeAI() {
             LOG_INFO("AnalysisPanel", "VLM initialized successfully");
             m_logOutput->append("✅ VLM initialized: Qwen3-VL 4B");
         } else {
-            LOG_ERROR("AnalysisPanel", "VLM initialization failed");
-            m_logOutput->append("❌ VLM initialization failed");
+            QString error = m_llamaVLM->lastError();
+            LOG_ERROR("AnalysisPanel", "VLM initialization failed: " + error);
+            m_logOutput->append("❌ VLM initialization failed: " + error);
             m_llamaVLM.reset();
         }
     } else {
