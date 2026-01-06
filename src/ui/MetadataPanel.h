@@ -70,6 +70,9 @@ public:
     void loadMetadata(const QString& filepath, const PhotoMetadata& metadata);  // From cache
     void clear();
     void setEditable(bool editable);
+    void setAutoSaveMode(bool autoSave);  // true = save immediately, false = pending
+    bool hasPendingChanges() const { return !m_pendingChanges.isEmpty(); }
+    void clearPendingChanges();
     
 signals:
     void metadataChanged(const QString& filepath);
@@ -129,6 +132,18 @@ private:
     QMap<QString, MetadataFieldWidget*> m_fieldWidgets;
     QMap<QString, QString> m_customFields;  // New custom fields added by user
     bool m_isEditing;
+    
+    // Pending changes system
+    QMap<QString, QString> m_pendingChanges;  // filepath -> changed fields (for display)
+    bool m_autoSaveMode;  // true = save immediately, false = accumulate pending
+    QPushButton* m_commitButton;
+    QPushButton* m_discardButton;
+    QLabel* m_pendingLabel;
+    
+private slots:
+    void onCommitChanges();
+    void onDiscardChanges();
+    void updatePendingUI();
 };
 
 } // namespace PhotoGuru

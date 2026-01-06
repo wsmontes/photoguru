@@ -27,8 +27,10 @@ public:
     
     void setCurrentImage(const QString& filepath);
     void setCurrentDirectory(const QString& dirpath);
-
+    bool isOverwriteEnabled() const;
+    
 signals:
+    void overwriteModeChanged(bool enabled);
     void analysisStarted();
     void analysisCompleted();
     void metadataUpdated(const QString& filepath);

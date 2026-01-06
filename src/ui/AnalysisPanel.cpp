@@ -98,7 +98,9 @@ void AnalysisPanel::setupUI() {
     QVBoxLayout* optionsLayout = new QVBoxLayout();
     m_overwriteCheckbox = new QCheckBox("Overwrite existing analysis");
     connect(m_overwriteCheckbox, &QCheckBox::stateChanged, this, [this](int state) {
-        LOG_INFO("AnalysisPanel", QString("User toggled: Overwrite checkbox = %1").arg(state == Qt::Checked ? "ON" : "OFF"));
+        bool enabled = (state == Qt::Checked);
+        LOG_INFO("AnalysisPanel", QString("User toggled: Overwrite checkbox = %1").arg(enabled ? "ON" : "OFF"));
+        emit overwriteModeChanged(enabled);
     });
     
     m_skipExistingCheckbox = new QCheckBox("Skip already analyzed images");
@@ -836,6 +838,10 @@ void AnalysisPanel::onAnalysisLog(const QString& message) {
 void AnalysisPanel::onAnalysisError(const QString& error) {
     m_logOutput->append(QString("<span style='color: #f44336;'>ERROR: %1</span>").arg(error));
     updateButtonStates(false);
+}
+
+bool AnalysisPanel::isOverwriteEnabled() const {
+    return m_overwriteCheckbox->isChecked();
 }
 
 } // namespace PhotoGuru

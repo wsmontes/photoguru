@@ -471,6 +471,12 @@ void MainWindow::createDockPanels() {
     m_analysisDock->setMinimumWidth(280);
     addDockWidget(Qt::RightDockWidgetArea, m_analysisDock);
     
+    // Connect overwrite mode to metadata panel
+    connect(m_analysisPanel, &AnalysisPanel::overwriteModeChanged,
+            m_metadataPanel, &MetadataPanel::setAutoSaveMode);
+    // Initialize with current state
+    m_metadataPanel->setAutoSaveMode(m_analysisPanel->isOverwriteEnabled());
+    
     // SKP Browser (right - THIRD/LAST TAB)
     m_skpDock = new QDockWidget("Semantic Keys", this);
     m_skpDock->setAllowedAreas(Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea);
@@ -618,6 +624,11 @@ void MainWindow::loadDirectory(const QString& path) {
     
     // Clear metadata cache
     m_metadataCache.clear();
+    
+    // Clear pending changes when loading new directory
+    if (m_metadataPanel) {
+        m_metadataPanel->clearPendingChanges();
+    };
     
     // Load into thumbnail grid
     m_thumbnailGrid->setImages(m_imageFiles);

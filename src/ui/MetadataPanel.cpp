@@ -166,6 +166,7 @@ void MetadataFieldWidget::setEditable(bool editable) {
 MetadataPanel::MetadataPanel(QWidget* parent)
     : QWidget(parent)
     , m_isEditing(false)
+    , m_autoSaveMode(true)  // Default: auto-save enabled
 {
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
     setupUI();
@@ -253,6 +254,48 @@ void MetadataPanel::setupUI() {
     
     buttonLayout->addStretch();
     mainLayout->addLayout(buttonLayout);
+    
+    // Pending changes section (initially hidden)
+    QHBoxLayout* pendingLayout = new QHBoxLayout();
+    
+    m_pendingLabel = new QLabel("No pending changes", this);
+    m_pendingLabel->setStyleSheet("color: #888; font-style: italic;");
+    pendingLayout->addWidget(m_pendingLabel);
+    
+    pendingLayout->addStretch();
+    
+    m_commitButton = new QPushButton("💾 Commit Changes", this);
+    m_commitButton->setStyleSheet(R"(
+        QPushButton {
+            padding: 8px 16px;
+            background: #28a745;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+        }
+        QPushButton:hover { background: #218838; }
+    )");
+    m_commitButton->setVisible(false);
+    connect(m_commitButton, &QPushButton::clicked, this, &MetadataPanel::onCommitChanges);
+    pendingLayout->addWidget(m_commitButton);
+    
+    m_discardButton = new QPushButton("🗑️ Discard", this);
+    m_discardButton->setStyleSheet(R"(
+        QPushButton {
+            padding: 8px 16px;
+            background: #dc3545;
+            border: none;
+            border-radius: 4px;
+            color: white;
+        }
+        QPushButton:hover { background: #c82333; }
+    )");
+    m_discardButton->setVisible(false);
+    connect(m_discardButton, &QPushButton::clicked, this, &MetadataPanel::onDiscardChanges);
+    pendingLayout->addWidget(m_discardButton);
+    
+    mainLayout->addLayout(pendingLayout);
 }
 
 void MetadataPanel::setupMetadataTab() {
@@ -678,6 +721,25 @@ void MetadataPanel::saveMetadata() {
         return;
     }
     
+    // Check if in pending mode (not auto-save)
+    if (!m_autoSaveMode) {
+        // Mark as pending change
+        m_pendingChanges[m_currentFilepath] = "modified";
+        
+        // Highlight edited fields
+        QString highlightStyle = "background-color: #fffacd; border: 1px solid #ffa500;";
+        m_titleEdit->setStyleSheet(highlightStyle);
+        m_descriptionEdit->setStyleSheet(highlightStyle);
+        m_keywordsEdit->setStyleSheet(highlightStyle);
+        m_categoryEdit->setStyleSheet(highlightStyle);
+        m_locationEdit->setStyleSheet(highlightStyle);
+        
+        updatePendingUI();
+        NotificationManager::instance().showInfo("Changes marked as pending. Use 'Commit' to save.");
+        return;
+    }
+    
+    // Auto-save mode: save immediately
     // Update current metadata with edited values
     m_currentMetadata.rating = m_ratingSlider->value();
     m_currentMetadata.llm_title = m_titleEdit->text().trimmed();
@@ -758,6 +820,65 @@ void MetadataPanel::clear() {
     
     m_editButton->setEnabled(false);
     setEditable(false);
+}
+
+void MetadataPanel::setAutoSaveMode(bool autoSave) {
+    m_autoSaveMode = autoSave;
+    updatePendingUI();
+}
+
+void MetadataPanel::clearPendingChanges() {
+    m_pendingChanges.clear();
+    updatePendingUI();
+}
+
+void MetadataPanel::onCommitChanges() {
+    if (m_pendingChanges.isEmpty()) return;
+    
+    // Save all pending changes
+    int count = m_pendingChanges.size();
+    m_pendingChanges.clear();
+    
+    // Trigger actual save
+    saveMetadata();
+    
+    updatePendingUI();
+    NotificationManager::instance().showSuccess(
+        QString("Committed %1 pending change(s)").arg(count));
+}
+
+void MetadataPanel::onDiscardChanges() {
+    if (m_pendingChanges.isEmpty()) return;
+    
+    int count = m_pendingChanges.size();
+    m_pendingChanges.clear();
+    
+    // Reload original metadata
+    if (!m_currentFilepath.isEmpty()) {
+        loadMetadata(m_currentFilepath);
+    }
+    
+    updatePendingUI();
+    NotificationManager::instance().showInfo(
+        QString("Discarded %1 pending change(s)").arg(count));
+}
+
+void MetadataPanel::updatePendingUI() {
+    int pendingCount = m_pendingChanges.size();
+    bool hasPending = pendingCount > 0;
+    
+    if (hasPending) {
+        m_pendingLabel->setText(QString("%1 pending change(s)").arg(pendingCount));
+        m_pendingLabel->setStyleSheet("color: #ffa500; font-weight: bold;");
+    } else {
+        m_pendingLabel->setText("No pending changes");
+        m_pendingLabel->setStyleSheet("color: #888; font-style: italic;");
+    }
+    
+    // Show/hide commit/discard buttons based on mode and pending status
+    bool showButtons = !m_autoSaveMode && hasPending;
+    m_commitButton->setVisible(showButtons);
+    m_discardButton->setVisible(showButtons);
 }
 
 } // namespace PhotoGuru
